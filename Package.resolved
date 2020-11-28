@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "HandySwift",
+        "repositoryURL": "https://github.com/Flinesoft/HandySwift.git",
+        "state": {
+          "branch": null,
+          "revision": "4f1f96beb8a4c45b01a2479d8cbaf91bda7d1cb5",
+          "version": "3.2.1"
+        }
+      },
+      {
         "package": "Introspect",
         "repositoryURL": "https://github.com/siteline/SwiftUI-Introspect.git",
         "state": {

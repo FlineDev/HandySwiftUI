@@ -1,5 +1,4 @@
 {
-  "indentSwitchCaseLabels": true,
   "lineBreakAroundMultilineExpressionChainComponents": true,
   "lineBreakBeforeControlFlowKeywords": true,
   "lineBreakBeforeEachArgument": true,

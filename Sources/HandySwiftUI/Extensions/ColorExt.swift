@@ -392,35 +392,35 @@ extension Color {
   /// - Returns: The resulting new `Color` with the specified change applied.
   public func change(_ attribute: ChangeableAttribute, by addition: CGFloat) -> Self {
     switch attribute {
-      case .red:
-        return change(attribute, to: rgba.red + addition)
+    case .red:
+      return change(attribute, to: rgba.red + addition)
 
-      case .green:
-        return change(attribute, to: rgba.green + addition)
+    case .green:
+      return change(attribute, to: rgba.green + addition)
 
-      case .blue:
-        return change(attribute, to: rgba.blue + addition)
+    case .blue:
+      return change(attribute, to: rgba.blue + addition)
 
-      case .hueHSB:
-        return change(attribute, to: hsba.hue + addition)
+    case .hueHSB:
+      return change(attribute, to: hsba.hue + addition)
 
-      case .saturation:
-        return change(attribute, to: hsba.saturation + addition)
+    case .saturation:
+      return change(attribute, to: hsba.saturation + addition)
 
-      case .brightness:
-        return change(attribute, to: hsba.brightness + addition)
+    case .brightness:
+      return change(attribute, to: hsba.brightness + addition)
 
-      case .hueHLC:
-        return change(attribute, to: hlca.hue + addition)
+    case .hueHLC:
+      return change(attribute, to: hlca.hue + addition)
 
-      case .luminance:
-        return change(attribute, to: hlca.luminance + addition)
+    case .luminance:
+      return change(attribute, to: hlca.luminance + addition)
 
-      case .chroma:
-        return change(attribute, to: hlca.chroma + addition)
+    case .chroma:
+      return change(attribute, to: hlca.chroma + addition)
 
-      case .alpha:
-        return change(attribute, to: hlca.alpha + addition)
+    case .alpha:
+      return change(attribute, to: hlca.alpha + addition)
     }
   }
 
@@ -432,14 +432,14 @@ extension Color {
   /// - Returns: The resulting new `Color` with the specified change applied.
   public func change(_ attribute: ChangeableAttribute, to newValue: CGFloat) -> Self {
     switch attribute {
-      case .red, .green, .blue:
-        return newRgbaColor(attribute, newValue)
+    case .red, .green, .blue:
+      return newRgbaColor(attribute, newValue)
 
-      case .hueHSB, .saturation, .brightness:
-        return newHsbaColor(attribute, newValue)
+    case .hueHSB, .saturation, .brightness:
+      return newHsbaColor(attribute, newValue)
 
-      case .hueHLC, .luminance, .chroma, .alpha:
-        return newHlcaColor(attribute, newValue)
+    case .hueHLC, .luminance, .chroma, .alpha:
+      return newHlcaColor(attribute, newValue)
     }
   }
 
@@ -447,20 +447,20 @@ extension Color {
     var newHlca = hlca
 
     switch attribute {
-      case .hueHLC:
-        newHlca.hue = newValue
+    case .hueHLC:
+      newHlca.hue = newValue
 
-      case .luminance:
-        newHlca.luminance = newValue
+    case .luminance:
+      newHlca.luminance = newValue
 
-      case .chroma:
-        newHlca.chroma = newValue
+    case .chroma:
+      newHlca.chroma = newValue
 
-      case .alpha:
-        newHlca.alpha = newValue
+    case .alpha:
+      newHlca.alpha = newValue
 
-      default:
-        break
+    default:
+      break
     }
 
     return Self(hue: newHlca.hue, luminance: newHlca.luminance, chroma: newHlca.chroma, alpha: newHlca.alpha)
@@ -470,17 +470,17 @@ extension Color {
     var newHsba = hsba
 
     switch attribute {
-      case .hueHSB:
-        newHsba.hue = newValue
+    case .hueHSB:
+      newHsba.hue = newValue
 
-      case .saturation:
-        newHsba.saturation = newValue
+    case .saturation:
+      newHsba.saturation = newValue
 
-      case .brightness:
-        newHsba.brightness = newValue
+    case .brightness:
+      newHsba.brightness = newValue
 
-      default:
-        break
+    default:
+      break
     }
 
     return Self(
@@ -497,17 +497,17 @@ extension Color {
     var newRgba = rgba
 
     switch attribute {
-      case .red:
-        newRgba.red = newValue
+    case .red:
+      newRgba.red = newValue
 
-      case .green:
-        newRgba.green = newValue
+    case .green:
+      newRgba.green = newValue
 
-      case .blue:
-        newRgba.blue = newValue
+    case .blue:
+      newRgba.blue = newValue
 
-      default:
-        break
+    default:
+      break
     }
 
     return Self(NativeColor(red: newRgba.red, green: newRgba.green, blue: newRgba.blue, alpha: newRgba.alpha))
