@@ -9,13 +9,13 @@ public struct FormattedText: View {
     case bold
     case italic
 
-    func apply(on text: Text) -> Text {
+    func appliedText(on text: Text, emphasisWeight: Font.Weight) -> Text {
       switch self {
       case .boldAndItalic:
-        return text.fontWeight(.bold).italic()
+        return text.fontWeight(emphasisWeight).italic()
 
       case .bold:
-        return text.fontWeight(.bold)
+        return text.fontWeight(emphasisWeight)
 
       case .italic:
         return text.italic()
@@ -81,11 +81,17 @@ public struct FormattedText: View {
   }
 
   let content: String
+  let font: Font
+  let emphasisWeight: Font.Weight
 
   public init(
-    _ content: String
+    _ content: String,
+    font: Font,
+    emphasisWeight: Font.Weight = .bold
   ) {
     self.content = content
+    self.font = font
+    self.emphasisWeight = emphasisWeight
   }
 
   public var body: Text {
@@ -110,10 +116,11 @@ public struct FormattedText: View {
         for format in Format.allCases {
           if substring.hasPrefix(format.prefix) && substring.hasSuffix(format.suffix) {
             let text = Text(substring.dropFirst(format.prefix.count).dropLast(format.suffix.count))
-            return format.apply(on: text)
+              .font(font)
+            return format.appliedText(on: text, emphasisWeight: emphasisWeight)
           }
         }
-        return Text(substring)
+        return Text(substring).font(font)
       }
   }
 }
@@ -122,19 +129,17 @@ struct FormattedText_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
       Spacer()
-      FormattedText("Normal **bold** normal __bold, bold__, normal _italic_ and *italic, italic*.")
+      FormattedText("Normal **bold** normal __bold, bold__, normal _italic_ and *italic, italic*.", font: .title)
         .background(Color.yellow)
-        .font(.title)
       Spacer()
       FormattedText(
-        "***Bold and italic*** also ___bold and italic___ just as _**bold and italic**_ and even another _**bold and italic**_."
+        "***Bold and italic*** also ___bold and italic___ just as _**bold and italic**_ and even another _**bold and italic**_.",
+        font: .subheadline
       )
       .background(Color.yellow)
-      .font(.subheadline)
       Spacer()
-      FormattedText("_Whole italic text with **bold substring** in the middle or **end.**_")
+      FormattedText("_Whole italic text with **bold substring** in the middle or **end.**_", font: .body)
         .background(Color.yellow)
-        .font(.body)
       Spacer()
     }
     .padding()
