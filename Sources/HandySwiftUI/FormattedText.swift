@@ -80,7 +80,7 @@ public struct FormattedText: View {
     }
   }
 
-  public let content: String
+  let content: String
 
   public init(
     _ content: String
@@ -88,7 +88,7 @@ public struct FormattedText: View {
     self.content = content
   }
 
-  public var body: some View {
+  public var body: Text {
     textViews().reduce(Text("")) { $0 + $1 }
   }
 
