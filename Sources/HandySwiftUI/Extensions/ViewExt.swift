@@ -2,6 +2,11 @@ import Introspect
 import SwiftUI
 
 extension View {
+  /// Use to prevent issues with the compiler stating 'Function declares an opaque type ...' by calling on each returned view.
+  public func eraseToAnyView() -> AnyView {
+    AnyView(self)
+  }
+
   /// Makes views of type `TextField` become the first responder if the condition is met.
   public func becomeFirstResponder(if condition: Bool) -> some View {
     introspectTextField { textField in
