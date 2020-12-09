@@ -7,27 +7,27 @@ import SwiftUI
 private struct ColorSpaces {}
 
 // MARK: - Constants
-private let RAD_TO_DEG = 180 / CGFloat.pi
+private let RAD_TO_DEG = 180 / Double.pi
 
-private let LAB_E: CGFloat = 0.008856
-private let LAB_16_116: CGFloat = 0.1379310
-private let LAB_K_116: CGFloat = 7.787036
-private let LAB_X: CGFloat = 0.95047
-private let LAB_Y: CGFloat = 1
-private let LAB_Z: CGFloat = 1.088_83
+private let LAB_E: Double = 0.008856
+private let LAB_16_116: Double = 0.1379310
+private let LAB_K_116: Double = 7.787036
+private let LAB_X: Double = 0.95047
+private let LAB_Y: Double = 1
+private let LAB_Z: Double = 1.088_83
 
 // MARK: - RGB
 struct RGBColor {
-  let r: CGFloat  // 0..1
-  let g: CGFloat  // 0..1
-  let b: CGFloat  // 0..1
-  let alpha: CGFloat  // 0..1
+  let r: Double  // 0..1
+  let g: Double  // 0..1
+  let b: Double  // 0..1
+  let alpha: Double  // 0..1
 
   init(
-    r: CGFloat,
-    g: CGFloat,
-    b: CGFloat,
-    alpha: CGFloat
+    r: Double,
+    g: Double,
+    b: Double,
+    alpha: Double
   ) {
     self.r = r
     self.g = g
@@ -35,7 +35,7 @@ struct RGBColor {
     self.alpha = alpha
   }
 
-  fileprivate func sRGBCompand(_ v: CGFloat) -> CGFloat {
+  fileprivate func sRGBCompand(_ v: Double) -> Double {
     let absV = abs(v)
     let out = absV > 0.040_45 ? pow((absV + 0.055) / 1.055, 2.4) : absV / 12.92
     return v > 0 ? out : -out
@@ -45,9 +45,9 @@ struct RGBColor {
     let R = sRGBCompand(r)
     let G = sRGBCompand(g)
     let B = sRGBCompand(b)
-    let x: CGFloat = (R * 0.412_456_4) + (G * 0.357_576_1) + (B * 0.180_437_5)
-    let y: CGFloat = (R * 0.212_672_9) + (G * 0.715_152_2) + (B * 0.072_175_0)
-    let z: CGFloat = (R * 0.019_333_9) + (G * 0.119_192_0) + (B * 0.950_304_1)
+    let x: Double = (R * 0.412_456_4) + (G * 0.357_576_1) + (B * 0.180_437_5)
+    let y: Double = (R * 0.212_672_9) + (G * 0.715_152_2) + (B * 0.072_175_0)
+    let z: Double = (R * 0.019_333_9) + (G * 0.119_192_0) + (B * 0.950_304_1)
     return XYZColor(x: x, y: y, z: z, alpha: alpha)
   }
 
@@ -59,11 +59,7 @@ struct RGBColor {
     return toXYZ().toLCH()
   }
 
-  func color() -> UIColor {
-    return UIColor(red: r, green: g, blue: b, alpha: alpha)
-  }
-
-  func lerp(_ other: RGBColor, t: CGFloat) -> RGBColor {
+  func lerp(_ other: RGBColor, t: Double) -> RGBColor {
     return RGBColor(
       r: r + (other.r - r) * t,
       g: g + (other.g - g) * t,
@@ -75,23 +71,23 @@ struct RGBColor {
 
 extension Color {
   func rgbColor() -> RGBColor {
-    return RGBColor(r: rgba.red, g: rgba.green, b: rgba.blue, alpha: rgba.alpha)
+    return RGBColor(r: rgbo.red, g: rgbo.green, b: rgbo.blue, alpha: rgbo.opacity)
   }
 }
 
 // MARK: - XYZ
 
 struct XYZColor {
-  let x: CGFloat  // 0..0.95047
-  let y: CGFloat  // 0..1
-  let z: CGFloat  // 0..1.08883
-  let alpha: CGFloat  // 0..1
+  let x: Double  // 0..0.95047
+  let y: Double  // 0..1
+  let z: Double  // 0..1.08883
+  let alpha: Double  // 0..1
 
   init(
-    x: CGFloat,
-    y: CGFloat,
-    z: CGFloat,
-    alpha: CGFloat
+    x: Double,
+    y: Double,
+    z: Double,
+    alpha: Double
   ) {
     self.x = x
     self.y = y
@@ -99,7 +95,7 @@ struct XYZColor {
     self.alpha = alpha
   }
 
-  fileprivate func sRGBCompand(_ v: CGFloat) -> CGFloat {
+  fileprivate func sRGBCompand(_ v: Double) -> Double {
     let absV = abs(v)
     let out = absV > 0.003_130_8 ? 1.055 * pow(absV, 1 / 2.4) - 0.055 : absV * 12.92
     return v > 0 ? out : -out
@@ -115,7 +111,7 @@ struct XYZColor {
     return RGBColor(r: R, g: G, b: B, alpha: alpha)
   }
 
-  fileprivate func labCompand(_ v: CGFloat) -> CGFloat {
+  fileprivate func labCompand(_ v: Double) -> Double {
     return v > LAB_E ? pow(v, 1.0 / 3.0) : (LAB_K_116 * v) + LAB_16_116
   }
 
@@ -135,7 +131,7 @@ struct XYZColor {
     return toLAB().toLCH()
   }
 
-  func lerp(_ other: XYZColor, t: CGFloat) -> XYZColor {
+  func lerp(_ other: XYZColor, t: Double) -> XYZColor {
     return XYZColor(
       x: x + (other.x - x) * t,
       y: y + (other.y - y) * t,
@@ -148,16 +144,16 @@ struct XYZColor {
 // MARK: - LAB
 
 struct LABColor {
-  let l: CGFloat  //    0..100
-  let a: CGFloat  // -128..128
-  let b: CGFloat  // -128..128
-  let alpha: CGFloat  //    0..1
+  let l: Double  //    0..100
+  let a: Double  // -128..128
+  let b: Double  // -128..128
+  let alpha: Double  //    0..1
 
   init(
-    l: CGFloat,
-    a: CGFloat,
-    b: CGFloat,
-    alpha: CGFloat
+    l: Double,
+    a: Double,
+    b: Double,
+    alpha: Double
   ) {
     self.l = l
     self.a = a
@@ -165,7 +161,7 @@ struct LABColor {
     self.alpha = alpha
   }
 
-  fileprivate func xyzCompand(_ v: CGFloat) -> CGFloat {
+  fileprivate func xyzCompand(_ v: Double) -> Double {
     let v3 = v * v * v
     return v3 > LAB_E ? v3 : (v - LAB_16_116) / LAB_K_116
   }
@@ -193,7 +189,7 @@ struct LABColor {
     return toXYZ().toRGB()
   }
 
-  func lerp(_ other: LABColor, t: CGFloat) -> LABColor {
+  func lerp(_ other: LABColor, t: Double) -> LABColor {
     return LABColor(
       l: l + (other.l - l) * t,
       a: a + (other.a - a) * t,
@@ -206,16 +202,16 @@ struct LABColor {
 // MARK: - LCH
 
 struct LCHColor {
-  let l: CGFloat  // 0..100
-  let c: CGFloat  // 0..128
-  let h: CGFloat  // 0..360
-  let alpha: CGFloat  // 0..1
+  let l: Double  // 0..100
+  let c: Double  // 0..128
+  let h: Double  // 0..360
+  let alpha: Double  // 0..1
 
   init(
-    l: CGFloat,
-    c: CGFloat,
-    h: CGFloat,
-    alpha: CGFloat
+    l: Double,
+    c: Double,
+    h: Double,
+    alpha: Double
   ) {
     self.l = l
     self.c = c
@@ -238,7 +234,7 @@ struct LCHColor {
     return toXYZ().toRGB()
   }
 
-  func lerp(_ other: LCHColor, t: CGFloat) -> LCHColor {
+  func lerp(_ other: LCHColor, t: Double) -> LCHColor {
     let angle =
       (((((other.h - h).truncatingRemainder(dividingBy: 360)) + 540).truncatingRemainder(dividingBy: 360)) - 180) * t
     return LCHColor(

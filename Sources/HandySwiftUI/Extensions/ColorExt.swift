@@ -311,15 +311,6 @@ extension Color {
   #endif
 
   /// A list of changeable attributes of the Color.
-  ///
-  /// - Red:
-  /// - Green:
-  /// - Blue:
-  /// - Alpha:
-  /// - Hue:
-  /// - Saturation:
-  /// - Brightness:
-  ///
   public enum ChangeableAttribute {
     /// The red color part of RGB.
     case red
@@ -339,31 +330,31 @@ extension Color {
     case luminance
     /// The chroma color part of HLC.
     case chroma
-    /// The alpha color part of RGB / HSB / HLC.
-    case alpha
+    /// The opacity color part of RGB / HSB / HLC.
+    case opacity
   }
 
   // MARK: - Computed Properties
-  /// The HLC & alpha attributes of the `Color` instance.
-  public var hlca: (hue: CGFloat, luminance: CGFloat, chroma: CGFloat, alpha: CGFloat) {  // swiftlint:disable:this large_tuple
-    let lch = rgbColor().toLCH()
-    return (hue: lch.h / 360, luminance: lch.l / 100, chroma: lch.c / 128, alpha: lch.alpha)
-  }
-
   /// The HSB & alpha attributes of the `Color` instance.
-  public var hsba: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) {  // swiftlint:disable:this large_tuple
-    var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
-    NativeColor(self).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+  public var hsbo: (hue: Double, saturation: Double, brightness: Double, opacity: Double) {
+    var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 0
+    NativeColor(self).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &opacity)
 
-    return (hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+    return (hue: Double(hue), saturation: Double(saturation), brightness: Double(brightness), opacity: Double(opacity))
   }
 
   /// The RGB & alpha attributes of the `Color` instance.
-  public var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {  // swiftlint:disable:this large_tuple
-    var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
-    NativeColor(self).getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+  public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
+    var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, opacity: CGFloat = 0
+    NativeColor(self).getRed(&red, green: &green, blue: &blue, alpha: &opacity)
 
-    return (red: red, green: green, blue: blue, alpha: alpha)
+    return (red: Double(red), green: Double(green), blue: Double(blue), opacity: Double(opacity))
+  }
+
+  /// The HLC & alpha attributes of the `Color` instance.
+  public var hlco: (hue: Double, luminance: Double, chroma: Double, opacity: Double) {
+    let lch = rgbColor().toLCH()
+    return (hue: lch.h / 360, luminance: lch.l / 100, chroma: lch.c / 128, opacity: lch.alpha)
   }
 
   /// Initializes and returns a color with the given HLCA values.
@@ -372,15 +363,15 @@ extension Color {
   ///   - hue:        The hue. A value between 0 and 1.
   ///   - luminance:  The luminance. A value between 0 and 1.
   ///   - chroma:     The chroma. A value between 0 and 1.
-  ///   - alpha:      The alpha. A value between 0 and 1.
+  ///   - opacity:    The opacity. A value between 0 and 1.
   public init(
-    hue: CGFloat,
-    luminance: CGFloat,
-    chroma: CGFloat,
-    alpha: CGFloat
+    hue: Double,
+    luminance: Double,
+    chroma: Double,
+    opacity: Double
   ) {
-    let rgb = LCHColor(l: luminance * 100, c: chroma * 128, h: hue * 360, alpha: alpha).toRGB()
-    self.init(NativeColor(red: rgb.r, green: rgb.g, blue: rgb.b, alpha: rgb.alpha))
+    let rgb = LCHColor(l: luminance * 100, c: chroma * 128, h: hue * 360, alpha: opacity).toRGB()
+    self.init(red: rgb.r, green: rgb.g, blue: rgb.b, opacity: rgb.alpha)
   }
 
   // MARK: - Methods
@@ -390,37 +381,37 @@ extension Color {
   ///   - attribute: The attribute to change.
   ///   - by: The addition to be added to the current value of the attribute.
   /// - Returns: The resulting new `Color` with the specified change applied.
-  public func change(_ attribute: ChangeableAttribute, by addition: CGFloat) -> Self {
+  public func change(_ attribute: ChangeableAttribute, by addition: Double) -> Self {
     switch attribute {
     case .red:
-      return change(attribute, to: rgba.red + addition)
+      return change(attribute, to: rgbo.red + addition)
 
     case .green:
-      return change(attribute, to: rgba.green + addition)
+      return change(attribute, to: rgbo.green + addition)
 
     case .blue:
-      return change(attribute, to: rgba.blue + addition)
+      return change(attribute, to: rgbo.blue + addition)
 
     case .hueHSB:
-      return change(attribute, to: hsba.hue + addition)
+      return change(attribute, to: hsbo.hue + addition)
 
     case .saturation:
-      return change(attribute, to: hsba.saturation + addition)
+      return change(attribute, to: hsbo.saturation + addition)
 
     case .brightness:
-      return change(attribute, to: hsba.brightness + addition)
+      return change(attribute, to: hsbo.brightness + addition)
 
     case .hueHLC:
-      return change(attribute, to: hlca.hue + addition)
+      return change(attribute, to: hlco.hue + addition)
 
     case .luminance:
-      return change(attribute, to: hlca.luminance + addition)
+      return change(attribute, to: hlco.luminance + addition)
 
     case .chroma:
-      return change(attribute, to: hlca.chroma + addition)
+      return change(attribute, to: hlco.chroma + addition)
 
-    case .alpha:
-      return change(attribute, to: hlca.alpha + addition)
+    case .opacity:
+      return change(attribute, to: hlco.opacity + addition)
     }
   }
 
@@ -430,86 +421,107 @@ extension Color {
   ///   - attribute: The attribute to change.
   ///   - to: The new value to be set for the attribute.
   /// - Returns: The resulting new `Color` with the specified change applied.
-  public func change(_ attribute: ChangeableAttribute, to newValue: CGFloat) -> Self {
+  public func change(_ attribute: ChangeableAttribute, to newValue: Double) -> Self {
     switch attribute {
     case .red, .green, .blue:
-      return newRgbaColor(attribute, newValue)
+      return newRgboColor(attribute, newValue)
 
     case .hueHSB, .saturation, .brightness:
-      return newHsbaColor(attribute, newValue)
+      return newHsboColor(attribute, newValue)
 
-    case .hueHLC, .luminance, .chroma, .alpha:
-      return newHlcaColor(attribute, newValue)
+    case .hueHLC, .luminance, .chroma, .opacity:
+      return newHlcoColor(attribute, newValue)
     }
   }
 
-  private func newHlcaColor(_ attribute: Self.ChangeableAttribute, _ newValue: CGFloat) -> Self {
-    var newHlca = hlca
+  private func newHlcoColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
+    var newHlco = hlco
 
     switch attribute {
     case .hueHLC:
-      newHlca.hue = newValue
+      newHlco.hue = newValue
 
     case .luminance:
-      newHlca.luminance = newValue
+      newHlco.luminance = newValue
 
     case .chroma:
-      newHlca.chroma = newValue
+      newHlco.chroma = newValue
 
-    case .alpha:
-      newHlca.alpha = newValue
+    case .opacity:
+      newHlco.opacity = newValue
 
     default:
       break
     }
 
-    return Self(hue: newHlca.hue, luminance: newHlca.luminance, chroma: newHlca.chroma, alpha: newHlca.alpha)
+    return Self(hue: newHlco.hue, luminance: newHlco.luminance, chroma: newHlco.chroma, opacity: newHlco.opacity)
   }
 
-  private func newHsbaColor(_ attribute: Self.ChangeableAttribute, _ newValue: CGFloat) -> Self {
-    var newHsba = hsba
+  private func newHsboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
+    var newHsbo = hsbo
 
     switch attribute {
     case .hueHSB:
-      newHsba.hue = newValue
+      newHsbo.hue = newValue
 
     case .saturation:
-      newHsba.saturation = newValue
+      newHsbo.saturation = newValue
 
     case .brightness:
-      newHsba.brightness = newValue
+      newHsbo.brightness = newValue
+
+    case .opacity:
+      newHsbo.opacity = newValue
 
     default:
       break
     }
 
     return Self(
-      NativeColor(
-        hue: newHsba.hue,
-        saturation: newHsba.saturation,
-        brightness: newHsba.brightness,
-        alpha: newHsba.alpha
-      )
+      hue: newHsbo.hue,
+      saturation: newHsbo.saturation,
+      brightness: newHsbo.brightness,
+      opacity: newHsbo.opacity
     )
   }
 
-  private func newRgbaColor(_ attribute: Self.ChangeableAttribute, _ newValue: CGFloat) -> Self {
-    var newRgba = rgba
+  private func newRgboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
+    var newRgbo = rgbo
 
     switch attribute {
     case .red:
-      newRgba.red = newValue
+      newRgbo.red = newValue
 
     case .green:
-      newRgba.green = newValue
+      newRgbo.green = newValue
 
     case .blue:
-      newRgba.blue = newValue
+      newRgbo.blue = newValue
+
+    case .opacity:
+      newRgbo.opacity = newValue
 
     default:
       break
     }
 
-    return Self(NativeColor(red: newRgba.red, green: newRgba.green, blue: newRgba.blue, alpha: newRgba.alpha))
+    return Color(red: newRgbo.red, green: newRgbo.green, blue: newRgbo.blue, opacity: newRgbo.opacity)
   }
 }
+
+#if DEBUG
+struct Color_Previews: PreviewProvider {
+  static var previews: some View {
+    VStack {
+      Rectangle()
+        .foregroundColor(.systemBlue)
+      Rectangle()
+        .foregroundColor(Color.systemBlue.change(.luminance, by: -0.1))
+      Rectangle()
+        .foregroundColor(Color.systemBlue.change(.luminance, to: 0.1))
+      Rectangle()
+        .foregroundColor(Color.systemBlue.change(.luminance, to: 0.9))
+    }
+  }
+}
+#endif
