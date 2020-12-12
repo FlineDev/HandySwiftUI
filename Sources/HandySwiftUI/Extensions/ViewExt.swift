@@ -149,4 +149,30 @@ extension View {
       return self
     #endif
   }
+
+  /// A wrapper for a view modifier that only applies if the given condition is met.
+  ///
+  /// **Example**: `.applyIf(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) }`
+  @inlinable
+  public func applyIf<ModifiedView: View>(_ condition: Bool, modifier: (Self) -> ModifiedView) -> some View {
+    if condition {
+      return modifier(self).eraseToAnyView()
+    }
+    else {
+      return self.eraseToAnyView()
+    }
+  }
+
+  /// A wrapper for a view modifier that only applies if the given condition is **not** met.
+  ///
+  /// **Example**: `.applyIfNot(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) }`
+  @inlinable
+  public func applyIfNot<ModifiedView: View>(_ condition: Bool, modifier: (Self) -> ModifiedView) -> some View {
+    if !condition {
+      return modifier(self).eraseToAnyView()
+    }
+    else {
+      return self.eraseToAnyView()
+    }
+  }
 }
