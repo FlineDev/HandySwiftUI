@@ -40,21 +40,30 @@ fileprivate struct PreviewVariant: ViewModifier {
 
 extension View {
   /// Renders `PreviewProvider` body views in 3 different screen variants: A narrow one, a normal one and a spacious one.
-  public func previewScreens() -> some View {
+  ///
+  /// - Parameters:
+  ///   - narrowLanguage: Override the default preview language setting for the narrow preview with an custom language code.
+  ///   - spaciousLanguage: Override the default preview language setting for the spacious preview with an custom language code.
+  public func previewScreens(narrowLanguage: String? = nil, spaciousLanguage: String? = nil) -> some View {
     Group {
       modifier(PreviewVariant.narrow)
+        .applyIf(narrowLanguage != nil) {
+          $0.environment(\.locale, .init(identifier: narrowLanguage!))
+        }
       modifier(PreviewVariant.normal)
       modifier(PreviewVariant.spacious)
+        .applyIf(spaciousLanguage != nil) {
+          $0.environment(\.locale, .init(identifier: spaciousLanguage!))
+        }
     }
   }
 
   /// Renders `PreviewProvider` body views in 3 different component variants: A narrow one, a normal one and a spacious one.
-  public func previewComponents() -> some View {
-    Group {
-      modifier(PreviewVariant.narrow)
-      modifier(PreviewVariant.normal)
-      modifier(PreviewVariant.spacious)
-    }
-    .previewLayout(.sizeThatFits)
+  ///
+  /// - Parameters:
+  ///   - narrowLanguage: Override the default preview language setting for the narrow preview with an custom language code.
+  ///   - spaciousLanguage: Override the default preview language setting for the spacious preview with an custom language code.
+  public func previewComponents(narrowLanguage: String? = nil, spaciousLanguage: String? = nil) -> some View {
+    previewScreens(narrowLanguage: narrowLanguage, spaciousLanguage: spaciousLanguage).previewLayout(.sizeThatFits)
   }
 }
