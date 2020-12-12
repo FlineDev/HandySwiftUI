@@ -52,26 +52,29 @@ public struct MultiSelector<LabelView: View, Selectable: Identifiable & Hashable
   }
 }
 
-struct MultiSelector_Previews: PreviewProvider {
-  struct IdentifiableString: Identifiable, Hashable {
-    let string: String
-    var id: String { string }
-  }
-
-  @State static var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
-
-  static var previews: some View {
-    NavigationView {
-      Form {
-        MultiSelector<Text, IdentifiableString>(
-          label: Text("MOCK: Multiselect"),
-          options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
-          selected: $selected,
-          optionToString: { $0.string }
-        )
-      }
-      .navigationTitle("MOCK: Title")
+#if DEBUG
+  struct MultiSelector_Previews: PreviewProvider {
+    struct IdentifiableString: Identifiable, Hashable {
+      let string: String
+      var id: String { string }
     }
-    .navigationViewStyle(StackNavigationViewStyle())
+
+    @State static var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
+
+    static var previews: some View {
+      NavigationView {
+        Form {
+          MultiSelector<Text, IdentifiableString>(
+            label: Text("MOCK: Multiselect"),
+            options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
+            selected: $selected,
+            optionToString: { $0.string }
+          )
+        }
+        .navigationTitle("MOCK: Title")
+      }
+      .navigationViewStyle(StackNavigationViewStyle())
+      .previewScreens()
+    }
   }
-}
+#endif
