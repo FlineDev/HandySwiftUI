@@ -76,7 +76,7 @@ extension Text {
     var previousRange: Range<String.Index>?
 
     for match in textToFormatRegex.matches(in: string) {
-      let prefix = String(string[(previousRange?.lowerBound ?? string.startIndex)..<match.range.lowerBound])
+      let prefix = String(string[(previousRange?.upperBound ?? string.startIndex)..<match.range.lowerBound])
       let captureText = Text(match.captures[0]!)
 
       partials.append(.unformatted(prefix))
@@ -117,7 +117,7 @@ extension Text {
     var previousRange: Range<String.Index>?
 
     for match in textToFormatRegex.matches(in: string) {
-      let prefix = String(string[(previousRange?.lowerBound ?? string.startIndex)..<match.range.lowerBound])
+      let prefix = String(string[(previousRange?.upperBound ?? string.startIndex)..<match.range.lowerBound])
       let imageText = Text(Image(systemName: systemName))
 
       partials.append(.unformatted(prefix))
