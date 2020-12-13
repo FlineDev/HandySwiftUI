@@ -7,11 +7,12 @@ extension Text {
   /// For example:
   ///   ```
   ///   Text(
-  ///     "Text with <red>custom colored</red> substring, or <highlight>highlighted</highlight> in other ways.",
+  ///     "Text with <red>custom colored</red> substring <checkmark.seal/>, or <highlight>highlighted</highlight> in other ways.",
   ///     customFormatting: [
   ///       "red": { Text($0).foregroundColor(.orange) },
   ///       "highlight": { Text($0).bold().italic() }
-  ///     ]
+  ///     ],
+  ///     systemImageNames: ["checkmark.seal": { $0.foregroundColor(.gray) }]
   ///   )
   ///   ```
   ///
@@ -21,21 +22,28 @@ extension Text {
   /// - Parameters:
   ///   - text: The string to be rendered as a Text.
   ///   - customFormatting: A dictionary with keys serving as names for HTML-like tags and values creating custom formatted `Text` objects for substrings.
+  ///   - systemImageNames: A dictionary with SF Symbol image names as keys and `Text` to `Text` modifier closures as values.
   public init(
     _ text: String,
-    customFormatting: [String: (String) -> Text]
+    customFormatting: [String: (String) -> Text],
+    systemImageNames: [String: (Text) -> Text] = [:]
   ) {
-    self = Text.withFormat(text: text, customFormatting: customFormatting)
+    self = Text.withFormat(text: text, customFormatting: customFormatting, systemImageNames: systemImageNames)
   }
 
   private static func withFormat(
     text: String,
-    customFormatting: [String: (String) -> Text]
+    customFormatting: [String: (String) -> Text],
+    systemImageNames: [String: (Text) -> Text]
   ) -> Text {
     var partials: [TextFormattingPartial] = [.unformatted(text)]
 
     for (key, formatting) in customFormatting {
       partials = self.partials(applying: formatting, for: key, on: partials)
+    }
+
+    for (systemName, modifiers) in systemImageNames {
+      partials = self.partials(systemName: systemName, modifiers: modifiers, previousPartials: partials)
     }
 
     return partials.reduce(Text("")) { $0 + $1.textRepresentation }
@@ -73,6 +81,47 @@ extension Text {
 
       partials.append(.unformatted(prefix))
       partials.append(.formatted(formatting(capture)))
+      previousRange = match.range
+    }
+
+    let suffix = String(string[(previousRange?.upperBound ?? string.startIndex)..<string.endIndex])
+    partials.append(.unformatted(suffix))
+
+    return partials
+  }
+
+  private static func partials(
+    systemName: String,
+    modifiers: (Text) -> Text,
+    previousPartials: [TextFormattingPartial]
+  ) -> [TextFormattingPartial] {
+    previousPartials.flatMap { (partial: TextFormattingPartial) -> [TextFormattingPartial] in
+      switch partial {
+      case let .formatted(text):
+        return [.formatted(text)]
+
+      case let .unformatted(string):
+        return self.partials(systemName: systemName, modifiers: modifiers, string: string)
+      }
+    }
+  }
+
+  private static func partials(
+    systemName: String,
+    modifiers: (Text) -> Text,
+    string: String
+  ) -> [TextFormattingPartial] {
+    let textToFormatRegex = try! Regex(#"<\#(systemName)/>"#)
+
+    var partials: [TextFormattingPartial] = []
+    var previousRange: Range<String.Index>?
+
+    for match in textToFormatRegex.matches(in: string) {
+      let prefix = String(string[(previousRange?.lowerBound ?? string.startIndex)..<match.range.lowerBound])
+      let imageText = Text(Image(systemName: systemName))
+
+      partials.append(.unformatted(prefix))
+      partials.append(.formatted(modifiers(imageText)))
       previousRange = match.range
     }
 
@@ -132,8 +181,9 @@ extension Dictionary where Key == String, Value == (String) -> Text {
   struct Text_Previews: PreviewProvider {
     static var previews: some View {
       Text(
-        "Normal <b>bold</b> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>underline</ins> <del>strikethrough</del> <em>emphasis</em> <strong>strong</strong><sup>sup</sup> custom <cb>colored & bold</cb>.",
-        customFormatting: Dictionary.htmlLike.merged(with: ["cb": { Text($0).bold().foregroundColor(.systemOrange) }])
+        "Normal <b>bold</b> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>underline</ins> <del>strikethrough</del> <em>emphasis</em> <strong>strong</strong><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
+        customFormatting: Dictionary.htmlLike.merged(with: ["cb": { Text($0).bold().foregroundColor(.systemOrange) }]),
+        systemImageNames: ["checkmark.seal": { $0.foregroundColor(.green) }, "chart.bar.fill": { $0 }]
       )
       .previewComponents()
     }
