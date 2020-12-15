@@ -2,153 +2,77 @@ import HandySwift
 import SwiftUI
 
 extension Text {
-  /// Initializes a Text from custom HTML-like markings by applying the given formatters on each marked substring.
+  /// Initializes a Text from custom HTML-like markings by applying the given formatters on each marked substring. Supports SF Symbol replacement via `<lock.filled/>`.
   ///
   /// For example:
   ///   ```
   ///   Text(
-  ///     "Text with <red>custom colored</red> substring <checkmark.seal/>, or <highlight>highlighted</highlight> in other ways.",
-  ///     customFormatting: [
-  ///       "red": { $0.foregroundColor(.orange) },
-  ///       "highlight": { $0.bold().italic() }
-  ///     ],
-  ///     systemImageNames: ["checkmark.seal": { $0.foregroundColor(.gray) }]
+  ///     format: "Text with <red>custom colored</red> substring <checkmark.seal/>, or <highlight>highlighted</highlight> in other ways.",
+  ///     partialStyling: [
+  ///       "red": { $0.foregroundColor(.red) },
+  ///       "highlight": { $0.bold().italic() },
+  ///       "checkmark.seal": { $0.foregroundColor(.gray) }
+  ///     ]
   ///   )
   ///   ```
   ///
   /// - NOTE: Does not support nesting of formatted substrings for performance reasons.
-  /// - TIP: There's a `.htmlTags` pre-defined `customFormatting` you can use with support for some basic modifiers.
+  /// - TIP: There's a `.htmlTags` pre-defined `partialStyling` you can use with support for some basic modifiers.
   ///
   /// - Parameters:
-  ///   - text: The string to be rendered as a Text.
-  ///   - customFormatting: A dictionary with keys serving as names for HTML-like tags and values creating custom formatted `Text` objects for substrings.
-  ///   - formattedSystemImages: A dictionary with SF Symbol image names as keys and `Text` to `Text` modifier closures as values.
+  ///   - format: The string to be rendered as a Text.
+  ///   - partialStyling: A dictionary with keys serving as names for HTML-like tags and values creating custom formatted `Text` objects for substrings.
   public init(
-    _ text: String,
-    customFormatting: [String: (Text) -> Text],
-    formattedSystemImages: [String: (Text) -> Text] = [:]
+    format formatString: String,
+    partialStyling: [String: (Text) -> Text] = [:]
   ) {
-    self = Text.withFormat(text: text, customFormatting: customFormatting, formattedSystemImages: formattedSystemImages)
-  }
-
-  private static func withFormat(
-    text: String,
-    customFormatting: [String: (Text) -> Text],
-    formattedSystemImages: [String: (Text) -> Text]
-  ) -> Text {
-    var partials: [TextFormattingPartial] = [.unformatted(text)]
-
-    for (key, formatting) in customFormatting {
-      partials = self.partials(applying: formatting, for: key, on: partials)
-    }
-
-    for (systemName, modifiers) in formattedSystemImages {
-      partials = self.partials(systemName: systemName, modifiers: modifiers, previousPartials: partials)
-    }
-
-    return partials.reduce(Text("")) { $0 + $1.textRepresentation }
-  }
-
-  private static func partials(
-    applying formatting: (Text) -> Text,
-    for key: String,
-    on previousPartials: [TextFormattingPartial]
-  ) -> [TextFormattingPartial] {
-    previousPartials.flatMap { (partial: TextFormattingPartial) -> [TextFormattingPartial] in
-      switch partial {
-      case let .formatted(text):
-        return [.formatted(text)]
-
-      case let .unformatted(string):
-        return self.partials(applying: formatting, for: key, in: string)
-      }
-    }
-  }
-
-  private static func partials(
-    applying formatting: (Text) -> Text,
-    for key: String,
-    in string: String
-  ) -> [TextFormattingPartial] {
-    let textToFormatRegex = try! Regex(#"<\#(key)>([^<>]+)</\#(key)>"#)
-
-    var partials: [TextFormattingPartial] = []
+    var subtexts: [Text] = []
     var previousRange: Range<String.Index>?
 
-    for match in textToFormatRegex.matches(in: string) {
-      let prefix = String(string[(previousRange?.upperBound ?? string.startIndex)..<match.range.lowerBound])
-      let captureText = Text(match.captures[0]!)
+    let regex = try! Regex(#"<([^<>]+)>([^<>]+)</([^<>]+)>|<([^<>]+)/>"#)
+    for match in regex.matches(in: formatString) {
+      let prefix = formatString[(previousRange?.upperBound ?? formatString.startIndex)..<match.range.lowerBound]
+      if !prefix.isEmpty {
+        subtexts.append(Text(prefix))
+      }
 
-      partials.append(.unformatted(prefix))
-      partials.append(.formatted(formatting(captureText)))
-      previousRange = match.range
-    }
+      let captures = match.captures.compactMap { $0 }
+      switch captures.count {
+      case 3: // the first part matched, e.g. `<b>bold</b>` => ["b", "bold", "b"]
+        guard
+          captures[0] == captures[2],
+          let style = partialStyling[captures[0]]
+        else {
+          subtexts.append(Text(match.string))
+          previousRange = match.range
+          continue
+        }
 
-    let suffix = String(string[(previousRange?.upperBound ?? string.startIndex)..<string.endIndex])
-    partials.append(.unformatted(suffix))
+        subtexts.append(style(Text(captures[1])))
+        previousRange = match.range
 
-    return partials
-  }
+      case 1: // the second part matched, e.g. `<lock.filled/>` => ["lock.filled"]
+        if let style = partialStyling[captures[0]] {
+          subtexts.append(style(Text(Image(systemName: captures[0]))))
+        } else {
+          subtexts.append(Text(Image(systemName: captures[0])))
+        }
+        previousRange = match.range
 
-  private static func partials(
-    systemName: String,
-    modifiers: (Text) -> Text,
-    previousPartials: [TextFormattingPartial]
-  ) -> [TextFormattingPartial] {
-    previousPartials.flatMap { (partial: TextFormattingPartial) -> [TextFormattingPartial] in
-      switch partial {
-      case let .formatted(text):
-        return [.formatted(text)]
-
-      case let .unformatted(string):
-        return self.partials(systemName: systemName, modifiers: modifiers, string: string)
+      default:
+        fatalError("A match should have exactly 1 or 3 captures, found: \(captures).")
       }
     }
-  }
 
-  private static func partials(
-    systemName: String,
-    modifiers: (Text) -> Text,
-    string: String
-  ) -> [TextFormattingPartial] {
-    let textToFormatRegex = try! Regex(#"<\#(systemName)/>"#)
+    let suffix = String(formatString[(previousRange?.upperBound ?? formatString.startIndex)..<formatString.endIndex])
+    subtexts.append(Text(suffix))
 
-    var partials: [TextFormattingPartial] = []
-    var previousRange: Range<String.Index>?
-
-    for match in textToFormatRegex.matches(in: string) {
-      let prefix = String(string[(previousRange?.upperBound ?? string.startIndex)..<match.range.lowerBound])
-      let imageText = Text(Image(systemName: systemName))
-
-      partials.append(.unformatted(prefix))
-      partials.append(.formatted(modifiers(imageText)))
-      previousRange = match.range
-    }
-
-    let suffix = String(string[(previousRange?.upperBound ?? string.startIndex)..<string.endIndex])
-    partials.append(.unformatted(suffix))
-
-    return partials
-  }
-}
-
-fileprivate enum TextFormattingPartial {
-  case unformatted(String)
-  case formatted(Text)
-
-  var textRepresentation: Text {
-    switch self {
-    case let .unformatted(string):
-      return Text(string)
-
-    case let .formatted(text):
-      return text
-    }
+    self = subtexts.reduce(Text("")) { $0 + $1 }
   }
 }
 
 extension Dictionary where Key == String, Value == (Text) -> Text {
-  /// Pre-defined `Text` formatters using HTML tags for usage with `Text(_:customFormatting:)`.
+  /// Pre-defined `Text` formatters using HTML tags for usage with `Text(format:partialStyling:)`.
   /// Inspiration: https://www.w3schools.com/html/html_formatting.asp
   ///
   /// Supported tags:
@@ -179,11 +103,21 @@ extension Dictionary where Key == String, Value == (Text) -> Text {
 #if DEBUG
   struct Text_Previews: PreviewProvider {
     static var previews: some View {
-      Text(
-        "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
-        customFormatting: Dictionary.htmlLike.merged(with: ["cb": { $0.bold().foregroundColor(.systemOrange) }]),
-        formattedSystemImages: ["checkmark.seal": { $0.foregroundColor(.green) }, "chart.bar.fill": { $0 }]
-      )
+      VStack(spacing: 30) {
+        Text(format: "Test without any matches.")
+        Text(format: "<b>A</b> <i>B</i> LOST <checkmark.seal/><bi>C</bi> D", partialStyling: .htmlLike)
+        Text(
+          format:
+            "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
+          partialStyling: Dictionary.htmlLike.merged(
+            with: [
+              "cb": { $0.bold().foregroundColor(.systemOrange) },
+              "checkmark.seal": { $0.foregroundColor(.green) },
+              "chart.bar.fill": { $0 },
+            ]
+          )
+        )
+      }
       .previewComponents()
     }
   }
