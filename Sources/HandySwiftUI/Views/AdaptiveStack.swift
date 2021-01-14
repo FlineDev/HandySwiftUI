@@ -1,15 +1,16 @@
+#if !os(macOS)
 import SwiftUI
 
 /// Renders as an `HStack` if on non-compact horizontal size classes, falls back to `VStack` on compact size class.
 public struct AdaptiveStack<Content: View>: View {
   @Environment(\.horizontalSizeClass)
   var sizeClass
-
+  
   let horizontalAlignment: HorizontalAlignment
   let verticalAlignment: VerticalAlignment
   let spacing: CGFloat?
   let content: () -> Content
-
+  
   /// Creates a new `AdaptiveStack` with same options as `HStack` and `VSTack`.
   public init(
     horizontalAlignment: HorizontalAlignment = .center,
@@ -23,7 +24,7 @@ public struct AdaptiveStack<Content: View>: View {
     self.spacing = spacing
     self.content = content
   }
-
+  
   public var body: some View {
     Group {
       if sizeClass == .compact {
@@ -35,3 +36,4 @@ public struct AdaptiveStack<Content: View>: View {
     }
   }
 }
+#endif
