@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Flinesoft/HandySwift.git",
         "state": {
           "branch": null,
-          "revision": "4f1f96beb8a4c45b01a2479d8cbaf91bda7d1cb5",
-          "version": "3.2.1"
+          "revision": "5d6a6df5232eff28f9f71048e5745706d02be1f8",
+          "version": "3.4.0"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/siteline/SwiftUI-Introspect.git",
         "state": {
           "branch": null,
-          "revision": "36ecf80429d00a4cd1e81fbfe4655b1d99ebd651",
-          "version": "0.1.2"
+          "revision": "2e09be8af614401bc9f87d40093ec19ce56ccaf2",
+          "version": "0.1.3"
         }
       }
     ]
