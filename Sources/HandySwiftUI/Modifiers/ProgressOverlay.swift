@@ -3,7 +3,7 @@ import SwiftUI
 /// The type of progress for the overlay.
 public enum ProgressType {
   /// An indeterminate progress indicator to be used to indicate an ongoing process without detailed progress information.
-  case indeterminate(running: Bool, title: LocalizedStringKey?)
+  case indeterminate(running: Bool, title: LocalizedStringKey? = nil)
 
   /// A determinate progress indicator indicating the current state of progress.
   case determinate(progress: Progress)
