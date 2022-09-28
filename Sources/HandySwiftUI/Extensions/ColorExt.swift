@@ -338,7 +338,13 @@ extension Color {
   /// The HSB & alpha attributes of the `Color` instance.
   public var hsbo: (hue: Double, saturation: Double, brightness: Double, opacity: Double) {
     var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 0
-    NativeColor(self).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &opacity)
+    #if os(macOS)
+      let color = NativeColor(self).usingColorSpace(.deviceRGB)!
+    #else
+      let color = NativeColor(self)
+    #endif
+
+    color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &opacity)
 
     return (hue: Double(hue), saturation: Double(saturation), brightness: Double(brightness), opacity: Double(opacity))
   }
@@ -346,14 +352,20 @@ extension Color {
   /// The RGB & alpha attributes of the `Color` instance.
   public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
     var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, opacity: CGFloat = 0
-    NativeColor(self).getRed(&red, green: &green, blue: &blue, alpha: &opacity)
+
+    #if os(macOS)
+      let color = NativeColor(self).usingColorSpace(.deviceRGB)!
+    #else
+      let color = NativeColor(self)
+    #endif
+    color.getRed(&red, green: &green, blue: &blue, alpha: &opacity)
 
     return (red: Double(red), green: Double(green), blue: Double(blue), opacity: Double(opacity))
   }
 
   /// The HLC & alpha attributes of the `Color` instance.
   public var hlco: (hue: Double, luminance: Double, chroma: Double, opacity: Double) {
-    let lch = rgbColor().toLCH()
+    let lch = self.rgbColor().toLCH()
     return (hue: lch.h / 360, luminance: lch.l / 100, chroma: lch.c / 128, opacity: lch.alpha)
   }
 
@@ -486,7 +498,7 @@ extension Color {
   }
 
   private func newRgboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
-    var newRgbo = rgbo
+    var newRgbo = self.rgbo
 
     switch attribute {
     case .red:
