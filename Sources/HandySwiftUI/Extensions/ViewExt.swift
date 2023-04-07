@@ -150,6 +150,23 @@ extension View {
     #endif
   }
 
+  /// A wrapper for a view modifier that only applies if the given condition is met and allows for providing another modification if not.
+  ///
+  /// **Example**: `.applyIf(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) } else: { $0.foregroundColor(.white) }`
+  @inlinable
+  public func applyIf<M: View, A: View>(
+    _ condition: Bool,
+    modifier: (Self) -> M,
+    else alternativeModifier: (Self) -> A
+  ) -> some View {
+    if condition {
+      return modifier(self).eraseToAnyView()
+    }
+    else {
+      return alternativeModifier(self).eraseToAnyView()
+    }
+  }
+
   /// A wrapper for a view modifier that only applies if the given condition is met.
   ///
   /// **Example**: `.applyIf(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) }`
