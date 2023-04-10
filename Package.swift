@@ -11,7 +11,7 @@ let package = Package(
   ],
   dependencies: [
     // Handy Swift features that didn't make it into the Swift standard library.
-    .package(name: "HandySwift", url: "https://github.com/Flinesoft/HandySwift.git", from: "3.2.1"),
+    .package(name: "HandySwift", url: "https://github.com/FlineDev/HandySwift.git", from: "3.2.1"),
 
     // Introspect underlying UIKit components from SwiftUI.
     .package(name: "Introspect", url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.1.0"),

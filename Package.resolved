@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "HandySwift",
-        "repositoryURL": "https://github.com/Flinesoft/HandySwift.git",
+        "repositoryURL": "https://github.com/FlineDev/HandySwift.git",
         "state": {
           "branch": null,
           "revision": "5d6a6df5232eff28f9f71048e5745706d02be1f8",
