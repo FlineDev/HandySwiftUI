@@ -34,6 +34,13 @@ extension View {
     }
   }
 
+  /// Draws an inner border with a rounded rectangle shape with provided corner radius.
+  public func roundedRectangleBorder(_ content: some ShapeStyle, cornerRadius: CGFloat, lineWidth: CGFloat = 1) -> some View {
+    self
+      .cornerRadius(cornerRadius)
+      .overlay(RoundedRectangle(cornerRadius: cornerRadius).strokeBorder(content, lineWidth: lineWidth).padding(-(lineWidth / 2)))
+  }
+
   // MARK: - Platform-specific modifiers
   // Original source (modified):
   // https://github.com/InvadingOctopus/octopusui/blob/develop/Sources/OctopusUI/View%20Modifiers/OSSpecificViewModifiers.swift
