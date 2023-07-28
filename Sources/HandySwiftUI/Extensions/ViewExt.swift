@@ -1,37 +1,9 @@
-import Introspect
 import SwiftUI
 
 extension View {
   /// Use to prevent issues with the compiler stating 'Function declares an opaque type ...' by calling on each returned view.
   public func eraseToAnyView() -> AnyView {
     AnyView(self)
-  }
-
-  /// Makes views of type `TextField` become the first responder if the condition is met.
-  public func becomeFirstResponder(if condition: Bool) -> some View {
-    introspectTextField { textField in
-      if condition {
-        textField.becomeFirstResponder()
-      }
-    }
-  }
-
-  /// Resigns views of type `TextField` and `TextEditor` and sets the condition back to false.
-  public func resignFirstResponder(when condition: Binding<Bool>) -> some View {
-    introspectTextField { textField in
-      if condition.wrappedValue {
-        condition.wrappedValue = false
-        textField.resignFirstResponder()
-      }
-    }
-    .introspectScrollView { scrollView in
-      if condition.wrappedValue {
-        condition.wrappedValue = false
-        #if !os(macOS)
-          scrollView.endEditing(true)
-        #endif
-      }
-    }
   }
 
   /// Draws an inner border with a rounded rectangle shape with provided corner radius.
