@@ -1,8 +1,14 @@
 import SwiftUI
 
 public struct VerticalLabeledContentStyle: LabeledContentStyle {
+   var spacing: CGFloat
+
+   public init(spacing: CGFloat = 4) {
+      self.spacing = spacing
+   }
+
    public func makeBody(configuration: Configuration) -> some View {
-      VStack(alignment: .leading, spacing: 4) {
+      VStack(alignment: .leading, spacing: self.spacing) {
          configuration.label
             .font(.footnote)
             .foregroundColor(.secondary)
