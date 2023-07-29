@@ -47,6 +47,7 @@ extension Color {
   }
 
   // MARK: Fill Colors
+  #if !os(tvOS)
   /// An overlay fill color for thin and small shapes.
   public static var systemFill: Color {
     #if os(macOS)
@@ -148,6 +149,7 @@ extension Color {
       return Color(UIColor.tertiarySystemGroupedBackground)
     #endif
   }
+  #endif
 
   // MARK: Separator Colors
   /// The color for thin borders or divider lines that allows some underlying content to be visible.
@@ -261,6 +263,7 @@ extension Color {
     #endif
   }
 
+  #if !os(tvOS)
   public static var systemGray2: Color {
     #if os(macOS)
       return Color(NSColor.systemGray)
@@ -300,6 +303,7 @@ extension Color {
       return Color(UIColor.systemGray6)
     #endif
   }
+  #endif
 }
 
 // MARK: - Color Spaces
