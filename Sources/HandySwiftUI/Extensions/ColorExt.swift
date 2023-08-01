@@ -1,543 +1,582 @@
 import SwiftUI
 
 #if canImport(AppKit)
-  import AppKit
+import AppKit
 #elseif canImport(UIKit)
-  import UIKit
+import UIKit
 #endif
 
 // MARK: - Apple-provided colors
 extension Color {
-  // MARK: - UI Element Colors (https://developer.apple.com/documentation/uikit/uicolor/ui_element_colors)
-  // MARK: Label Colors
-  /// The color for text labels that contain primary content.
-  public static var label: Color {
-    #if os(macOS)
+   // MARK: - UI Element Colors (https://developer.apple.com/documentation/uikit/uicolor/ui_element_colors)
+   // MARK: Label Colors
+   /// The color for text labels that contain primary content.
+   public static var label: Color {
+#if os(macOS)
       return Color(NSColor.labelColor)
-    #else
+#else
       return Color(UIColor.label)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for text labels that contain secondary content.
-  public static var secondaryLabel: Color {
-    #if os(macOS)
+   /// The color for text labels that contain secondary content.
+   public static var secondaryLabel: Color {
+#if os(macOS)
       return Color(NSColor.secondaryLabelColor)
-    #else
+#else
       return Color(UIColor.secondaryLabel)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for text labels that contain tertiary content.
-  public static var tertiaryLabel: Color {
-    #if os(macOS)
+   /// The color for text labels that contain tertiary content.
+   public static var tertiaryLabel: Color {
+#if os(macOS)
       return Color(NSColor.tertiaryLabelColor)
-    #else
+#else
       return Color(UIColor.tertiaryLabel)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for text labels that contain quaternary content.
-  public static var quaternaryLabel: Color {
-    #if os(macOS)
+   /// The color for text labels that contain quaternary content.
+   public static var quaternaryLabel: Color {
+#if os(macOS)
       return Color(NSColor.quaternaryLabelColor)
-    #else
+#else
       return Color(UIColor.quaternaryLabel)
-    #endif
-  }
+#endif
+   }
 
-  // MARK: Fill Colors
-  #if !os(tvOS)
-  /// An overlay fill color for thin and small shapes.
-  public static var systemFill: Color {
-    #if os(macOS)
+   // MARK: Fill Colors
+#if !os(tvOS)
+   /// An overlay fill color for thin and small shapes.
+   public static var systemFill: Color {
+#if os(macOS)
       return Color(NSColor.windowFrameTextColor)
-    #else
+#else
       return Color(UIColor.systemFill)
-    #endif
-  }
+#endif
+   }
 
-  /// An overlay fill color for medium-size shapes.
-  public static var secondarySystemFill: Color {
-    #if os(macOS)
+   /// An overlay fill color for medium-size shapes.
+   public static var secondarySystemFill: Color {
+#if os(macOS)
       return Color(NSColor.windowFrameTextColor)
-    #else
+#else
       return Color(UIColor.secondarySystemFill)
-    #endif
-  }
+#endif
+   }
 
-  /// An overlay fill color for large shapes.
-  public static var tertiarySystemFill: Color {
-    #if os(macOS)
+   /// An overlay fill color for large shapes.
+   public static var tertiarySystemFill: Color {
+#if os(macOS)
       return Color(NSColor.windowFrameTextColor)
-    #else
+#else
       return Color(UIColor.tertiarySystemFill)
-    #endif
-  }
+#endif
+   }
 
-  /// An overlay fill color for large areas that contain complex content.
-  public static var quaternarySystemFill: Color {
-    #if os(macOS)
+   /// An overlay fill color for large areas that contain complex content.
+   public static var quaternarySystemFill: Color {
+#if os(macOS)
       return Color(NSColor.windowFrameTextColor)
-    #else
+#else
       return Color(UIColor.quaternarySystemFill)
-    #endif
-  }
+#endif
+   }
 
-  // MARK: Text Colors
-  /// The color for placeholder text in controls or text views.
-  public static var placeholderText: Color {
-    #if os(macOS)
+   // MARK: Text Colors
+   /// The color for placeholder text in controls or text views.
+   public static var placeholderText: Color {
+#if os(macOS)
       return Color(NSColor.placeholderTextColor)
-    #else
+#else
       return Color(UIColor.placeholderText)
-    #endif
-  }
+#endif
+   }
 
-  // MARK: Standard Content Background Colors
-  /// The color for the main background of your interface.
-  public static var systemBackground: Color {
-    #if os(macOS)
+   // MARK: Standard Content Background Colors
+   /// The color for the main background of your interface.
+   public static var systemBackground: Color {
+#if os(macOS)
       return Color(NSColor.windowBackgroundColor)
-    #else
+#else
       return Color(UIColor.systemBackground)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for content layered on top of the main background.
-  public static var secondarySystemBackground: Color {
-    #if os(macOS)
+   /// The color for content layered on top of the main background.
+   public static var secondarySystemBackground: Color {
+#if os(macOS)
       return Color(NSColor.windowBackgroundColor)
-    #else
+#else
       return Color(UIColor.secondarySystemBackground)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for content layered on top of secondary backgrounds.
-  public static var tertiarySystemBackground: Color {
-    #if os(macOS)
+   /// The color for content layered on top of secondary backgrounds.
+   public static var tertiarySystemBackground: Color {
+#if os(macOS)
       return Color(NSColor.windowBackgroundColor)
-    #else
+#else
       return Color(UIColor.tertiarySystemBackground)
-    #endif
-  }
+#endif
+   }
 
-  // MARK: Grouped Content Background Colors
-  /// The color for the main background of your grouped interface.
-  public static var systemGroupedBackground: Color {
-    #if os(macOS)
+   // MARK: Grouped Content Background Colors
+   /// The color for the main background of your grouped interface.
+   public static var systemGroupedBackground: Color {
+#if os(macOS)
       return Color(NSColor.windowBackgroundColor)
-    #else
+#else
       return Color(UIColor.systemGroupedBackground)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for content layered on top of the main background of your grouped interface.
-  public static var secondarySystemGroupedBackground: Color {
-    #if os(macOS)
+   /// The color for content layered on top of the main background of your grouped interface.
+   public static var secondarySystemGroupedBackground: Color {
+#if os(macOS)
       return Color(NSColor.windowBackgroundColor)
-    #else
+#else
       return Color(UIColor.secondarySystemGroupedBackground)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for content layered on top of secondary backgrounds of your grouped interface.
-  public static var tertiarySystemGroupedBackground: Color {
-    #if os(macOS)
+   /// The color for content layered on top of secondary backgrounds of your grouped interface.
+   public static var tertiarySystemGroupedBackground: Color {
+#if os(macOS)
       return Color(NSColor.windowBackgroundColor)
-    #else
+#else
       return Color(UIColor.tertiarySystemGroupedBackground)
-    #endif
-  }
-  #endif
+#endif
+   }
+#endif
 
-  // MARK: Separator Colors
-  /// The color for thin borders or divider lines that allows some underlying content to be visible.
-  public static var separator: Color {
-    #if os(macOS)
+   // MARK: Separator Colors
+   /// The color for thin borders or divider lines that allows some underlying content to be visible.
+   public static var separator: Color {
+#if os(macOS)
       return Color(NSColor.separatorColor)
-    #else
+#else
       return Color(UIColor.separator)
-    #endif
-  }
+#endif
+   }
 
-  /// The color for borders or divider lines that hides any underlying content.
-  public static var opaqueSeparator: Color {
-    #if os(macOS)
+   /// The color for borders or divider lines that hides any underlying content.
+   public static var opaqueSeparator: Color {
+#if os(macOS)
       return Color(NSColor.separatorColor).opacity(1)
-    #else
+#else
       return Color(UIColor.opaqueSeparator)
-    #endif
-  }
+#endif
+   }
 
-  // MARK: Link Color
-  /// The color for links.
-  public static var link: Color {
-    #if os(macOS)
+   // MARK: Link Color
+   /// The color for links.
+   public static var link: Color {
+#if os(macOS)
       return Color(NSColor.linkColor)
-    #else
+#else
       return Color(UIColor.link)
-    #endif
-  }
+#endif
+   }
 
-  // MARK: - Standard Colors (https://developer.apple.com/documentation/uikit/uicolor/standard_colors)
-  // MARK: Adaptable Colors
-  public static var systemBlue: Color {
-    #if os(macOS)
+   // MARK: - Standard Colors (https://developer.apple.com/documentation/uikit/uicolor/standard_colors)
+   // MARK: Adaptable Colors
+   public static var systemBlue: Color {
+#if os(macOS)
       return Color(NSColor.systemBlue)
-    #else
+#else
       return Color(UIColor.systemBlue)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemGreen: Color {
-    #if os(macOS)
+   public static var systemGreen: Color {
+#if os(macOS)
       return Color(NSColor.systemGreen)
-    #else
+#else
       return Color(UIColor.systemGreen)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemIndigo: Color {
-    #if os(macOS)
+   public static var systemIndigo: Color {
+#if os(macOS)
       return Color(NSColor.systemIndigo)
-    #else
+#else
       return Color(UIColor.systemIndigo)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemOrange: Color {
-    #if os(macOS)
+   public static var systemOrange: Color {
+#if os(macOS)
       return Color(NSColor.systemOrange)
-    #else
+#else
       return Color(UIColor.systemOrange)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemPink: Color {
-    #if os(macOS)
+   public static var systemPink: Color {
+#if os(macOS)
       return Color(NSColor.systemPink)
-    #else
+#else
       return Color(UIColor.systemPink)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemPurple: Color {
-    #if os(macOS)
+   public static var systemPurple: Color {
+#if os(macOS)
       return Color(NSColor.systemPurple)
-    #else
+#else
       return Color(UIColor.systemPurple)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemRed: Color {
-    #if os(macOS)
+   public static var systemRed: Color {
+#if os(macOS)
       return Color(NSColor.systemRed)
-    #else
+#else
       return Color(UIColor.systemRed)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemTeal: Color {
-    #if os(macOS)
+   public static var systemTeal: Color {
+#if os(macOS)
       return Color(NSColor.systemTeal)
-    #else
+#else
       return Color(UIColor.systemTeal)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemYellow: Color {
-    #if os(macOS)
+   public static var systemYellow: Color {
+#if os(macOS)
       return Color(NSColor.systemYellow)
-    #else
+#else
       return Color(UIColor.systemYellow)
-    #endif
-  }
+#endif
+   }
 
-  // MARK: Adaptable Gray Colors
-  public static var systemGray: Color {
-    #if os(macOS)
+   // MARK: Adaptable Gray Colors
+   public static var systemGray: Color {
+#if os(macOS)
       return Color(NSColor.systemGray)
-    #else
+#else
       return Color(UIColor.systemGray)
-    #endif
-  }
+#endif
+   }
 
-  #if !os(tvOS)
-  public static var systemGray2: Color {
-    #if os(macOS)
+#if !os(tvOS)
+   public static var systemGray2: Color {
+#if os(macOS)
       return Color(NSColor.systemGray)
-    #else
+#else
       return Color(UIColor.systemGray2)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemGray3: Color {
-    #if os(macOS)
+   public static var systemGray3: Color {
+#if os(macOS)
       return Color(NSColor.systemGray)
-    #else
+#else
       return Color(UIColor.systemGray3)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemGray4: Color {
-    #if os(macOS)
+   public static var systemGray4: Color {
+#if os(macOS)
       return Color(NSColor.systemGray)
-    #else
+#else
       return Color(UIColor.systemGray4)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemGray5: Color {
-    #if os(macOS)
+   public static var systemGray5: Color {
+#if os(macOS)
       return Color(NSColor.systemGray)
-    #else
+#else
       return Color(UIColor.systemGray5)
-    #endif
-  }
+#endif
+   }
 
-  public static var systemGray6: Color {
-    #if os(macOS)
+   public static var systemGray6: Color {
+#if os(macOS)
       return Color(NSColor.systemGray)
-    #else
+#else
       return Color(UIColor.systemGray6)
-    #endif
-  }
-  #endif
+#endif
+   }
+#endif
 }
 
 // MARK: - Color Spaces
 extension Color {
-  #if canImport(UIKit)
-    typealias NativeColor = UIColor
-  #elseif canImport(AppKit)
-    typealias NativeColor = NSColor
-  #endif
+#if canImport(UIKit)
+   typealias NativeColor = UIColor
+#elseif canImport(AppKit)
+   typealias NativeColor = NSColor
+#endif
 
-  /// A list of changeable attributes of the Color.
-  public enum ChangeableAttribute {
-    /// The red color part of RGB.
-    case red
-    /// The green color part of RGB.
-    case green
-    /// The blue color part of RGB.
-    case blue
-    /// The hue color part of HSB.
-    case hueHSB
-    /// The saturation color part of HSB.
-    case saturation
-    /// The brightness color part of HSB.
-    case brightness
-    /// The hue color part of HLC.
-    case hueHLC
-    /// The luminance color part of HLC.
-    case luminance
-    /// The chroma color part of HLC.
-    case chroma
-    /// The opacity color part of RGB / HSB / HLC.
-    case opacity
-  }
+   /// A list of changeable attributes of the Color.
+   public enum ChangeableAttribute {
+      /// The red color part of RGB.
+      case red
+      /// The green color part of RGB.
+      case green
+      /// The blue color part of RGB.
+      case blue
+      /// The hue color part of HSB.
+      case hueHSB
+      /// The saturation color part of HSB.
+      case saturation
+      /// The brightness color part of HSB.
+      case brightness
+      /// The hue color part of HLC.
+      case hueHLC
+      /// The luminance color part of HLC.
+      case luminance
+      /// The chroma color part of HLC.
+      case chroma
+      /// The opacity color part of RGB / HSB / HLC.
+      case opacity
+   }
 
-  // MARK: - Computed Properties
-  /// The HSB & alpha attributes of the `Color` instance.
-  public var hsbo: (hue: Double, saturation: Double, brightness: Double, opacity: Double) {
-    var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 0
-    #if os(macOS)
+   // MARK: - Computed Properties
+   /// The HSB & alpha attributes of the `Color` instance.
+   public var hsbo: (hue: Double, saturation: Double, brightness: Double, opacity: Double) {
+      var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 0
+#if os(macOS)
       let color = NativeColor(self).usingColorSpace(.deviceRGB)!
-    #else
+#else
       let color = NativeColor(self)
-    #endif
+#endif
 
-    color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &opacity)
+      color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &opacity)
 
-    return (hue: Double(hue), saturation: Double(saturation), brightness: Double(brightness), opacity: Double(opacity))
-  }
+      return (hue: Double(hue), saturation: Double(saturation), brightness: Double(brightness), opacity: Double(opacity))
+   }
 
-  /// The RGB & alpha attributes of the `Color` instance.
-  public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
-    var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, opacity: CGFloat = 0
+   /// The RGB & alpha attributes of the `Color` instance.
+   public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
+      var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, opacity: CGFloat = 0
 
-    #if os(macOS)
+#if os(macOS)
       let color = NativeColor(self).usingColorSpace(.deviceRGB)!
-    #else
+#else
       let color = NativeColor(self)
-    #endif
-    color.getRed(&red, green: &green, blue: &blue, alpha: &opacity)
+#endif
+      color.getRed(&red, green: &green, blue: &blue, alpha: &opacity)
 
-    return (red: Double(red), green: Double(green), blue: Double(blue), opacity: Double(opacity))
-  }
+      return (red: Double(red), green: Double(green), blue: Double(blue), opacity: Double(opacity))
+   }
 
-  /// The HLC & alpha attributes of the `Color` instance.
-  public var hlco: (hue: Double, luminance: Double, chroma: Double, opacity: Double) {
-    let lch = self.rgbColor().toLCH()
-    return (hue: lch.h / 360, luminance: lch.l / 100, chroma: lch.c / 128, opacity: lch.alpha)
-  }
+   /// The HLC & alpha attributes of the `Color` instance.
+   public var hlco: (hue: Double, luminance: Double, chroma: Double, opacity: Double) {
+      let lch = self.rgbColor().toLCH()
+      return (hue: lch.h / 360, luminance: lch.l / 100, chroma: lch.c / 128, opacity: lch.alpha)
+   }
 
-  /// Initializes and returns a color with the given HLCA values.
-  ///
-  /// - Parameters:
-  ///   - hue:        The hue. A value between 0 and 1.
-  ///   - luminance:  The luminance. A value between 0 and 1.
-  ///   - chroma:     The chroma. A value between 0 and 1.
-  ///   - opacity:    The opacity. A value between 0 and 1.
-  public init(
-    hue: Double,
-    luminance: Double,
-    chroma: Double,
-    opacity: Double
-  ) {
-    let rgb = LCHColor(l: luminance * 100, c: chroma * 128, h: hue * 360, alpha: opacity).toRGB()
-    self.init(red: rgb.r, green: rgb.g, blue: rgb.b, opacity: rgb.alpha)
-  }
+   /// Initializes and returns a color with the given HLCA values.
+   ///
+   /// - Parameters:
+   ///   - hue:        The hue. A value between 0 and 1.
+   ///   - luminance:  The luminance. A value between 0 and 1.
+   ///   - chroma:     The chroma. A value between 0 and 1.
+   ///   - opacity:    The opacity. A value between 0 and 1.
+   public init(
+      hue: Double,
+      luminance: Double,
+      chroma: Double,
+      opacity: Double
+   ) {
+      let rgb = LCHColor(l: luminance * 100, c: chroma * 128, h: hue * 360, alpha: opacity).toRGB()
+      self.init(red: rgb.r, green: rgb.g, blue: rgb.b, opacity: rgb.alpha)
+   }
 
-  // MARK: - Methods
-  /// Creates a new `Color` object with a single attribute changed by a given difference using addition.
-  ///
-  /// - Parameters:
-  ///   - attribute: The attribute to change.
-  ///   - by: The addition to be added to the current value of the attribute.
-  /// - Returns: The resulting new `Color` with the specified change applied.
-  public func change(_ attribute: ChangeableAttribute, by addition: Double) -> Self {
-    switch attribute {
-    case .red:
-      return change(attribute, to: rgbo.red + addition)
+   // MARK: - Methods
+   /// Creates a new `Color` object with a single attribute changed by a given difference using addition.
+   ///
+   /// - Parameters:
+   ///   - attribute: The attribute to change.
+   ///   - by: The addition to be added to the current value of the attribute.
+   /// - Returns: The resulting new `Color` with the specified change applied.
+   public func change(_ attribute: ChangeableAttribute, by addition: Double) -> Self {
+      switch attribute {
+      case .red:
+         return change(attribute, to: rgbo.red + addition)
 
-    case .green:
-      return change(attribute, to: rgbo.green + addition)
+      case .green:
+         return change(attribute, to: rgbo.green + addition)
 
-    case .blue:
-      return change(attribute, to: rgbo.blue + addition)
+      case .blue:
+         return change(attribute, to: rgbo.blue + addition)
 
-    case .hueHSB:
-      return change(attribute, to: hsbo.hue + addition)
+      case .hueHSB:
+         return change(attribute, to: hsbo.hue + addition)
 
-    case .saturation:
-      return change(attribute, to: hsbo.saturation + addition)
+      case .saturation:
+         return change(attribute, to: hsbo.saturation + addition)
 
-    case .brightness:
-      return change(attribute, to: hsbo.brightness + addition)
+      case .brightness:
+         return change(attribute, to: hsbo.brightness + addition)
 
-    case .hueHLC:
-      return change(attribute, to: hlco.hue + addition)
+      case .hueHLC:
+         return change(attribute, to: hlco.hue + addition)
 
-    case .luminance:
-      return change(attribute, to: hlco.luminance + addition)
+      case .luminance:
+         return change(attribute, to: hlco.luminance + addition)
 
-    case .chroma:
-      return change(attribute, to: hlco.chroma + addition)
+      case .chroma:
+         return change(attribute, to: hlco.chroma + addition)
 
-    case .opacity:
-      return change(attribute, to: hlco.opacity + addition)
-    }
-  }
+      case .opacity:
+         return change(attribute, to: hlco.opacity + addition)
+      }
+   }
 
-  /// Creates a new `Color` object with the value of a single attribute set to a given value.
-  ///
-  /// - Parameters:
-  ///   - attribute: The attribute to change.
-  ///   - to: The new value to be set for the attribute.
-  /// - Returns: The resulting new `Color` with the specified change applied.
-  public func change(_ attribute: ChangeableAttribute, to newValue: Double) -> Self {
-    switch attribute {
-    case .red, .green, .blue:
-      return newRgboColor(attribute, newValue)
+   /// Creates a new `Color` object with the value of a single attribute set to a given value.
+   ///
+   /// - Parameters:
+   ///   - attribute: The attribute to change.
+   ///   - to: The new value to be set for the attribute.
+   /// - Returns: The resulting new `Color` with the specified change applied.
+   public func change(_ attribute: ChangeableAttribute, to newValue: Double) -> Self {
+      switch attribute {
+      case .red, .green, .blue:
+         return newRgboColor(attribute, newValue)
 
-    case .hueHSB, .saturation, .brightness:
-      return newHsboColor(attribute, newValue)
+      case .hueHSB, .saturation, .brightness:
+         return newHsboColor(attribute, newValue)
 
-    case .hueHLC, .luminance, .chroma, .opacity:
-      return newHlcoColor(attribute, newValue)
-    }
-  }
+      case .hueHLC, .luminance, .chroma, .opacity:
+         return newHlcoColor(attribute, newValue)
+      }
+   }
 
-  private func newHlcoColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
-    var newHlco = hlco
+   private func newHlcoColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
+      var newHlco = hlco
 
-    switch attribute {
-    case .hueHLC:
-      newHlco.hue = newValue
+      switch attribute {
+      case .hueHLC:
+         newHlco.hue = newValue
 
-    case .luminance:
-      newHlco.luminance = newValue
+      case .luminance:
+         newHlco.luminance = newValue
 
-    case .chroma:
-      newHlco.chroma = newValue
+      case .chroma:
+         newHlco.chroma = newValue
 
-    case .opacity:
-      newHlco.opacity = newValue
+      case .opacity:
+         newHlco.opacity = newValue
 
-    default:
-      break
-    }
+      default:
+         break
+      }
 
-    return Self(hue: newHlco.hue, luminance: newHlco.luminance, chroma: newHlco.chroma, opacity: newHlco.opacity)
-  }
+      return Self(hue: newHlco.hue, luminance: newHlco.luminance, chroma: newHlco.chroma, opacity: newHlco.opacity)
+   }
 
-  private func newHsboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
-    var newHsbo = hsbo
+   private func newHsboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
+      var newHsbo = hsbo
 
-    switch attribute {
-    case .hueHSB:
-      newHsbo.hue = newValue
+      switch attribute {
+      case .hueHSB:
+         newHsbo.hue = newValue
 
-    case .saturation:
-      newHsbo.saturation = newValue
+      case .saturation:
+         newHsbo.saturation = newValue
 
-    case .brightness:
-      newHsbo.brightness = newValue
+      case .brightness:
+         newHsbo.brightness = newValue
 
-    case .opacity:
-      newHsbo.opacity = newValue
+      case .opacity:
+         newHsbo.opacity = newValue
 
-    default:
-      break
-    }
+      default:
+         break
+      }
 
-    return Self(
-      hue: newHsbo.hue,
-      saturation: newHsbo.saturation,
-      brightness: newHsbo.brightness,
-      opacity: newHsbo.opacity
-    )
-  }
+      return Self(
+         hue: newHsbo.hue,
+         saturation: newHsbo.saturation,
+         brightness: newHsbo.brightness,
+         opacity: newHsbo.opacity
+      )
+   }
 
-  private func newRgboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
-    var newRgbo = self.rgbo
+   private func newRgboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
+      var newRgbo = self.rgbo
 
-    switch attribute {
-    case .red:
-      newRgbo.red = newValue
+      switch attribute {
+      case .red:
+         newRgbo.red = newValue
 
-    case .green:
-      newRgbo.green = newValue
+      case .green:
+         newRgbo.green = newValue
 
-    case .blue:
-      newRgbo.blue = newValue
+      case .blue:
+         newRgbo.blue = newValue
 
-    case .opacity:
-      newRgbo.opacity = newValue
+      case .opacity:
+         newRgbo.opacity = newValue
 
-    default:
-      break
-    }
+      default:
+         break
+      }
 
-    return Color(red: newRgbo.red, green: newRgbo.green, blue: newRgbo.blue, opacity: newRgbo.opacity)
-  }
+      return Color(red: newRgbo.red, green: newRgbo.green, blue: newRgbo.blue, opacity: newRgbo.opacity)
+   }
+}
+
+extension Color: Codable {
+   public init(hex: String) {
+      let rgba = hex.toRGBA()
+      self.init(.sRGB, red: Double(rgba.r), green: Double(rgba.g), blue: Double(rgba.b), opacity: Double(rgba.alpha))
+   }
+   
+   public init(from decoder: Decoder) throws {
+      let container = try decoder.singleValueContainer()
+      let hex = try container.decode(String.self)
+      
+      self.init(hex: hex)
+   }
+   
+   public func encode(to encoder: Encoder) throws {
+      var container = encoder.singleValueContainer()
+      try container.encode(self.toHex())
+   }
+   
+   public func toHex(alpha: Bool = false) -> String? {
+      guard let components = cgColor?.components, components.count >= 3 else { return nil }
+      
+      let r = Float(components[0])
+      let g = Float(components[1])
+      let b = Float(components[2])
+      var a = Float(1.0)
+      
+      if components.count >= 4 {
+         a = Float(components[3])
+      }
+      
+      if alpha {
+         return String(format: "%02lX%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255), lroundf(a * 255))
+      }
+      else {
+         return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
+      }
+   }
 }
 
 #if DEBUG
-  struct Color_Previews: PreviewProvider {
-    static var previews: some View {
+struct Color_Previews: PreviewProvider {
+   static var previews: some View {
       VStack {
-        Rectangle()
-          .foregroundColor(.systemBlue)
-        Rectangle()
-          .foregroundColor(Color.systemBlue.change(.luminance, by: -0.1))
-        Rectangle()
-          .foregroundColor(Color.systemBlue.change(.luminance, to: 0.1))
-        Rectangle()
-          .foregroundColor(Color.systemBlue.change(.luminance, to: 0.9))
+         Rectangle()
+            .foregroundColor(.systemBlue)
+         Rectangle()
+            .foregroundColor(Color.systemBlue.change(.luminance, by: -0.1))
+         Rectangle()
+            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.1))
+         Rectangle()
+            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.9))
       }
-    }
-  }
+   }
+}
 #endif
