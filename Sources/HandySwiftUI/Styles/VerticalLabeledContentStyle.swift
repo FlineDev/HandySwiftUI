@@ -3,7 +3,7 @@ import SwiftUI
 public struct VerticalLabeledContentStyle: LabeledContentStyle {
    var spacing: CGFloat
 
-   public init(spacing: CGFloat = 4) {
+   public init(spacing: CGFloat) {
       self.spacing = spacing
    }
 
@@ -20,10 +20,12 @@ public struct VerticalLabeledContentStyle: LabeledContentStyle {
 }
 
 extension LabeledContentStyle where Self == VerticalLabeledContentStyle {
-   public static var vertical: VerticalLabeledContentStyle { VerticalLabeledContentStyle() }
+   public static func vertical(spacing: CGFloat = 4) -> VerticalLabeledContentStyle {
+      VerticalLabeledContentStyle(spacing: spacing)
+   }
 }
 
 #Preview {
    LabeledContent("Some Key", value: "Some Value")
-      .labeledContentStyle(.vertical)
+      .labeledContentStyle(.vertical())
 }
