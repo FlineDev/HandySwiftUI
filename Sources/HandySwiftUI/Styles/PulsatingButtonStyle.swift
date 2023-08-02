@@ -33,7 +33,7 @@ public struct PulsatingButtonStyle: ButtonStyle {
 }
 
 extension ButtonStyle where Self == PulsatingButtonStyle {
-   static func pulsating(color: Color, cornerRadius: CGFloat, glowRadius: CGFloat = 5, duration: TimeInterval = .seconds(2)) -> PulsatingButtonStyle {
+   public static func pulsating(color: Color, cornerRadius: CGFloat, glowRadius: CGFloat = 5, duration: TimeInterval = .seconds(2)) -> PulsatingButtonStyle {
       PulsatingButtonStyle(color: color, cornerRadius: cornerRadius, glowRadius: glowRadius, duration: duration)
    }
 }
