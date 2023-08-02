@@ -4,13 +4,13 @@ public struct FixedIconWidthLabelStyle: LabelStyle {
    let iconColor: Color?
    let titleColor: Color?
    let iconWidth: CGFloat
-
+   
    public init(iconWidth: CGFloat, iconColor: Color?, titleColor: Color?) {
       self.iconWidth = iconWidth
       self.iconColor = iconColor
       self.titleColor = titleColor
    }
-
+   
    public func makeBody(configuration: Configuration) -> some View {
       HStack(spacing: 10) {
          HStack {
@@ -19,10 +19,10 @@ public struct FixedIconWidthLabelStyle: LabelStyle {
          }
          .applyIf(self.iconColor != nil) { $0.foregroundStyle(self.iconColor!) }
          .frame(width: self.iconWidth)
-
+         
          configuration.title
             .applyIf(self.titleColor != nil) { $0.foregroundStyle(self.titleColor!) }
-
+         
          Spacer()
       }
    }

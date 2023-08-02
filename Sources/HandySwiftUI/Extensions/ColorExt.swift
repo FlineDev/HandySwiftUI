@@ -18,7 +18,7 @@ extension Color {
       return Color(UIColor.label)
 #endif
    }
-
+   
    /// The color for text labels that contain secondary content.
    public static var secondaryLabel: Color {
 #if os(macOS)
@@ -27,7 +27,7 @@ extension Color {
       return Color(UIColor.secondaryLabel)
 #endif
    }
-
+   
    /// The color for text labels that contain tertiary content.
    public static var tertiaryLabel: Color {
 #if os(macOS)
@@ -36,7 +36,7 @@ extension Color {
       return Color(UIColor.tertiaryLabel)
 #endif
    }
-
+   
    /// The color for text labels that contain quaternary content.
    public static var quaternaryLabel: Color {
 #if os(macOS)
@@ -45,7 +45,7 @@ extension Color {
       return Color(UIColor.quaternaryLabel)
 #endif
    }
-
+   
    // MARK: Fill Colors
 #if !os(tvOS)
    /// An overlay fill color for thin and small shapes.
@@ -56,7 +56,7 @@ extension Color {
       return Color(UIColor.systemFill)
 #endif
    }
-
+   
    /// An overlay fill color for medium-size shapes.
    public static var secondarySystemFill: Color {
 #if os(macOS)
@@ -65,7 +65,7 @@ extension Color {
       return Color(UIColor.secondarySystemFill)
 #endif
    }
-
+   
    /// An overlay fill color for large shapes.
    public static var tertiarySystemFill: Color {
 #if os(macOS)
@@ -74,7 +74,7 @@ extension Color {
       return Color(UIColor.tertiarySystemFill)
 #endif
    }
-
+   
    /// An overlay fill color for large areas that contain complex content.
    public static var quaternarySystemFill: Color {
 #if os(macOS)
@@ -83,7 +83,7 @@ extension Color {
       return Color(UIColor.quaternarySystemFill)
 #endif
    }
-
+   
    // MARK: Text Colors
    /// The color for placeholder text in controls or text views.
    public static var placeholderText: Color {
@@ -93,7 +93,7 @@ extension Color {
       return Color(UIColor.placeholderText)
 #endif
    }
-
+   
    // MARK: Standard Content Background Colors
    /// The color for the main background of your interface.
    public static var systemBackground: Color {
@@ -103,7 +103,7 @@ extension Color {
       return Color(UIColor.systemBackground)
 #endif
    }
-
+   
    /// The color for content layered on top of the main background.
    public static var secondarySystemBackground: Color {
 #if os(macOS)
@@ -112,7 +112,7 @@ extension Color {
       return Color(UIColor.secondarySystemBackground)
 #endif
    }
-
+   
    /// The color for content layered on top of secondary backgrounds.
    public static var tertiarySystemBackground: Color {
 #if os(macOS)
@@ -121,7 +121,7 @@ extension Color {
       return Color(UIColor.tertiarySystemBackground)
 #endif
    }
-
+   
    // MARK: Grouped Content Background Colors
    /// The color for the main background of your grouped interface.
    public static var systemGroupedBackground: Color {
@@ -131,7 +131,7 @@ extension Color {
       return Color(UIColor.systemGroupedBackground)
 #endif
    }
-
+   
    /// The color for content layered on top of the main background of your grouped interface.
    public static var secondarySystemGroupedBackground: Color {
 #if os(macOS)
@@ -140,7 +140,7 @@ extension Color {
       return Color(UIColor.secondarySystemGroupedBackground)
 #endif
    }
-
+   
    /// The color for content layered on top of secondary backgrounds of your grouped interface.
    public static var tertiarySystemGroupedBackground: Color {
 #if os(macOS)
@@ -150,7 +150,7 @@ extension Color {
 #endif
    }
 #endif
-
+   
    // MARK: Separator Colors
    /// The color for thin borders or divider lines that allows some underlying content to be visible.
    public static var separator: Color {
@@ -160,7 +160,7 @@ extension Color {
       return Color(UIColor.separator)
 #endif
    }
-
+   
    /// The color for borders or divider lines that hides any underlying content.
    public static var opaqueSeparator: Color {
 #if os(macOS)
@@ -169,7 +169,7 @@ extension Color {
       return Color(UIColor.opaqueSeparator)
 #endif
    }
-
+   
    // MARK: Link Color
    /// The color for links.
    public static var link: Color {
@@ -179,7 +179,7 @@ extension Color {
       return Color(UIColor.link)
 #endif
    }
-
+   
    // MARK: - Standard Colors (https://developer.apple.com/documentation/uikit/uicolor/standard_colors)
    // MARK: Adaptable Colors
    public static var systemBlue: Color {
@@ -189,7 +189,7 @@ extension Color {
       return Color(UIColor.systemBlue)
 #endif
    }
-
+   
    public static var systemGreen: Color {
 #if os(macOS)
       return Color(NSColor.systemGreen)
@@ -197,7 +197,7 @@ extension Color {
       return Color(UIColor.systemGreen)
 #endif
    }
-
+   
    public static var systemIndigo: Color {
 #if os(macOS)
       return Color(NSColor.systemIndigo)
@@ -205,7 +205,7 @@ extension Color {
       return Color(UIColor.systemIndigo)
 #endif
    }
-
+   
    public static var systemOrange: Color {
 #if os(macOS)
       return Color(NSColor.systemOrange)
@@ -213,7 +213,7 @@ extension Color {
       return Color(UIColor.systemOrange)
 #endif
    }
-
+   
    public static var systemPink: Color {
 #if os(macOS)
       return Color(NSColor.systemPink)
@@ -221,7 +221,7 @@ extension Color {
       return Color(UIColor.systemPink)
 #endif
    }
-
+   
    public static var systemPurple: Color {
 #if os(macOS)
       return Color(NSColor.systemPurple)
@@ -229,7 +229,7 @@ extension Color {
       return Color(UIColor.systemPurple)
 #endif
    }
-
+   
    public static var systemRed: Color {
 #if os(macOS)
       return Color(NSColor.systemRed)
@@ -237,7 +237,7 @@ extension Color {
       return Color(UIColor.systemRed)
 #endif
    }
-
+   
    public static var systemTeal: Color {
 #if os(macOS)
       return Color(NSColor.systemTeal)
@@ -245,7 +245,7 @@ extension Color {
       return Color(UIColor.systemTeal)
 #endif
    }
-
+   
    public static var systemYellow: Color {
 #if os(macOS)
       return Color(NSColor.systemYellow)
@@ -253,7 +253,7 @@ extension Color {
       return Color(UIColor.systemYellow)
 #endif
    }
-
+   
    // MARK: Adaptable Gray Colors
    public static var systemGray: Color {
 #if os(macOS)
@@ -262,7 +262,7 @@ extension Color {
       return Color(UIColor.systemGray)
 #endif
    }
-
+   
 #if !os(tvOS)
    public static var systemGray2: Color {
 #if os(macOS)
@@ -271,7 +271,7 @@ extension Color {
       return Color(UIColor.systemGray2)
 #endif
    }
-
+   
    public static var systemGray3: Color {
 #if os(macOS)
       return Color(NSColor.systemGray)
@@ -279,7 +279,7 @@ extension Color {
       return Color(UIColor.systemGray3)
 #endif
    }
-
+   
    public static var systemGray4: Color {
 #if os(macOS)
       return Color(NSColor.systemGray)
@@ -287,7 +287,7 @@ extension Color {
       return Color(UIColor.systemGray4)
 #endif
    }
-
+   
    public static var systemGray5: Color {
 #if os(macOS)
       return Color(NSColor.systemGray)
@@ -295,7 +295,7 @@ extension Color {
       return Color(UIColor.systemGray5)
 #endif
    }
-
+   
    public static var systemGray6: Color {
 #if os(macOS)
       return Color(NSColor.systemGray)
@@ -313,7 +313,7 @@ extension Color {
 #elseif canImport(AppKit)
    typealias NativeColor = NSColor
 #endif
-
+   
    /// A list of changeable attributes of the Color.
    public enum ChangeableAttribute {
       /// The red color part of RGB.
@@ -337,7 +337,7 @@ extension Color {
       /// The opacity color part of RGB / HSB / HLC.
       case opacity
    }
-
+   
    // MARK: - Computed Properties
    /// The HSB & alpha attributes of the `Color` instance.
    public var hsbo: (hue: Double, saturation: Double, brightness: Double, opacity: Double) {
@@ -347,32 +347,32 @@ extension Color {
 #else
       let color = NativeColor(self)
 #endif
-
+      
       color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &opacity)
-
+      
       return (hue: Double(hue), saturation: Double(saturation), brightness: Double(brightness), opacity: Double(opacity))
    }
-
+   
    /// The RGB & alpha attributes of the `Color` instance.
    public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
       var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, opacity: CGFloat = 0
-
+      
 #if os(macOS)
       let color = NativeColor(self).usingColorSpace(.deviceRGB)!
 #else
       let color = NativeColor(self)
 #endif
       color.getRed(&red, green: &green, blue: &blue, alpha: &opacity)
-
+      
       return (red: Double(red), green: Double(green), blue: Double(blue), opacity: Double(opacity))
    }
-
+   
    /// The HLC & alpha attributes of the `Color` instance.
    public var hlco: (hue: Double, luminance: Double, chroma: Double, opacity: Double) {
       let lch = self.rgbColor().toLCH()
       return (hue: lch.h / 360, luminance: lch.l / 100, chroma: lch.c / 128, opacity: lch.alpha)
    }
-
+   
    /// Initializes and returns a color with the given HLCA values.
    ///
    /// - Parameters:
@@ -389,7 +389,7 @@ extension Color {
       let rgb = LCHColor(l: luminance * 100, c: chroma * 128, h: hue * 360, alpha: opacity).toRGB()
       self.init(red: rgb.r, green: rgb.g, blue: rgb.b, opacity: rgb.alpha)
    }
-
+   
    // MARK: - Methods
    /// Creates a new `Color` object with a single attribute changed by a given difference using addition.
    ///
@@ -401,36 +401,36 @@ extension Color {
       switch attribute {
       case .red:
          return change(attribute, to: rgbo.red + addition)
-
+         
       case .green:
          return change(attribute, to: rgbo.green + addition)
-
+         
       case .blue:
          return change(attribute, to: rgbo.blue + addition)
-
+         
       case .hueHSB:
          return change(attribute, to: hsbo.hue + addition)
-
+         
       case .saturation:
          return change(attribute, to: hsbo.saturation + addition)
-
+         
       case .brightness:
          return change(attribute, to: hsbo.brightness + addition)
-
+         
       case .hueHLC:
          return change(attribute, to: hlco.hue + addition)
-
+         
       case .luminance:
          return change(attribute, to: hlco.luminance + addition)
-
+         
       case .chroma:
          return change(attribute, to: hlco.chroma + addition)
-
+         
       case .opacity:
          return change(attribute, to: hlco.opacity + addition)
       }
    }
-
+   
    /// Creates a new `Color` object with the value of a single attribute set to a given value.
    ///
    /// - Parameters:
@@ -441,58 +441,58 @@ extension Color {
       switch attribute {
       case .red, .green, .blue:
          return newRgboColor(attribute, newValue)
-
+         
       case .hueHSB, .saturation, .brightness:
          return newHsboColor(attribute, newValue)
-
+         
       case .hueHLC, .luminance, .chroma, .opacity:
          return newHlcoColor(attribute, newValue)
       }
    }
-
+   
    private func newHlcoColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
       var newHlco = hlco
-
+      
       switch attribute {
       case .hueHLC:
          newHlco.hue = newValue
-
+         
       case .luminance:
          newHlco.luminance = newValue
-
+         
       case .chroma:
          newHlco.chroma = newValue
-
+         
       case .opacity:
          newHlco.opacity = newValue
-
+         
       default:
          break
       }
-
+      
       return Self(hue: newHlco.hue, luminance: newHlco.luminance, chroma: newHlco.chroma, opacity: newHlco.opacity)
    }
-
+   
    private func newHsboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
       var newHsbo = hsbo
-
+      
       switch attribute {
       case .hueHSB:
          newHsbo.hue = newValue
-
+         
       case .saturation:
          newHsbo.saturation = newValue
-
+         
       case .brightness:
          newHsbo.brightness = newValue
-
+         
       case .opacity:
          newHsbo.opacity = newValue
-
+         
       default:
          break
       }
-
+      
       return Self(
          hue: newHsbo.hue,
          saturation: newHsbo.saturation,
@@ -500,27 +500,27 @@ extension Color {
          opacity: newHsbo.opacity
       )
    }
-
+   
    private func newRgboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
       var newRgbo = self.rgbo
-
+      
       switch attribute {
       case .red:
          newRgbo.red = newValue
-
+         
       case .green:
          newRgbo.green = newValue
-
+         
       case .blue:
          newRgbo.blue = newValue
-
+         
       case .opacity:
          newRgbo.opacity = newValue
-
+         
       default:
          break
       }
-
+      
       return Color(red: newRgbo.red, green: newRgbo.green, blue: newRgbo.blue, opacity: newRgbo.opacity)
    }
 }
