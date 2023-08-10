@@ -1,16 +1,18 @@
 import SwiftUI
 
 public struct VerticalLabeledContentStyle: LabeledContentStyle {
+   var alignment: HorizontalAlignment
    var spacing: CGFloat
    var muteLabel: Bool
 
-   public init(spacing: CGFloat, muteLabel: Bool) {
+   public init(alignment: HorizontalAlignment, spacing: CGFloat, muteLabel: Bool) {
+      self.alignment = alignment
       self.spacing = spacing
       self.muteLabel = muteLabel
    }
 
    public func makeBody(configuration: Configuration) -> some View {
-      VStack(alignment: .leading, spacing: self.spacing) {
+      VStack(alignment: self.alignment, spacing: self.spacing) {
          configuration.label
             .applyIf(self.muteLabel) { label in
                label
@@ -25,8 +27,12 @@ public struct VerticalLabeledContentStyle: LabeledContentStyle {
 }
 
 extension LabeledContentStyle where Self == VerticalLabeledContentStyle {
-   public static func vertical(spacing: CGFloat = 4, muteLabel: Bool = true) -> VerticalLabeledContentStyle {
-      VerticalLabeledContentStyle(spacing: spacing, muteLabel: muteLabel)
+   public static func vertical(
+      alignment: HorizontalAlignment = .leading,
+      spacing: CGFloat = 4,
+      muteLabel: Bool = true
+   ) -> VerticalLabeledContentStyle {
+      VerticalLabeledContentStyle(alignment: alignment, spacing: spacing, muteLabel: muteLabel)
    }
 }
 
