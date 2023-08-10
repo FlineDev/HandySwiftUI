@@ -17,7 +17,7 @@ public struct VerticalLabeledContentStyle: LabeledContentStyle {
             .applyIf(self.muteLabel) { label in
                label
                   .font(.footnote)
-                  .foregroundColor(.secondary)
+                  .opacity(0.7)
                   .minimumScaleFactor(0.75)
             }
 
