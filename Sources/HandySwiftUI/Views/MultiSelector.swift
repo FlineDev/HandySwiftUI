@@ -1,4 +1,3 @@
-#if !os(macOS)
 import Foundation
 import SwiftUI
 
@@ -53,7 +52,7 @@ public struct MultiSelector<LabelView: View, Selectable: Identifiable & Hashable
    }
 }
 
-#if DEBUG
+#if DEBUG && !os(macOS)
 struct MultiSelector_Previews: PreviewProvider {
    struct IdentifiableString: Identifiable, Hashable {
       let string: String
@@ -78,5 +77,4 @@ struct MultiSelector_Previews: PreviewProvider {
       .previewScreens()
    }
 }
-#endif
 #endif

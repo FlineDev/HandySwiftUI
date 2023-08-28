@@ -1,4 +1,3 @@
-#if !os(macOS)
 import SwiftUI
 
 struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
@@ -15,7 +14,7 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
                HStack {
                   Text(optionToString(selectable)).foregroundColor(.label)
                   Spacer()
-                  if selected.contains { $0.id == selectable.id } {
+                  if selected.contains(where: { $0.id == selectable.id }) {
                      Image(systemName: "checkmark").foregroundColor(.accentColor)
                   }
                }
@@ -35,7 +34,7 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
    }
 }
 
-#if DEBUG
+#if DEBUG && !os(macOS)
 struct MultiSelectionView_Previews: PreviewProvider {
    struct IdentifiableString: Identifiable, Hashable {
       let string: String
@@ -56,5 +55,4 @@ struct MultiSelectionView_Previews: PreviewProvider {
       .previewComponents()
    }
 }
-#endif
 #endif
