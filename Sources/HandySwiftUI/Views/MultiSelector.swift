@@ -43,9 +43,10 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
 
          Spacer()
 
-         Text(self.formattedSelectedListString)
+         Text(self.selected.wrappedValue.isEmpty ? "--" : self.formattedSelectedListString)
             .foregroundStyle(Color.secondaryLabel)
 
+         // TODO: localize 'Edit'
          Button("Edit") {
             self.showSelectorSheet = true
          }
