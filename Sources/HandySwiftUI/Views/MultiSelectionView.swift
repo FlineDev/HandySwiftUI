@@ -3,24 +3,39 @@ import SwiftUI
 struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
    let options: [Selectable]
    let optionToString: (Selectable) -> String
-   
+
+   @Environment(\.dismiss)
+   var dismiss
+
    @Binding
    var selected: Set<Selectable>
    
    var body: some View {
       List {
-         ForEach(options) { selectable in
-            Button(action: { toggleSelection(selectable: selectable) }) {
-               HStack {
-                  Text(optionToString(selectable)).foregroundColor(.label)
-                  Spacer()
-                  if selected.contains(where: { $0.id == selectable.id }) {
-                     Image(systemName: "checkmark").foregroundColor(.accentColor)
+         Section {
+            ForEach(self.options) { selectable in
+               Button(action: { toggleSelection(selectable: selectable) }) {
+                  HStack {
+                     Text(optionToString(selectable)).foregroundColor(.label)
+                     Spacer()
+                     if selected.contains(where: { $0.id == selectable.id }) {
+                        Image(systemName: "checkmark").foregroundColor(.accentColor)
+                     }
                   }
                }
+               .buttonStyle(.plain)
+               .tag(selectable.id)
             }
-            .tag(selectable.id)
          }
+
+         #if os(macOS)
+         Section {
+            Button("Done") {
+               self.dismiss()
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+         }
+         #endif
       }
    }
    
@@ -34,7 +49,7 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
    }
 }
 
-#if DEBUG && !os(macOS)
+#if DEBUG
 struct MultiSelectionView_Previews: PreviewProvider {
    struct IdentifiableString: Identifiable, Hashable {
       let string: String
@@ -44,15 +59,13 @@ struct MultiSelectionView_Previews: PreviewProvider {
    @State static var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
    
    static var previews: some View {
-      NavigationView {
+      NavigationStack {
          MultiSelectionView(
             options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
             optionToString: { $0.string },
             selected: $selected
          )
       }
-      .navigationViewStyle(StackNavigationViewStyle())
-      .previewComponents()
    }
 }
 #endif

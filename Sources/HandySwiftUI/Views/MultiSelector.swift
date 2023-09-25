@@ -2,10 +2,10 @@ import Foundation
 import SwiftUI
 
 /// A selector that supports choosing multiple options across a given set of options. Use `Picker` for choosing exactly one option.
-public struct MultiSelector<LabelView: View, Selectable: Identifiable & Hashable>: View {
-   /// The view to use as the label for the multi-selector.
-   public let label: LabelView
-   
+public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
+   /// The title key for the view.
+   public let titleKey: LocalizedStringKey
+
    /// The possible options to choose from.
    public let options: [Selectable]
    
@@ -18,41 +18,68 @@ public struct MultiSelector<LabelView: View, Selectable: Identifiable & Hashable
    private var formattedSelectedListString: String {
       ListFormatter.localizedString(byJoining: selected.wrappedValue.map { optionToString($0) })
    }
-   
+
+   #if os(macOS)
+   @State
+   var showSelectorSheet: Bool = false
+   #endif
+
    public var body: some View {
-      NavigationLink(destination: multiSelectionView()) {
-         HStack {
-            label
-            Spacer()
-            Text(formattedSelectedListString)
-               .foregroundColor(.secondaryLabel)
-               .multilineTextAlignment(.trailing)
+      #if !os(macOS)
+      NavigationLink {
+         MultiSelectionView(options: options, optionToString: optionToString, selected: selected)
+            .navigationTitle(self.titleKey)
+            #if !os(macOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+      } label: {
+         LabeledContent(self.titleKey) {
+            Text(self.formattedSelectedListString)
          }
       }
+      #else
+      HStack(spacing: 10) {
+         Text(self.titleKey)
+
+         Spacer()
+
+         Text(self.formattedSelectedListString)
+            .foregroundStyle(Color.secondaryLabel)
+
+         Button("Edit") {
+            self.showSelectorSheet = true
+         }
+      }
+      .sheet(isPresented: self.$showSelectorSheet) {
+         MultiSelectionView(options: options, optionToString: optionToString, selected: selected)
+            .navigationTitle(self.titleKey)
+      }
+      #endif
    }
    
+   /// Usage example:
+   /// ```
+   /// MultiSelector(
+   ///   label: "Preferred Places",
+   ///   options: self.availablePlaces,
+   ///   selected: self.$preferredPlaces,
+   ///   optionToString: \.description
+   /// )
+   /// ```
    public init(
-      label: LabelView,
+      titleKey: LocalizedStringKey,
       options: [Selectable],
       selected: Binding<Set<Selectable>>,
       optionToString: @escaping (Selectable) -> String
    ) {
-      self.label = label
+      self.titleKey = titleKey
       self.options = options
       self.selected = selected
       self.optionToString = optionToString
    }
-   
-   private func multiSelectionView() -> some View {
-      MultiSelectionView(
-         options: options,
-         optionToString: optionToString,
-         selected: selected
-      )
-   }
 }
 
-#if DEBUG && !os(macOS)
+#if DEBUG
 struct MultiSelector_Previews: PreviewProvider {
    struct IdentifiableString: Identifiable, Hashable {
       let string: String
@@ -62,10 +89,10 @@ struct MultiSelector_Previews: PreviewProvider {
    @State static var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
    
    static var previews: some View {
-      NavigationView {
+      NavigationStack {
          Form {
-            MultiSelector<Text, IdentifiableString>(
-               label: Text("MOCK: Multiselect"),
+            MultiSelector<IdentifiableString>(
+               titleKey: "MOCK: Multiselect",
                options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
                selected: $selected,
                optionToString: { $0.string }
@@ -73,8 +100,9 @@ struct MultiSelector_Previews: PreviewProvider {
          }
          .navigationTitle("MOCK: Title")
       }
-      .navigationViewStyle(StackNavigationViewStyle())
-      .previewScreens()
+      .macOSOnly {
+         $0.padding().frame(minWidth: 300, minHeight: 400)
+      }
    }
 }
 #endif

@@ -118,7 +118,6 @@ struct Text_Previews: PreviewProvider {
             )
          )
       }
-      .previewComponents()
    }
 }
 #endif
