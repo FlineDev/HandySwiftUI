@@ -29,7 +29,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
       NavigationLink {
          MultiSelectionView(options: options, optionToString: optionToString, selected: selected)
             .navigationTitle(self.titleKey)
-            #if !os(macOS)
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
       } label: {
