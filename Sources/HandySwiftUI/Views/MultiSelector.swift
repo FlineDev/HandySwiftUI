@@ -8,13 +8,16 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
 
    /// The possible options to choose from.
    public let options: [Selectable]
-   
+
+   /// The color of the label.
+   public var labelColor: Color
+
    /// A closure that converts the given options to their String representation.
    public let optionToString: (Selectable) -> String
    
    /// A set of the currently selected options.
    public var selected: Binding<Set<Selectable>>
-   
+
    private var formattedSelectedListString: String {
       ListFormatter.localizedString(byJoining: selected.wrappedValue.map { optionToString($0) })
    }
@@ -33,13 +36,17 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
             .navigationBarTitleDisplayMode(.inline)
             #endif
       } label: {
-         LabeledContent(self.titleKey) {
+         LabeledContent {
             Text(self.formattedSelectedListString)
+         } label: {
+            Text(self.titleKey)
+               .foregroundStyle(self.labelColor)
          }
       }
       #else
       HStack(spacing: 10) {
          Text(self.titleKey)
+            .foregroundStyle(self.labelColor)
 
          Spacer()
 
@@ -71,39 +78,47 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
       titleKey: LocalizedStringKey,
       options: [Selectable],
       selected: Binding<Set<Selectable>>,
+      labelColor: Color = .primary,
       optionToString: @escaping (Selectable) -> String
    ) {
       self.titleKey = titleKey
       self.options = options
       self.selected = selected
+      self.labelColor = labelColor
       self.optionToString = optionToString
    }
 }
 
 #if DEBUG
-struct MultiSelector_Previews: PreviewProvider {
-   struct IdentifiableString: Identifiable, Hashable {
-      let string: String
-      var id: String { string }
-   }
-   
-   @State static var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
-   
-   static var previews: some View {
-      NavigationStack {
-         Form {
-            MultiSelector<IdentifiableString>(
-               titleKey: "MOCK: Multiselect",
-               options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
-               selected: $selected,
-               optionToString: { $0.string }
-            )
+#Preview {
+   struct Preview: View {
+      struct IdentifiableString: Identifiable, Hashable {
+         let string: String
+         var id: String { string }
+      }
+
+      @State
+      var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
+
+      var body: some View {
+         NavigationStack {
+            Form {
+               MultiSelector<IdentifiableString>(
+                  titleKey: "MOCK: Multiselect",
+                  options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
+                  selected: self.$selected,
+                  labelColor: .green,
+                  optionToString: { $0.string }
+               )
+            }
+            .navigationTitle("MOCK: Title")
          }
-         .navigationTitle("MOCK: Title")
-      }
-      .macOSOnly {
-         $0.padding().frame(minWidth: 300, minHeight: 400)
+         .macOSOnly {
+            $0.padding().frame(minWidth: 300, minHeight: 400)
+         }
       }
    }
+
+   return Preview()
 }
 #endif

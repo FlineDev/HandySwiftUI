@@ -19,14 +19,14 @@ extension View {
          .cornerRadius(960)
          .overlay(Capsule().strokeBorder(content, lineWidth: lineWidth).padding(-(lineWidth / 2)))
    }
-   
+
    // MARK: - Platform-specific modifiers
    // Original source (modified):
    // https://github.com/InvadingOctopus/octopusui/blob/develop/Sources/OctopusUI/View%20Modifiers/OSSpecificViewModifiers.swift
    
    /// A wrapper for a view modifier that only applies on iOS/iPadOS.
    ///
-   /// **Example**: `.iOS { $0.foregroundColor(.green) }`
+   /// **Example**: `.iOSOnly { $0.foregroundColor(.green) }`
    ///
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
@@ -54,7 +54,7 @@ extension View {
    
    /// A wrapper for a view modifier that only applies on macOS.
    ///
-   /// **Example**: `.macOS { $0.foregroundColor(.green) }`
+   /// **Example**: `.macOSOnly { $0.foregroundColor(.green) }`
    ///
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
@@ -82,7 +82,7 @@ extension View {
    
    /// A wrapper for a view modifier that only applies on tvOS.
    ///
-   /// **Example**: `.tvOS { $0.foregroundColor(.green) }`
+   /// **Example**: `.tvOSOnly { $0.foregroundColor(.green) }`
    ///
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
@@ -110,7 +110,7 @@ extension View {
    
    /// A wrapper for a view modifier that only applies on watchOS.
    ///
-   /// **Example**: `.watchOS { $0.foregroundColor(.green) }`
+   /// **Example**: `.watchOSOnly { $0.foregroundColor(.green) }`
    ///
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
@@ -178,4 +178,6 @@ extension View {
          return self.eraseToAnyView()
       }
    }
+
+   #warning("🧑‍💻 consider creating keypath variants, as well as one for platforms")
 }
