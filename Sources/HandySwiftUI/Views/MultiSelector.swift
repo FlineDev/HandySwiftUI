@@ -3,14 +3,14 @@ import SwiftUI
 
 /// A selector that supports choosing multiple options across a given set of options. Use `Picker` for choosing exactly one option.
 public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
-   /// The title key for the view.
-   public let titleKey: LocalizedStringKey
+   /// The view to use as the label for the multi-selector.
+   public let label: AnyView
+
+   /// The title to show in the detail view where the options can be selected.
+   public let optionsTitle: String
 
    /// The possible options to choose from.
    public let options: [Selectable]
-
-   /// The color of the label.
-   public var labelColor: Color
 
    /// A closure that converts the given options to their String representation.
    public let optionToString: (Selectable) -> String
@@ -31,7 +31,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
       #if !os(macOS)
       NavigationLink {
          MultiSelectionView(options: options, optionToString: optionToString, selected: selected)
-            .navigationTitle(self.titleKey)
+            .navigationTitle(self.optionsTitle)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
@@ -39,14 +39,12 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
          LabeledContent {
             Text(self.formattedSelectedListString)
          } label: {
-            Text(self.titleKey)
-               .foregroundStyle(self.labelColor)
+            self.label
          }
       }
       #else
       HStack(spacing: 10) {
-         Text(self.titleKey)
-            .foregroundStyle(self.labelColor)
+         self.label
 
          Spacer()
 
@@ -60,7 +58,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
       }
       .sheet(isPresented: self.$showSelectorSheet) {
          MultiSelectionView(options: options, optionToString: optionToString, selected: selected)
-            .navigationTitle(self.titleKey)
+            .navigationTitle(self.optionsTitle)
       }
       #endif
    }
@@ -68,23 +66,24 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
    /// Usage example:
    /// ```
    /// MultiSelector(
-   ///   label: "Preferred Places",
+   ///   label: { Text("Selected Preferred Places") },
+   ///   optionsTitle: "Preferred Places",
    ///   options: self.availablePlaces,
    ///   selected: self.$preferredPlaces,
    ///   optionToString: \.description
    /// )
    /// ```
    public init(
-      titleKey: LocalizedStringKey,
+      label: () -> some View,
+      optionsTitle: String,
       options: [Selectable],
       selected: Binding<Set<Selectable>>,
-      labelColor: Color = .primary,
       optionToString: @escaping (Selectable) -> String
    ) {
-      self.titleKey = titleKey
+      self.label = label().eraseToAnyView()
       self.options = options
+      self.optionsTitle = optionsTitle
       self.selected = selected
-      self.labelColor = labelColor
       self.optionToString = optionToString
    }
 }
@@ -104,10 +103,10 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
          NavigationStack {
             Form {
                MultiSelector<IdentifiableString>(
-                  titleKey: "MOCK: Multiselect",
+                  label: { Text("MOCK: Multiselect").foregroundStyle(Color.green) },
+                  optionsTitle: "MOCK: Multiselect",
                   options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
                   selected: self.$selected,
-                  labelColor: .green,
                   optionToString: { $0.string }
                )
             }
