@@ -136,9 +136,13 @@ public struct AsyncButton: View {
 
             Group {
                if let errorMessage {
+                  #if os(tvOS)
+                  Text("Failed with error:\n\(errorMessage)")
+                  #else
                   GroupBox {
                      Text("Failed with error:\n\(errorMessage)")
                   }
+                  #endif
                } else {
                   Color.clear
                }
