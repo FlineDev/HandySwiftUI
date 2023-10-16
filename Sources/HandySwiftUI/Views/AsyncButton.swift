@@ -86,21 +86,26 @@ public struct AsyncButton: View {
          }
       } label: {
          if self.task != nil {
-            HStack(spacing: 4) {
+            HStack(spacing: .platformDefaultSpacing / 2) {
                ProgressView()
-                  .frame(width: 25)
+                  .frame(width: .platformDefaultTextHeight)
+                  .macOSOnly {
+                     $0.scaleEffect(0.5).frame(height: .platformDefaultTextHeight)
+                  }
                Text(self.titleKey)
             }
          } else {
-            HStack(spacing: 4) {
-               if let statefulSystemImage {
-                  Image(systemName: statefulSystemImage)
-                     .applyIf(self.statefulImageColor != nil) {
-                        $0.foregroundStyle(self.statefulImageColor!)
-                     }
-                     .frame(width: 25)
-               } else {
-                  Color.clear.frame(width: 25)
+            HStack(spacing: .platformDefaultSpacing / 2) {
+               if self.systemImage != nil {
+                  if let statefulSystemImage {
+                     Image(systemName: statefulSystemImage)
+                        .applyIf(self.statefulImageColor != nil) {
+                           $0.foregroundStyle(self.statefulImageColor!)
+                        }
+                        .frame(width: .platformDefaultTextHeight)
+                  } else {
+                     Color.clear.frame(width: .platformDefaultTextHeight)
+                  }
                }
 
                Text(self.titleKey)
@@ -125,7 +130,7 @@ public struct AsyncButton: View {
                try await Task.sleep(for: .seconds(1))
             }
 
-            AsyncButton("Fail after 1 sec", systemImage: "play") {
+            AsyncButton("Fail after 1 sec") {
                try await Task.sleep(for: .seconds(1))
                throw CancellationError()
             } catchError: { error in
@@ -148,6 +153,7 @@ public struct AsyncButton: View {
                }
             }.frame(height: 100)
          }
+         .padding()
       }
    }
 
