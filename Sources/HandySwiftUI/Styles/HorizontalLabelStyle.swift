@@ -4,21 +4,18 @@ public struct HorizontalLabelStyle: LabelStyle {
    var spacing: CGFloat
    var iconColor: Color?
    var iconFont: Font?
-   var iconAngle: Angle?
 
-   public init(spacing: CGFloat, iconColor: Color?, iconFont: Font?, iconAngle: Angle?) {
+   public init(spacing: CGFloat, iconColor: Color?, iconFont: Font?) {
       self.spacing = spacing
       self.iconColor = iconColor
       self.iconFont = iconFont
-      self.iconAngle = iconAngle
    }
 
    public func makeBody(configuration: Configuration) -> some View {
       HStack(alignment: .center, spacing: self.spacing) {
          configuration.icon
-            .applyIf(self.iconColor != nil) { $0.foregroundStyle(self.iconColor!) }
-            .applyIf(self.iconFont != nil) { $0.font(self.iconFont!) }
-            .applyIf(self.iconAngle != nil) { $0.rotationEffect(self.iconAngle!) }
+            .ifLet(self.iconColor) { $0.foregroundStyle($1) }
+            .ifLet(self.iconFont) { $0.font($1) }
 
          configuration.title
       }
@@ -29,10 +26,9 @@ extension LabelStyle where Self == HorizontalLabelStyle {
    public static func horizontal(
       spacing: CGFloat = 4,
       iconColor: Color? = .accentColor,
-      iconFont: Font? = nil,
-      iconAngle: Angle? = nil
+      iconFont: Font? = nil
    ) -> HorizontalLabelStyle {
-      HorizontalLabelStyle(spacing: spacing, iconColor: iconColor, iconFont: iconFont, iconAngle: iconAngle)
+      HorizontalLabelStyle(spacing: spacing, iconColor: iconColor, iconFont: iconFont)
    }
 }
 
