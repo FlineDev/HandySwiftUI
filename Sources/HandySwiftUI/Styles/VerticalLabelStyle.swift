@@ -17,7 +17,7 @@ public struct VerticalLabelStyle: LabelStyle {
 
    public func makeBody(configuration: Configuration) -> some View {
       VStack(alignment: .center, spacing: self.spacing) {
-         HStack(spacing: self.spacing / 2) {
+         HStack(spacing: 0) {
             ForEach(0..<self.iconAmount, id: \.self) { _ in
                configuration.icon
                   .applyIf(self.iconColor != nil) { $0.foregroundStyle(self.iconColor!) }
@@ -49,7 +49,7 @@ extension LabelStyle where Self == VerticalLabelStyle {
 }
 
 #Preview("Custom") {
-   Label("Hogwarts", systemImage: "graduationcap")
-      .labelStyle(.vertical(spacing: 0, iconColor: .orange, iconFont: .title, iconAmount: 2))
+   Label("Hogwarts", systemImage: "plus.circle")
+      .labelStyle(.vertical(spacing: 20, iconColor: .orange, iconFont: .title, iconAmount: 2))
       .font(.footnote)
 }
