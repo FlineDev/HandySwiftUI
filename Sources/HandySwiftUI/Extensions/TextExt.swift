@@ -2,6 +2,11 @@ import HandySwift
 import SwiftUI
 
 extension Text {
+   /// Creates a ``Text`` view using the `description` parameter of the provided ``CustomStringConvertible`` instance.
+   public init(convertible: CustomStringConvertible) {
+      self.init(convertible.description)
+   }
+
    /// Initializes a Text from custom HTML-like markings by applying the given formatters on each marked substring. Supports SF Symbol replacement via `<lock.filled/>`.
    ///
    /// For example:
