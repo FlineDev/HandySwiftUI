@@ -525,22 +525,10 @@ extension Color {
    }
 }
 
-extension Color: Codable {
+extension Color {
    public init(hex: String) {
       let rgba = hex.toRGBA()
       self.init(.sRGB, red: Double(rgba.r), green: Double(rgba.g), blue: Double(rgba.b), opacity: Double(rgba.alpha))
-   }
-   
-   public init(from decoder: Decoder) throws {
-      let container = try decoder.singleValueContainer()
-      let hex = try container.decode(String.self)
-      
-      self.init(hex: hex)
-   }
-   
-   public func encode(to encoder: Encoder) throws {
-      var container = encoder.singleValueContainer()
-      try container.encode(self.toHex())
    }
    
    public func toHex(alpha: Bool = false) -> String? {
