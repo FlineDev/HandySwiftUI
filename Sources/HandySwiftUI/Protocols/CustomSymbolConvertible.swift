@@ -10,6 +10,11 @@ public protocol CustomSymbolConvertible {
 extension CustomSymbolConvertible {
    /// Creates a SwiftUI ``Image`` view with the `systemName` parameter of the instance. Any metadata after `:` or `*` in the `systemName` will be ignored.
    public var image: Image {
-      Image(systemName: self.symbolName.components(separatedBy: ":")[0].components(separatedBy: "*")[0])
+      Image(systemName: self.symbolSystemName)
+   }
+
+   /// Returns the plain systemName of the symbol with all metadata removed.
+   public var symbolSystemName: String {
+      self.symbolName.components(separatedBy: ":")[0].components(separatedBy: "*")[0]
    }
 }
