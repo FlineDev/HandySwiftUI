@@ -192,5 +192,22 @@ extension View {
       }
    }
 
+   /// A wrapper for a view modifier that only applies if the given optional value is not `nil` and passes the unwrapped value as its second parameter.
+   ///
+   /// **Example**: `.ifLet(self.shadowColor) { $0.shadow(color: $1, radius: 40, x: 0, y: 10) } else: { $0.clipShape(.rect(cornerRadius: 15)) }`
+   @inlinable
+   public func ifLet<T, ModifiedView: View, ElseView: View>(
+      _ optionalValue: T?,
+      modifier: (Self, T) -> ModifiedView,
+      else elseModifier: (Self) -> ElseView
+   ) -> some View {
+      if let optionalValue {
+         return modifier(self, optionalValue).eraseToAnyView()
+      }
+      else {
+         return elseModifier(self).eraseToAnyView()
+      }
+   }
+
    #warning("🧑‍💻 consider creating keypath variants, as well as one for platforms")
 }
