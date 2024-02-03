@@ -21,7 +21,7 @@ public enum Platform: AutoConforming {
       #elseif os(tvOS)
       return .tv
       #elseif os(visionOS)
-      return .headset
+      return .vision
       #elseif os(watchOS)
       return .watch
       #elseif os(Linux)
