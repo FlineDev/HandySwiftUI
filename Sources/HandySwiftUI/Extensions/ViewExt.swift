@@ -135,7 +135,35 @@ extension View {
       return self
 #endif
    }
-   
+
+   /// A wrapper for a view modifier that only applies on visionOS.
+   ///
+   /// **Example**: `.visionOSOnly { $0.foregroundColor(.green) }`
+   ///
+   /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
+   @inlinable
+   public func visionOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
+#if os(visionOS)
+      return modifier(self)
+#else
+      return self
+#endif
+   }
+
+   /// A wrapper for a view modifier that does **not** apply on visionOS; only on macOS, tvOS and watchOS.
+   ///
+   /// **Example**: `.visionOSExcluded { $0.foregroundColor(.red) }`
+   ///
+   /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
+   @inlinable
+   public func visionOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
+#if !os(visionOS)
+      return modifier(self)
+#else
+      return self
+#endif
+   }
+
    /// A wrapper for a view modifier that only applies if the given condition is met and allows for providing another modification if not.
    ///
    /// **Example**: `.applyIf(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) } else: { $0.foregroundColor(.white) }`
