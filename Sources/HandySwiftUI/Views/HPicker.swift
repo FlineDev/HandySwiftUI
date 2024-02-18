@@ -37,6 +37,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                      )
                      .font(.body)
                      .minimumScaleFactor(0.85)
+                     .multilineTextAlignment(.center)
                      .padding(.vertical)
                      .padding(.horizontal, 5)
                      .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -126,7 +127,7 @@ extension HPicker where T: CaseIterable, L == Text {
       enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
          case gryffindor, ravenclaw, hufflepuff, slytherin
          
-         var description: String { [self.rawValue.firstCapitalized].joined(separator: "\n") }
+         var description: String { [self.rawValue.firstCapitalized, "(Some additional information!)"].joined(separator: "\n") }
          var symbolName: String {
             switch self {
             case .gryffindor: "cat"
