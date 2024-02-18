@@ -5,7 +5,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    let locked: Set<T>
    let label: () -> L
    let selection: Binding<T?>
-   
+
    @Environment(\.colorScheme)
    var colorScheme
    
@@ -36,6 +36,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                         )
                      )
                      .font(.body)
+                     .minimumScaleFactor(0.85)
                      .padding(.vertical)
                      .padding(.horizontal, 5)
                      .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -71,7 +72,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
             self.label()
          }
       }
-      .frame(maxHeight: 170)
+      .frame(maxHeight: 190)
    }
    
    func iconAngle(option: T) -> Angle? {
@@ -125,7 +126,7 @@ extension HPicker where T: CaseIterable, L == Text {
       enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
          case gryffindor, ravenclaw, hufflepuff, slytherin
          
-         var description: String { String(self.rawValue.firstCapitalized.prefix(3)) }
+         var description: String { [self.rawValue.firstCapitalized].joined(separator: "\n") }
          var symbolName: String {
             switch self {
             case .gryffindor: "cat"
