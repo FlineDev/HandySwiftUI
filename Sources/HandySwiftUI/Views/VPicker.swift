@@ -4,20 +4,20 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    let options: [T]
    let label: () -> L
    let selection: Binding<T?>
-
+   
    public init(options: [T], selection: Binding<T?>, label: @escaping () -> L) {
       self.options = options
       self.selection = selection
       self.label = label
    }
-
+   
    @Environment(\.colorScheme)
    var colorScheme
-
+   
    public var body: some View {
       VStack(spacing: 10) {
          self.label().padding(.top, 10)
-
+         
          VStack {
             ForEach(self.options) { option in
                Button {
@@ -49,9 +49,9 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                         RoundedRectangle(cornerRadius: 12.5).strokeBorder(.gray, lineWidth: 0.5)
                      }
                      .clipShape(.rect(cornerRadius: 12.5))
-                     #if !os(macOS)
+#if !os(macOS)
                      .contentShape(.hoverEffect, .rect(cornerRadius: 12.5)).hoverEffect()
-                     #endif
+#endif
                }
                .buttonStyle(.plain)
             }
@@ -62,7 +62,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
       .accessibilityRepresentation {
          Picker(selection: self.selection) {
             Text(verbatim: "–").tag(T?.none)
-
+            
             ForEach(self.options) { option in
                option.label.tag(option as T?)
             }
@@ -71,7 +71,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
          }
       }
    }
-
+   
    func iconAngle(option: T) -> Angle? {
       guard
          let degreesString = option.symbolName.components(separatedBy: "*")[0].components(separatedBy: ":")[try: 1],
@@ -79,7 +79,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
       else { return nil }
       return Angle(degrees: degrees)
    }
-
+   
    func iconAmount(option: T) -> Int {
       guard
          let amountString = option.symbolName.components(separatedBy: "*")[try: 1],
@@ -117,7 +117,7 @@ extension VPicker where T: CaseIterable, L == Text {
    struct Preview: View {
       enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
          case gryffindor, ravenclaw, hufflepuff, slytherin
-
+         
          var description: String { self.rawValue.firstCapitalized }
          var symbolName: String {
             switch self {
@@ -129,16 +129,16 @@ extension VPicker where T: CaseIterable, L == Text {
          }
          var id: String { self.rawValue }
       }
-
+      
       @State
       var selectedHouse: HogwartsHouse? = .gryffindor
-
+      
       var body: some View {
          Form {
             VPicker("Hogwarts House", selection: self.$selectedHouse)
          }
       }
    }
-
+   
    return Preview()
 }
