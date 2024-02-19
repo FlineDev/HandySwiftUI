@@ -36,7 +36,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                         )
                      )
                      .font(.body)
-                     .minimumScaleFactor(0.85)
+                     .minimumScaleFactor(0.66)
                      .multilineTextAlignment(.center)
                      .padding(.vertical)
                      .padding(.horizontal, 5)
