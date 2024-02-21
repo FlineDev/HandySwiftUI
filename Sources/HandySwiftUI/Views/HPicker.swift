@@ -1,4 +1,5 @@
 import SwiftUI
+import HandySwift
 
 public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: View>: View {
    let options: [T]
@@ -41,7 +42,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                      .padding(.vertical)
                      .padding(.horizontal, 5)
                      .frame(maxWidth: .infinity, maxHeight: .infinity)
-                     .background(.thinMaterial)
+                     .background(OS.current == .iOS ? .thinMaterial : .regularMaterial)
                      .applyIf(self.selection.wrappedValue == option) {
                         $0
                            .background(Color.accentColor.opacity(0.33))
