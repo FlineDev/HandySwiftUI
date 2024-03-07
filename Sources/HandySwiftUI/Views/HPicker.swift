@@ -54,9 +54,9 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                      }
                      .clipShape(.rect(cornerRadius: 12.5))
                      .shadow(color: .black.opacity(self.colorScheme == .dark ? 0.33 : 0.1), radius: 6)
-#if !os(macOS)
+                     #if os(iOS) || os(visionOS)
                      .contentShape(.hoverEffect, .rect(cornerRadius: 12.5)).hoverEffect()
-#endif
+                     #endif
                }
                .padding(.vertical)
                .buttonStyle(.plain)

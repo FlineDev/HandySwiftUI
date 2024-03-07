@@ -50,9 +50,9 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                         RoundedRectangle(cornerRadius: 12.5).strokeBorder(.gray, lineWidth: 0.5)
                      }
                      .clipShape(.rect(cornerRadius: 12.5))
-#if !os(macOS)
+                     #if os(iOS) || os(visionOS)
                      .contentShape(.hoverEffect, .rect(cornerRadius: 12.5)).hoverEffect()
-#endif
+                     #endif
                }
                .buttonStyle(.plain)
             }
