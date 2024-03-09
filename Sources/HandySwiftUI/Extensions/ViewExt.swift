@@ -237,5 +237,21 @@ extension View {
       }
    }
 
+   public func confirmationDialog<I, A: View, M: View>(
+      _ titleKey: LocalizedStringKey,
+      item: I?,
+      titleVisibility: Visibility = .automatic,
+      @ViewBuilder actions: () -> A,
+      @ViewBuilder message: () -> M
+   ) -> some View {
+      self.confirmationDialog(
+         titleKey,
+         isPresented: Binding(get: { item != nil }, set: { _ in }),
+         titleVisibility: titleVisibility,
+         actions: actions,
+         message: message
+      )
+   }
+
    #warning("🧑‍💻 consider creating keypath variants, as well as one for platforms")
 }
