@@ -75,7 +75,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    
    func iconAngle(option: T) -> Angle? {
       guard
-         let degreesString = option.symbolName.components(separatedBy: "*")[0].components(separatedBy: ":")[try: 1],
+         let degreesString = option.symbolName.components(separatedBy: "*")[0].components(separatedBy: ":")[safe: 1],
          let degrees = Double(degreesString)
       else { return nil }
       return Angle(degrees: degrees)
@@ -83,7 +83,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    
    func iconAmount(option: T) -> Int {
       guard
-         let amountString = option.symbolName.components(separatedBy: "*")[try: 1],
+         let amountString = option.symbolName.components(separatedBy: "*")[safe: 1],
          let amount = Int(amountString)
       else { return 1 }
       return amount
@@ -119,7 +119,7 @@ extension VPicker where T: CaseIterable, L == Text {
       enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
          case gryffindor, ravenclaw, hufflepuff, slytherin
          
-         var description: String { self.rawValue.firstCapitalized }
+         var description: String { self.rawValue.firstUppercased }
          var symbolName: String {
             switch self {
             case .gryffindor: "cat"

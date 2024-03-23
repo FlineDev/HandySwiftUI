@@ -34,7 +34,7 @@ extension Text {
       var subtexts: [Text] = []
       var previousRange: Range<String.Index>?
       
-      let regex = try! Regex(#"<([^<>]+)>([^<>]+)</([^<>]+)>|<([^<>]+)/>"#)
+      let regex = try! HandyRegex(#"<([^<>]+)>([^<>]+)</([^<>]+)>|<([^<>]+)/>"#)
       for match in regex.matches(in: formatString) {
          let prefix = formatString[(previousRange?.upperBound ?? formatString.startIndex)..<match.range.lowerBound]
          if !prefix.isEmpty {
@@ -114,13 +114,13 @@ struct Text_Previews: PreviewProvider {
          Text(
             format:
                "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
-            partialStyling: Dictionary.htmlLike.merged(
-               with: [
+            partialStyling: Dictionary.htmlLike.merging(
+               [
                   "cb": { $0.bold().foregroundColor(.systemOrange) },
                   "checkmark.seal": { $0.foregroundColor(.green) },
                   "chart.bar.fill": { $0 },
                ]
-            )
+            ) { $1 }
          )
       }
    }
