@@ -13,7 +13,7 @@ public enum Platform: AutoConforming {
    case vision
    case watch
 
-   static var current: Platform {
+   public static var current: Platform {
       #if os(iOS)
       return UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
       #elseif os(macOS)
