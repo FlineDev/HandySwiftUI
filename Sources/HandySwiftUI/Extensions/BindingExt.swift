@@ -30,7 +30,7 @@ extension Binding where Value: ExpressibleByNilLiteral {
    /// Turns any Binding holding an Optional into one that can be passed to `isPresented` SwiftUI parameters. Useful for APIs that don't have an `item:` overload such as `.confirmationDialog`.
    ///
    /// - Note: When a `true` value is set, nothing happens as it's unclear how one would construct "any" type. But this is negligible for SwiftUI APIs because they can only ever set `false` when the view is dismissed by the user. They never set a `true` value.
-   func isPresent<T>(wrappedType: T.Type) -> Binding<Bool> {
+   public func isPresent<T>(wrappedType: T.Type) -> Binding<Bool> {
       Binding<Bool> {
          if let typedWrappedValue = self.wrappedValue as? Optional<T> {
             switch typedWrappedValue {
@@ -45,6 +45,5 @@ extension Binding where Value: ExpressibleByNilLiteral {
             self.wrappedValue = nil
          }
       }
-
    }
 }
