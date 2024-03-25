@@ -25,3 +25,19 @@ public func ?? <T: NilPlaceholdable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
       set: { lhs.wrappedValue = $0 == T.nilPlaceholderValue ? nil : $0 }
    )
 }
+
+extension Binding where Value == Optional<Any> {
+   /// Turns any Binding holding an Optional into one that can be passed to `isPresented` SwiftUI parameters. Useful for APIs that don't have an `item:` overload such as `.confirmationDialog`.
+   ///
+   /// - Note: When a `true` value is set, nothing happens as it's unclear how one would construct "any" type. But this is negligible for SwiftUI APIs because they can only ever set `false` when the view is dismissed by the user. They never set a `true` value.
+   func isPresent() -> Binding<Bool> {
+      Binding<Bool>(
+         get: { self.wrappedValue == nil },
+         set: { newValue in
+            if !newValue {
+               self.wrappedValue = nil
+            }
+         }
+      )
+   }
+}
