@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 extension String {
    public func toRGBA() -> (r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) {
@@ -28,5 +28,19 @@ extension String {
       }
       
       return (r, g, b, a)
+   }
+
+   @available(iOS 15, macOS 12, tvOS 15, visionOS 1, watchOS 8, *)
+   public func highlightMatchingTokenizedPrefixes(in searchText: String, locale: Locale? = nil, with font: Font = .body.bold()) -> AttributedString {
+      var attributedSelf = AttributedString(self)
+      let normalizedSelf = self.folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: locale)
+
+      for token in searchText.tokenized() {
+         if let range = AttributedString(normalizedSelf).range(of: token) {
+            attributedSelf[range].font = font
+         }
+      }
+
+      return attributedSelf
    }
 }
