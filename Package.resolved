@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FlineDev/HandySwift.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "25fe06290d449950029298c2f9d66260d6ed7874"
+        "revision" : "0a66272ba36d8fbb84f0ea79c43c4d55e40b0ccc",
+        "version" : "4.1.0"
       }
     }
   ],
