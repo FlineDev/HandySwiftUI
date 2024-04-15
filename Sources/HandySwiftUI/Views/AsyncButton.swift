@@ -96,16 +96,14 @@ public struct AsyncButton: View {
             }
          } else {
             HStack(spacing: .platformDefaultSpacing / 2) {
-               if self.systemImage != nil {
-                  if let statefulSystemImage {
-                     Image(systemName: statefulSystemImage)
-                        .applyIf(self.statefulImageColor != nil) {
-                           $0.foregroundStyle(self.statefulImageColor!)
-                        }
-                        .frame(width: .platformDefaultTextHeight)
-                  } else {
-                     Color.clear.frame(width: .platformDefaultTextHeight)
-                  }
+               if let statefulSystemImage {
+                  Image(systemName: statefulSystemImage)
+                     .applyIf(self.statefulImageColor != nil) {
+                        $0.foregroundStyle(self.statefulImageColor!)
+                     }
+                     .frame(width: .platformDefaultTextHeight)
+               } else if self.systemImage != nil {
+                  Color.clear.frame(width: .platformDefaultTextHeight)
                }
 
                Text(self.titleKey)
