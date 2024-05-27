@@ -33,26 +33,22 @@ extension NSImage {
       )
    }
 
-   public func resized(width: Double, height: Double) -> NSImage? {
-      let newSize = NSSize(width: width * 3, height: height * 3)
+   public func resized(maxWidth: CGFloat, maxHeight: CGFloat) -> NSImage? {
+      let size = self.size
+      let widthRatio = maxWidth / size.width
+      let heightRatio = maxHeight / size.height
+      let scaleFactor = min(widthRatio, heightRatio)
 
-      if let bitmapRep = NSBitmapImageRep(
-         bitmapDataPlanes: nil, pixelsWide: Int(newSize.width), pixelsHigh: Int(newSize.height),
-         bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
-         colorSpaceName: .calibratedRGB, bytesPerRow: 0, bitsPerPixel: 0
-      ) {
-         bitmapRep.size = newSize
-         NSGraphicsContext.saveGraphicsState()
-         NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmapRep)
-         draw(in: NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height), from: .zero, operation: .copy, fraction: 1.0)
-         NSGraphicsContext.restoreGraphicsState()
+      let newSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
 
-         let resizedImage = NSImage(size: newSize)
-         resizedImage.addRepresentation(bitmapRep)
-         return resizedImage
-      }
+      let newImage = NSImage(size: newSize)
+      newImage.lockFocus()
+      let context = NSGraphicsContext.current
+      context?.imageInterpolation = .high
+      self.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: self.size), operation: .copy, fraction: 1.0)
+      newImage.unlockFocus()
 
-      return nil
+      return newImage
    }
 
    public func heicData(compressionQuality: CGFloat) -> Data? {
@@ -74,13 +70,20 @@ extension NSImage {
 import UIKit
 
 extension UIImage {
-   public func resized(width: Double, height: Double) -> UIImage? {
-      let newSize = CGSize(width: width, height: height)
-      let image = UIGraphicsImageRenderer(size: newSize).image { _ in
-         draw(in: CGRect(origin: .zero, size: newSize))
+   public func resized(maxWidth: CGFloat, maxHeight: CGFloat) -> UIImage? {
+      let size = self.size
+      let widthRatio = maxWidth / size.width
+      let heightRatio = maxHeight / size.height
+      let scaleFactor = min(widthRatio, heightRatio)
+
+      let newSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
+
+      let renderer = UIGraphicsImageRenderer(size: newSize)
+      let image = renderer.image { _ in
+         self.draw(in: CGRect(origin: .zero, size: newSize))
       }
 
-      return image.withRenderingMode(renderingMode)
+      return image.withRenderingMode(self.renderingMode)
    }
 
    public func heicData(compressionQuality: CGFloat) -> Data? {
