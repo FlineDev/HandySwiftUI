@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 extension Image {
    /// Creates an ``Image`` view using the `symbolName` parameter of the provided ``CustomSymbolConvertible`` instance.
@@ -9,7 +10,6 @@ extension Image {
 
 #if os(macOS)
 import AppKit
-import UniformTypeIdentifiers
 
 extension NSImage {
    public func pngData() -> Data? {
@@ -55,12 +55,12 @@ extension NSImage {
       return nil
    }
 
-   public func heicData() -> Data? {
+   public func heicData(compressionQuality: CGFloat) -> Data? {
       if let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) {
          let mutableData = NSMutableData()
 
          if let destination = CGImageDestinationCreateWithData(mutableData, UTType.heic.identifier as CFString, 1, nil) {
-            CGImageDestinationAddImage(destination, cgImage, nil)
+            CGImageDestinationAddImage(destination, cgImage, [kCGImageDestinationLossyCompressionQuality: compressionQuality] as CFDictionary)
             if CGImageDestinationFinalize(destination) {
                return mutableData as Data
             }
@@ -81,6 +81,21 @@ extension UIImage {
       }
 
       return image.withRenderingMode(renderingMode)
+   }
+
+   public func heicData(compressionQuality: CGFloat) -> Data? {
+      if let cgImage = self.cgImage {
+         let mutableData = NSMutableData()
+
+         if let destination = CGImageDestinationCreateWithData(mutableData, UTType.heic.identifier as CFString, 1, nil) {
+            CGImageDestinationAddImage(destination, cgImage, [kCGImageDestinationLossyCompressionQuality: compressionQuality] as CFDictionary)
+            if CGImageDestinationFinalize(destination) {
+               return mutableData as Data
+            }
+         }
+      }
+
+      return nil
    }
 }
 #endif
