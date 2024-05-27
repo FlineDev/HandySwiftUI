@@ -35,8 +35,11 @@ extension NSImage {
 
    public func resized(maxWidth: CGFloat, maxHeight: CGFloat) -> NSImage? {
       let size = self.size
-      let widthRatio = maxWidth / size.width
-      let heightRatio = maxHeight / size.height
+      if size.width <= maxWidth && size.height <= maxHeight { return self }
+
+      let screenScale = NSScreen.main?.backingScaleFactor ?? 1.0
+      let widthRatio = (maxWidth * screenScale) / size.width
+      let heightRatio = (maxHeight * screenScale) / size.height
       let scaleFactor = min(widthRatio, heightRatio)
 
       let newSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
@@ -72,8 +75,11 @@ import UIKit
 extension UIImage {
    public func resized(maxWidth: CGFloat, maxHeight: CGFloat) -> UIImage? {
       let size = self.size
-      let widthRatio = maxWidth / size.width
-      let heightRatio = maxHeight / size.height
+      if size.width <= maxWidth && size.height <= maxHeight { return self }
+
+      let screenScale = UIScreen.main.scale
+      let widthRatio = (maxWidth * screenScale) / size.width
+      let heightRatio = (maxHeight * screenScale) / size.height
       let scaleFactor = min(widthRatio, heightRatio)
 
       let newSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
