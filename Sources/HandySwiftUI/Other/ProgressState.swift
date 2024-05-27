@@ -1,6 +1,6 @@
 import Foundation
 
-public enum ProgressState: Hashable {
+public enum ProgressState: Hashable, Codable {
    case notStarted
    case inProgress
    case failed(errorMessage: String)
