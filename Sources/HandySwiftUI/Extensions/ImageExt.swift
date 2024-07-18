@@ -77,7 +77,11 @@ extension UIImage {
       let size = self.size
       if size.width <= maxWidth && size.height <= maxHeight { return self }
 
+      #if os(visionOS)
+      let screenScale = 1.0
+      #else
       let screenScale = UIScreen.main.scale
+      #endif
       let widthRatio = (maxWidth / screenScale) / size.width
       let heightRatio = (maxHeight / screenScale) / size.height
       let scaleFactor = min(widthRatio, heightRatio)
