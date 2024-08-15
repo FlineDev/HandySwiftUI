@@ -90,7 +90,7 @@ public struct AsyncButton: View {
                ProgressView()
                   .frame(width: .platformDefaultTextHeight)
                   .macOSOnly {
-                     $0.scaleEffect(0.5).frame(height: .platformDefaultTextHeight)
+                     $0.scaleEffect(0.5).frame(height: .platformDefaultTextHeight - 2)
                   }
                Text(self.titleKey)
             }
