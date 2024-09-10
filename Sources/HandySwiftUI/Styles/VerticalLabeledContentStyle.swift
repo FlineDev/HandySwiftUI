@@ -1,10 +1,17 @@
 import SwiftUI
 
+/// A labeled content style that arranges the label and content vertically.
 public struct VerticalLabeledContentStyle: LabeledContentStyle {
-   var alignment: HorizontalAlignment
-   var spacing: CGFloat
-   var muteLabel: Bool
+   let alignment: HorizontalAlignment
+   let spacing: CGFloat
+   let muteLabel: Bool
 
+   /// Initializes a new `VerticalLabeledContentStyle` with the specified properties.
+   ///
+   /// - Parameters:
+   ///   - alignment: The horizontal alignment of the label and content (default: `.leading`).
+   ///   - spacing: The spacing between the label and content (default: 4).
+   ///   - muteLabel: Whether to mute the label's appearance (default: true).
    public init(alignment: HorizontalAlignment, spacing: CGFloat, muteLabel: Bool) {
       self.alignment = alignment
       self.spacing = spacing
@@ -27,6 +34,14 @@ public struct VerticalLabeledContentStyle: LabeledContentStyle {
 }
 
 extension LabeledContentStyle where Self == VerticalLabeledContentStyle {
+   /// Creates a `VerticalLabeledContentStyle` with customizable properties.
+   ///
+   /// - Parameters:
+   ///   - alignment: The horizontal alignment of the label and content (default: `.leading`).
+   ///   - spacing: The spacing between the label and content (default: 4).
+   ///   - muteLabel: Whether to mute the label's appearance (default: true).
+   ///
+   /// - Returns: A new `VerticalLabeledContentStyle` instance.
    public static func vertical(
       alignment: HorizontalAlignment = .leading,
       spacing: CGFloat = 4,

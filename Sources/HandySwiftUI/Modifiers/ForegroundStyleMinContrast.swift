@@ -36,18 +36,28 @@ struct ForegroundStyleMinContrast: ViewModifier {
 }
 
 extension View {
+   /// Applies a foreground color with a minimum contrast to the background color.
+   ///
+   /// This modifier ensures that the foreground color has sufficient contrast against
+   /// the background color, making it more legible.
+   ///
+   /// - Parameters:
+   ///   - color: The desired foreground color.
+   ///   - minContrast: The minimum contrast ratio between the foreground and background colors.
+   ///
+   /// - Returns: A view with the modified foreground color.
    public func foregroundStyle(_ color: Color, minContrast: Double) -> some View {
       self.modifier(ForegroundStyleMinContrast(requestedColor: color, minContrast: minContrast))
    }
 }
 
-struct ColorExt_Previews: PreviewProvider {
-   static var previews: some View {
-      VStack(spacing: 10) {
-         Text(".green").foregroundColor(.green)
-         Text(".green, minContrast: 0.5").foregroundStyle(.green, minContrast: 0.66)
-         Text(".red").foregroundColor(.red)
-         Text(".red, minContrast: 0.5").foregroundStyle(.red, minContrast: 0.66)
-      }
+// MARK: - Previews
+
+#Preview {
+   VStack(spacing: 10) {
+      Text(".green").foregroundColor(.green)
+      Text(".green, minContrast: 0.5").foregroundStyle(.green, minContrast: 0.66)
+      Text(".red").foregroundColor(.red)
+      Text(".red, minContrast: 0.5").foregroundStyle(.red, minContrast: 0.66)
    }
 }

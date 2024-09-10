@@ -1,13 +1,22 @@
 import SwiftUI
 
+/// A label style that arranges the icon and title vertically with customizable spacing and formatting.
 public struct VerticalLabelStyle: LabelStyle {
-   var spacing: CGFloat
-   var iconColor: Color?
-   var iconFont: Font?
-   var iconAngle: Angle?
-   var iconAmount: Int
+   let spacing: CGFloat
+   let iconColor: Color?
+   let iconFont: Font?
+   let iconAngle: Angle?
+   let iconAmount: Int
 
-   public init(spacing: CGFloat, iconColor: Color?, iconFont: Font?, iconAngle: Angle?, iconAmount: Int) {
+   /// Initializes a new `VerticalLabelStyle` with the specified properties.
+   ///
+   /// - Parameters:
+   ///   - spacing: The spacing between the icon and title.
+   ///   - iconColor: The optional color of the icon (default: accentColor).
+   ///   - iconFont: The optional font of the icon.
+   ///   - iconAngle: The optional rotation angle of the icon.
+   ///   - iconAmount: The number of icons to display (default: 1).
+   public init(spacing: CGFloat, iconColor: Color? = .accentColor, iconFont: Font? = nil, iconAngle: Angle? = nil, iconAmount: Int = 1) {
       self.spacing = spacing
       self.iconColor = iconColor
       self.iconFont = iconFont
@@ -32,6 +41,16 @@ public struct VerticalLabelStyle: LabelStyle {
 }
 
 extension LabelStyle where Self == VerticalLabelStyle {
+   /// Creates a `VerticalLabelStyle` with customizable properties.
+   ///
+   /// - Parameters:
+   ///   - spacing: The spacing between the icon and title (default: 4).
+   ///   - iconColor: The optional color of the icon (default: accentColor).
+   ///   - iconFont: The optional font of the icon.
+   ///   - iconAngle: The optional rotation angle of the icon.
+   ///   - iconAmount: The number of icons to display (default: 1).
+   ///
+   /// - Returns: A new `VerticalLabelStyle` instance.
    public static func vertical(
       spacing: CGFloat = 4,
       iconColor: Color? = .accentColor,

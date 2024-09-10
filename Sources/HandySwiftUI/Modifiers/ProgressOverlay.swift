@@ -40,6 +40,36 @@ fileprivate struct ProgressOverlay: ViewModifier {
 
 extension View {
    /// Show a progress overlay on the current view of the given type.
+   ///
+   /// **Example:**
+   ///
+   /// ```swift
+   /// struct MyView: View {
+   ///     @State private var isProgressRunning = false
+   ///     @State private var progress = Progress(totalUnitCount: 100)
+   ///
+   ///     var body: some View {
+   ///         VStack {
+   ///             Button("Start Progress") {
+   ///                 isProgressRunning = true
+   ///                 progress.completedUnitCount = 0
+   ///                 Task {
+   ///                     for _ in 0..<100 {
+   ///                         progress.completedUnitCount += 1
+   ///                         MainActor.run {
+   ///                             if progress.isFinished {
+   ///                                 isProgressRunning = false
+   ///                             }
+   ///                         }
+   ///                         Thread.sleep(for: .milliseconds(100))
+   ///                     }
+   ///                 }
+   ///             }
+   ///         }
+   ///         .progressOverlay(type: isProgressRunning ? .indeterminate(running: true) : .determinate(progress: progress))
+   ///     }
+   /// }
+   /// ```
    public func progressOverlay(type: ProgressType) -> some View {
       modifier(ProgressOverlay(progressType: type))
    }

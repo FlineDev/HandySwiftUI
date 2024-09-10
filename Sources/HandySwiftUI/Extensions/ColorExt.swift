@@ -553,18 +553,16 @@ extension Color {
 }
 
 #if DEBUG
-struct Color_Previews: PreviewProvider {
-   static var previews: some View {
-      VStack {
-         Rectangle()
-            .foregroundColor(.systemBlue)
-         Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, by: -0.1))
-         Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.1))
-         Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.9))
-      }
+#Preview {
+   VStack {
+      Rectangle()
+         .foregroundColor(.systemBlue)
+      Rectangle()
+         .foregroundColor(Color.systemBlue.change(.luminance, by: -0.1))
+      Rectangle()
+         .foregroundColor(Color.systemBlue.change(.luminance, to: 0.1))
+      Rectangle()
+         .foregroundColor(Color.systemBlue.change(.luminance, to: 0.9))
    }
 }
 #endif

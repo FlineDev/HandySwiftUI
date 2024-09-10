@@ -25,6 +25,15 @@ struct ThrowingTaskModifier: ViewModifier {
 }
 
 extension View {
+   /// Applies a `ThrowingTaskModifier` to the view, allowing you to execute an asynchronous task and handle errors.
+   ///
+   /// See `ThrowingTaskModifier` for more details and an example.
+   ///
+   /// - Parameters:
+   ///   - asyncAction: The asynchronous task to execute.
+   ///   - catchError: A closure that is called if an error occurs during the task execution.
+   ///
+   /// - Returns: A view with the `ThrowingTaskModifier` applied.
    public func throwingTask(
       asyncAction: @escaping () async throws -> Void,
       catchError: @escaping (Error) -> Void = { _ in }

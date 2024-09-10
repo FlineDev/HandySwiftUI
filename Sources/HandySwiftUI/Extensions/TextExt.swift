@@ -106,23 +106,21 @@ extension Dictionary where Key == String, Value == (Text) -> Text {
 }
 
 #if DEBUG
-struct Text_Previews: PreviewProvider {
-   static var previews: some View {
-      VStack(spacing: 30) {
-         Text(format: "Test without any matches.")
-         Text(format: "<b>A</b> <i>B</i> LOST <checkmark.seal/><bi>C</bi> D", partialStyling: .htmlLike)
-         Text(
-            format:
-               "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
-            partialStyling: Dictionary.htmlLike.merging(
-               [
-                  "cb": { $0.bold().foregroundColor(.systemOrange) },
-                  "checkmark.seal": { $0.foregroundColor(.green) },
-                  "chart.bar.fill": { $0 },
-               ]
-            ) { $1 }
-         )
-      }
+#Preview {
+   VStack(spacing: 30) {
+      Text(format: "Test without any matches.")
+      Text(format: "<b>A</b> <i>B</i> LOST <checkmark.seal/><bi>C</bi> D", partialStyling: .htmlLike)
+      Text(
+         format:
+            "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
+         partialStyling: Dictionary.htmlLike.merging(
+            [
+               "cb": { $0.bold().foregroundColor(.systemOrange) },
+               "checkmark.seal": { $0.foregroundColor(.green) },
+               "chart.bar.fill": { $0 },
+            ]
+         ) { $1 }
+      )
    }
 }
 #endif

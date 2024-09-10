@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// A label style that arranges the icon and title horizontally with customizable spacing, position, and formatting.
 public struct HorizontalLabelStyle: LabelStyle {
    var spacing: CGFloat
    var iconIsTrailing: Bool
@@ -8,6 +9,16 @@ public struct HorizontalLabelStyle: LabelStyle {
    var iconAngle: Angle?
    var iconAmount: Int
 
+
+   /// Initializes a new `HorizontalLabelStyle` with the specified properties.
+   ///
+   /// - Parameters:
+   ///   - spacing: The spacing between the icon and title.
+   ///   - iconIsTrailing: Whether the icon should be positioned before or after the title (default: false - before).
+   ///   - iconColor: The optional color of the icon.
+   ///   - iconFont: The optional font of the icon.
+   ///   - iconAngle: The optional rotation angle of the icon.
+   ///   - iconAmount: The number of icons to display (default: 1).
    public init(spacing: CGFloat, iconIsTrailing: Bool, iconColor: Color?, iconFont: Font?, iconAngle: Angle?, iconAmount: Int) {
       self.spacing = spacing
       self.iconIsTrailing = iconIsTrailing
@@ -44,6 +55,17 @@ public struct HorizontalLabelStyle: LabelStyle {
 }
 
 extension LabelStyle where Self == HorizontalLabelStyle {
+   /// Creates a `HorizontalLabelStyle` with customizable properties.
+   ///
+   /// - Parameters:
+   ///   - spacing: The spacing between the icon and title (default: 4).
+   ///   - iconIsTrailing: Whether the icon should be positioned before or after the title (default: false - before).
+   ///   - iconColor: The optional color of the icon (default: accentColor).
+   ///   - iconFont: The optional font of the icon.
+   ///   - iconAngle: The optional rotation angle of the icon.
+   ///   - iconAmount: The number of icons to display (default: 1).
+   ///
+   /// - Returns: A new `HorizontalLabelStyle` instance.
    public static func horizontal(
       spacing: CGFloat = 4,
       iconIsTrailing: Bool = false,

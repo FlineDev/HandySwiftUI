@@ -1,19 +1,36 @@
 import SwiftUI
 
 extension View {
-   /// Use to prevent issues with the compiler stating 'Function declares an opaque type ...' by calling on each returned view.
+   /// Erases the type of the view to `AnyView` to avoid issues with the compiler
+   /// stating "Function declares an opaque type ..."
+   ///
+   /// This is useful when working with views of unknown types or when
+   /// building dynamic UIs.
    public func eraseToAnyView() -> AnyView {
       AnyView(self)
    }
-   
-   /// Draws an inner border with a rounded rectangle shape with provided corner radius.
+
+   /// Adds an inner border with a rounded rectangle shape with the provided corner radius.
+   ///
+   /// - Parameters:
+   ///   - content: The fill style for the border.
+   ///   - cornerRadius: The radius of the rounded corners. Defaults to 0.
+   ///   - lineWidth: The width of the border line. Defaults to 1.
+   ///
+   /// - Returns: A view with a rounded rectangle border.
    public func roundedRectangleBorder(_ content: some ShapeStyle, cornerRadius: CGFloat, lineWidth: CGFloat = 1) -> some View {
       self
          .cornerRadius(cornerRadius)
          .overlay(RoundedRectangle(cornerRadius: cornerRadius).strokeBorder(content, lineWidth: lineWidth).padding(-(lineWidth / 2)))
    }
-   
-   /// Draws an inner border with a capsule shape with provided corner radius.
+
+   /// Adds an inner border with a capsule shape with the provided corner radius.
+   ///
+   /// - Parameters:
+   ///   - content: The fill style for the border.
+   ///   - lineWidth: The width of the border line. Defaults to 1.
+   ///
+   /// - Returns: A view with a capsule border.
    public func capsuleBorder(_ content: some ShapeStyle, lineWidth: CGFloat = 1) -> some View {
       self
          .cornerRadius(960)
