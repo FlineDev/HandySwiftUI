@@ -1,22 +1,79 @@
 import SwiftUI
 import HandySwift
 
+/// A custom picker that displays options as a horizontal row of buttons with icons and labels.
+/// It supports locked options, custom labels, and accessibility features.
+///
+/// `HPicker` is designed to provide a visually appealing and interactive way to select from a list of options,
+/// each represented by an icon and a label.
+///
+/// # Features
+/// - Horizontal layout with customizable icons and labels
+/// - Support for locked (disabled) options
+/// - Custom label for the picker
+/// - Accessibility support with a standard picker representation
+/// - Flexible initialization options for different use cases
+///
+/// # Example usage:
+/// ```swift
+/// struct ContentView: View {
+///     enum Fruit: String, Identifiable, CustomLabelConvertible, CaseIterable {
+///         case apple, banana, orange, grape
+///
+///         var description: String { self.rawValue.capitalized }
+///         var symbolName: String {
+///             switch self {
+///             case .apple: "apple.logo"
+///             case .banana: "banana"
+///             case .orange: "orangecircle.fill"
+///             case .grape: "seal.fill"
+///             }
+///         }
+///         var id: String { self.rawValue }
+///     }
+///
+///     @State private var selectedFruit: Fruit? = .apple
+///
+///     var body: some View {
+///         VStack {
+///             HPicker("Choose a Fruit", locked: [.grape], selection: $selectedFruit)
+///
+///             if let selectedFruit {
+///                 Text("You selected: \(selectedFruit.description)")
+///             }
+///         }
+///     }
+/// }
+/// ```
 public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: View>: View {
+   /// The array of selectable options.
    let options: [T]
+
+   /// A set of options that should be displayed as locked (non-selectable).
    let locked: Set<T>
+
+   /// A closure that returns the label view for the picker.
    let label: () -> L
+
+   /// A binding to the currently selected option.
    let selection: Binding<T?>
 
-   @Environment(\.colorScheme)
-   var colorScheme
-   
+   @Environment(\.colorScheme) var colorScheme
+
+   /// Creates a new `HPicker` with the specified options, locked items, selection binding, and label.
+   ///
+   /// - Parameters:
+   ///   - options: An array of selectable options.
+   ///   - locked: A set of options that should be displayed as locked (non-selectable).
+   ///   - selection: A binding to the currently selected option.
+   ///   - label: A closure that returns the label view for the picker.
    public init(options: [T], locked: Set<T>, selection: Binding<T?>, label: @escaping () -> L) {
       self.options = options
       self.locked = locked
       self.selection = selection
       self.label = label
    }
-   
+
    public var body: some View {
       VStack(spacing: 10) {
          self.label().padding(.top, 10)
@@ -96,7 +153,15 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    }
 }
 
+/// Convenience initializer for `HPicker` that uses a `Text` view as the label.
 extension HPicker where L == Text {
+   /// Creates a new `HPicker` with a `Text` label using a localized string key.
+   ///
+   /// - Parameters:
+   ///   - titleKey: The localized string key for the picker's title.
+   ///   - options: An array of selectable options.
+   ///   - locked: A set of options that should be displayed as locked (non-selectable).
+   ///   - selection: A binding to the currently selected option.
    public init(_ titleKey: LocalizedStringKey, options: [T], locked: Set<T>, selection: Binding<T?>) {
       self.label = { Text(titleKey).font(.headline) }
       self.locked = locked
@@ -105,7 +170,14 @@ extension HPicker where L == Text {
    }
 }
 
+/// Convenience initializer for `HPicker` when `T` conforms to `CaseIterable`.
 extension HPicker where T: CaseIterable {
+   /// Creates a new `HPicker` using all cases of an enumeration that conforms to `CaseIterable`.
+   ///
+   /// - Parameters:
+   ///   - locked: A set of options that should be displayed as locked (non-selectable).
+   ///   - selection: A binding to the currently selected option.
+   ///   - label: A closure that returns the label view for the picker.
    public init(locked: Set<T>, selection: Binding<T?>, label: @escaping () -> L) {
       self.options = T.allCases as! [T]
       self.locked = locked
@@ -114,7 +186,14 @@ extension HPicker where T: CaseIterable {
    }
 }
 
+/// Convenience initializer for `HPicker` when `T` conforms to `CaseIterable` and using a `Text` label.
 extension HPicker where T: CaseIterable, L == Text {
+   /// Creates a new `HPicker` using all cases of an enumeration that conforms to `CaseIterable`, with a `Text` label.
+   ///
+   /// - Parameters:
+   ///   - titleKey: The localized string key for the picker's title.
+   ///   - locked: A set of options that should be displayed as locked (non-selectable).
+   ///   - selection: A binding to the currently selected option.
    public init(_ titleKey: LocalizedStringKey, locked: Set<T>, selection: Binding<T?>) {
       self.label = { Text(titleKey).font(.headline) }
       self.locked = locked

@@ -1,22 +1,58 @@
 import SwiftUI
 
 /// A ``Button`` that creates a ``Task`` in its action closure which gets automatically cancelled ``.onDisappear``.
-/// The buttons shows both progress while the task is in progress and indicates success or failure when task is completed or throws an error.
+/// The button shows both progress while the task is in progress and indicates success or failure when the task is completed or throws an error.
+///
+/// This button is useful for performing asynchronous operations with visual feedback, such as network requests or lengthy computations.
+///
+/// # Features
+/// - Displays a progress indicator while the task is running
+/// - Shows a checkmark for successful completion
+/// - Shows an X mark for task failure
+/// - Automatically cancels the task when the view disappears
+///
+/// # Example usage:
+/// ```swift
+/// struct ContentView: View {
+///     @State private var result: String = ""
+///
+///     var body: some View {
+///         VStack {
+///             Text(result)
+///             AsyncButton("Fetch Data", systemImage: "arrow.down.circle") {
+///                 // Simulating a network request
+///                 try await Task.sleep(for: .seconds(2))
+///                 self.result = "Data fetched successfully!"
+///             } catchError: { error in
+///                 self.result = "Error: \(error.localizedDescription)"
+///             }
+///         }
+///     }
+/// }
+/// ```
 public struct AsyncButton: View {
+   /// The localized string key for the button's title.
    let titleKey: LocalizedStringKey
+
+   /// An optional system image name to display alongside the title.
    let systemImage: String?
+
+   /// The asynchronous action to perform when the button is tapped.
    let asyncAction: () async throws -> Void
+
+   /// A closure to handle any errors thrown by the async action.
    let catchError: (Error) -> Void
 
-   @State
-   private var justCompleted: Bool = false
+   /// Indicates whether the task just completed successfully.
+   @State private var justCompleted: Bool = false
 
-   @State
-   private var justFailed: Bool = false
+   /// Indicates whether the task just failed.
+   @State private var justFailed: Bool = false
 
-   @State
-   private var task: Task<Void, Error>?
+   /// The current task being executed, if any.
+   @State private var task: Task<Void, Error>?
 
+   /// Computes the appropriate system image based on the button's state.
    var statefulSystemImage: String? {
       if self.justCompleted {
          return "checkmark"
@@ -27,6 +63,7 @@ public struct AsyncButton: View {
       }
    }
 
+   /// Computes the appropriate image color based on the button's state.
    var statefulImageColor: Color? {
       if self.justCompleted {
          return Color.green
@@ -37,6 +74,13 @@ public struct AsyncButton: View {
       }
    }
 
+   /// Creates a new `AsyncButton` with the specified title, optional system image, async action, and error handler.
+   ///
+   /// - Parameters:
+   ///   - titleKey: The localized string key for the button's title.
+   ///   - systemImage: An optional system image name to display alongside the title.
+   ///   - asyncAction: The asynchronous closure to execute when the button is tapped.
+   ///   - catchError: A closure to handle any errors thrown by the async action. Defaults to doing nothing.
    public init(
       _ titleKey: LocalizedStringKey,
       systemImage: String? = nil,
