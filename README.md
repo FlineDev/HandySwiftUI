@@ -1,6 +1,23 @@
+<img src="https://raw.githubusercontent.com/FlineDev/HandySwiftUI/main/Images/HandySwiftUI.png" width="256" />
+
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFlineDev%2FHandySwiftUI%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/FlineDev/HandySwiftUI)
+
 # HandySwiftUI
 
-🚧 Documentation & first versioned release are currently in the works, coming very soon! 🚧
+The goal of this library is to **provide handy UI features** that didn't make it into the SwiftUI (yet).
+
+Checkout [HandySwift](https://github.com/FlineDev/HandySwift) for handy Swift features that should have been part of the Swift standard library in the first place.
+
+
+## Documentation
+
+Learn how you can make the most of HandySwiftUI by reading the guides inside the documentation:
+
+[📖 Open HandySwiftUI Documentation](https://swiftpackageindex.com/FlineDev/HandySwiftUI/main/documentation/handyswiftui)
+
+<a href="https://swiftpackageindex.com/FlineDev/HandySwiftUI/main/documentation/handyswiftUI">
+  <img src="https://raw.githubusercontent.com/FlineDev/HandySwiftUI/main/Images/Docs.webp" />
+</a>
 
 
 ## Showcase
