@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct ForegroundStyleMinContrast: ViewModifier {
-   @Environment(\.colorScheme)
-   private var colorScheme
+   @Environment(\.colorScheme) private var colorScheme
 
    let requestedColor: Color
    let minContrast: Double
@@ -51,8 +50,7 @@ extension View {
    }
 }
 
-// MARK: - Previews
-
+#if DEBUG
 #Preview {
    VStack(spacing: 10) {
       Text(".green").foregroundColor(.green)
@@ -61,3 +59,4 @@ extension View {
       Text(".red, minContrast: 0.5").foregroundStyle(.red, minContrast: 0.66)
    }
 }
+#endif

@@ -48,11 +48,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func iOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if os(iOS)
+      #if os(iOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
    
    /// A wrapper for a view modifier that does **not** apply on iOS/iPadOS; only on macOS, tvOS and watchOS.
@@ -62,11 +62,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func iOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if !os(iOS)
+      #if !os(iOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
    
    /// A wrapper for a view modifier that only applies on macOS.
@@ -76,13 +76,33 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func macOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if os(macOS)
+      #if os(macOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
-   
+
+   /// Adds a `.padding` modifier only when the current platform is macOS.
+   @inlinable
+   public func macOSOnlyPadding(insets: EdgeInsets) -> some View {
+      #if os(macOS)
+      return self.padding(insets)
+      #else
+      return self
+      #endif
+   }
+
+   /// Adds a `.padding` modifier only when the current platform is macOS.
+   @inlinable
+   public func macOSOnlyPadding(_ edges: Edge.Set = .all, _ length: CGFloat? = nil) -> some View {
+      #if os(macOS)
+      return self.padding(edges, length)
+      #else
+      return self
+      #endif
+   }
+
    /// A wrapper for a view modifier that does **not** apply on macOS; only on iOS/iPadOS, tvOS and watchOS.
    ///
    /// **Example**: `.macOSExcluded { $0.foregroundColor(.red) }`
@@ -90,11 +110,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func macOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if !os(macOS)
+      #if !os(macOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
    
    /// A wrapper for a view modifier that only applies on tvOS.
@@ -104,11 +124,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func tvOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if os(tvOS)
+      #if os(tvOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
    
    /// A wrapper for a view modifier that does **not** apply on tvOS; only on iOS/iPadOS, macOS and watchOS.
@@ -118,11 +138,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func tvOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if !os(tvOS)
+      #if !os(tvOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
    
    /// A wrapper for a view modifier that only applies on watchOS.
@@ -132,11 +152,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func watchOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if os(watchOS)
+      #if os(watchOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
    
    /// A wrapper for a view modifier that does **not** apply on watchOS; only on iOS/iPadOS, macOS and tvOS.
@@ -146,11 +166,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func watchOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if !os(watchOS)
+      #if !os(watchOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
 
    /// A wrapper for a view modifier that only applies on visionOS.
@@ -160,11 +180,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func visionOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if os(visionOS)
+      #if os(visionOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
 
    /// A wrapper for a view modifier that does **not** apply on visionOS; only on macOS, tvOS and watchOS.
@@ -174,11 +194,11 @@ extension View {
    /// - IMPORTANT: Using OS-specific APIs which may be unavailable on other platforms may cause compile-time errors.
    @inlinable
    public func visionOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
-#if !os(visionOS)
+      #if !os(visionOS)
       return modifier(self)
-#else
+      #else
       return self
-#endif
+      #endif
    }
 
    /// A wrapper for a view modifier that only applies if the given condition is met and allows for providing another modification if not.

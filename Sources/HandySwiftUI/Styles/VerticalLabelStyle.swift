@@ -62,13 +62,17 @@ extension LabelStyle where Self == VerticalLabelStyle {
    }
 }
 
+#if DEBUG
 #Preview("Default") {
    Label("Hogwarts", systemImage: "graduationcap")
       .labelStyle(.vertical())
+      .macOSOnlyPadding()
 }
 
 #Preview("Custom") {
    Label("Hogwarts", systemImage: "plus.circle")
       .labelStyle(.vertical(spacing: 20, iconColor: .orange, iconFont: .title, iconAmount: 2))
       .font(.footnote)
+      .macOSOnlyPadding()
 }
+#endif

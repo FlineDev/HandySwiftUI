@@ -94,8 +94,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
          Text(self.selected.wrappedValue.isEmpty ? "--" : self.formattedSelectedListString)
             .foregroundStyle(Color.secondaryLabel)
 
-         // TODO: localize 'Edit'
-         Button("Edit") {
+         Button(String(localized: "Edit", bundle: .module)) {
             self.showSelectorSheet = true
          }
       }
@@ -130,7 +129,6 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
 }
 
 #if DEBUG
-/// Provides preview functionality for `MultiSelector`.
 #Preview {
    struct Preview: View {
       /// A simple `Identifiable` and `Hashable` struct for preview purposes.

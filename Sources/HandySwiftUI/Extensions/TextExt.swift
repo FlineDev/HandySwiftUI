@@ -122,5 +122,6 @@ extension Dictionary where Key == String, Value == (Text) -> Text {
          ) { $1 }
       )
    }
+   .macOSOnlyPadding()
 }
 #endif

@@ -19,6 +19,7 @@ import SwiftUI
 ///     var body: some View {
 ///         VStack {
 ///             Text(result)
+///
 ///             AsyncButton("Fetch Data", systemImage: "arrow.down.circle") {
 ///                 // Simulating a network request
 ///                 try await Task.sleep(for: .seconds(2))
@@ -161,43 +162,39 @@ public struct AsyncButton: View {
    }
 }
 
+#if DEBUG
+@available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
 #Preview {
-   struct Preview: View {
-      @State
-      var errorMessage: String?
-      
-      var body: some View {
-         VStack(spacing: 20) {
-            AsyncButton("Succeed after 1 sec", systemImage: "play") {
-               try await Task.sleep(for: .seconds(1))
-            }
+   @Previewable @State var errorMessage: String?
 
-            AsyncButton("Fail after 1 sec") {
-               try await Task.sleep(for: .seconds(1))
-               throw CancellationError()
-            } catchError: { error in
-               withAnimation {
-                  self.errorMessage = error.localizedDescription
-               }
-            }
-
-            Group {
-               if let errorMessage {
-                  #if os(tvOS)
-                  Text("Failed with error:\n\(errorMessage)")
-                  #else
-                  GroupBox {
-                     Text("Failed with error:\n\(errorMessage)")
-                  }
-                  #endif
-               } else {
-                  Color.clear
-               }
-            }.frame(height: 100)
-         }
-         .padding()
+   VStack(spacing: 20) {
+      AsyncButton("Succeed after 1 sec", systemImage: "play") {
+         try await Task.sleep(for: .seconds(1))
       }
-   }
 
-   return Preview()
+      AsyncButton("Fail after 1 sec") {
+         try await Task.sleep(for: .seconds(1))
+         throw CancellationError()
+      } catchError: { error in
+         withAnimation {
+            errorMessage = error.localizedDescription
+         }
+      }
+
+      Group {
+         if let errorMessage {
+            #if os(tvOS)
+            Text("Failed with error:\n\(errorMessage)")
+            #else
+            GroupBox {
+               Text("Failed with error:\n\(errorMessage)")
+            }
+            #endif
+         } else {
+            Color.clear
+         }
+      }.frame(height: 100)
+   }
+   .padding()
 }
+#endif

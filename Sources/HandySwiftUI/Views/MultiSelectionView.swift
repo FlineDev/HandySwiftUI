@@ -129,24 +129,27 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
 }
 
 #if DEBUG
-/// Provides preview functionality for `MultiSelectionView`.
-struct MultiSelectionView_Previews: PreviewProvider {
-   /// A simple `Identifiable` and `Hashable` struct for preview purposes.
-   struct IdentifiableString: Identifiable, Hashable {
-      let string: String
-      var id: String { string }
-   }
+#Preview {
+   struct Preview: View {
+      /// A simple `Identifiable` and `Hashable` struct for preview purposes.
+      struct IdentifiableString: Identifiable, Hashable {
+         let string: String
+         var id: String { string }
+      }
 
-   @State static var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
+      @State var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
 
-   static var previews: some View {
-      NavigationStack {
-         MultiSelectionView(
-            options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
-            optionToString: { $0.string },
-            selected: $selected
-         )
+      var body: some View {
+         NavigationStack {
+            MultiSelectionView(
+               options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
+               optionToString: { $0.string },
+               selected: $selected
+            )
+         }
       }
    }
+
+   return Preview()
 }
 #endif

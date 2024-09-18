@@ -22,15 +22,15 @@ import HandySwift
 ///         var description: String { rawValue.capitalized }
 ///         var symbolName: String {
 ///             switch self {
-///             case .happy: "face.smiling"
-///             case .neutral: "face.neutral"
-///             case .sad: "face.frowning"
+///             case .happy: "hand.thumbsup"
+///             case .neutral: "face.thumbsup:90"  // rotate icon by 90 degrees
+///             case .sad: "hand.thumbsdown"
 ///             }
 ///         }
-///         var id: String { rawValue }
+///         var id: Self { self }
 ///     }
 ///
-///     @State private var selectedMood: Mood? = .neutral
+///     @State private var selectedMood: Mood?
 ///
 ///     var body: some View {
 ///         Form {
@@ -61,8 +61,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
       self.label = label
    }
 
-   @Environment(\.colorScheme)
-   var colorScheme
+   @Environment(\.colorScheme) var colorScheme
 
    public var body: some View {
       VStack(spacing: 10) {
@@ -75,6 +74,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                } label: {
                   option.label
                      .labelStyle(
+                        // TODO: add customizability of the label style for horizontal picker variation
                         .vertical(
                            iconColor: self.selection.wrappedValue == option ? .accentColor : .secondary,
                            iconFont: .system(size: 25, weight: .regular),
@@ -190,6 +190,7 @@ extension VPicker where T: CaseIterable, L == Text {
    }
 }
 
+#if DEBUG
 #Preview {
    struct Preview: View {
       enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
@@ -213,8 +214,10 @@ extension VPicker where T: CaseIterable, L == Text {
          Form {
             VPicker("Hogwarts House", selection: self.$selectedHouse)
          }
+         .macOSOnly { $0.padding().frame(minHeight: 450) }
       }
    }
 
    return Preview()
 }
+#endif

@@ -49,7 +49,10 @@ extension LabelStyle where Self == FixedIconWidthLabelStyle {
    }
 }
 
+#if DEBUG
 #Preview {
    Label("Hello World!", systemImage: "person")
       .labelStyle(.fixedIconWidth(iconColor: .green, titleColor: .secondary))
+      .macOSOnlyPadding()
 }
+#endif

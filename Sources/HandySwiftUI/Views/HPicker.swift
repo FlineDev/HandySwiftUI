@@ -17,30 +17,26 @@ import HandySwift
 /// # Example usage:
 /// ```swift
 /// struct ContentView: View {
-///     enum Fruit: String, Identifiable, CustomLabelConvertible, CaseIterable {
-///         case apple, banana, orange, grape
+///     enum Mood: String, Identifiable, CustomLabelConvertible, CaseIterable {
+///         case superHappy, happy, neutral, sad
 ///
-///         var description: String { self.rawValue.capitalized }
+///         var description: String { rawValue.capitalized }
 ///         var symbolName: String {
 ///             switch self {
-///             case .apple: "apple.logo"
-///             case .banana: "banana"
-///             case .orange: "orangecircle.fill"
-///             case .grape: "seal.fill"
+///             case .superHappy: "hand.thumbsup*2"  // show icon twice
+///             case .happy: "hand.thumbsup"
+///             case .neutral: "face.thumbsup:90"  // rotate icon by 90 degrees
+///             case .sad: "hand.thumbsdown"
 ///             }
 ///         }
-///         var id: String { self.rawValue }
+///         var id: Self { self }
 ///     }
 ///
-///     @State private var selectedFruit: Fruit? = .apple
+///     @State private var selectedMood: Mood?
 ///
 ///     var body: some View {
-///         VStack {
-///             HPicker("Choose a Fruit", locked: [.grape], selection: $selectedFruit)
-///
-///             if let selectedFruit {
-///                 Text("You selected: \(selectedFruit.description)")
-///             }
+///         Form {
+///             HPicker("How are you feeling?", selection: $selectedMood)
 ///         }
 ///     }
 /// }
@@ -202,6 +198,7 @@ extension HPicker where T: CaseIterable, L == Text {
    }
 }
 
+#if DEBUG
 #Preview {
    struct Preview: View {
       enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
@@ -219,15 +216,16 @@ extension HPicker where T: CaseIterable, L == Text {
          var id: String { self.rawValue }
       }
       
-      @State
-      var selectedHouse: HogwartsHouse? = .gryffindor
-      
+      @State var selectedHouse: HogwartsHouse? = .gryffindor
+
       var body: some View {
          Form {
             HPicker("Hogwarts House", locked: [.gryffindor, .slytherin], selection: self.$selectedHouse)
          }
+         .macOSOnly { $0.padding().frame(minWidth: 700) }
       }
    }
    
    return Preview()
 }
+#endif

@@ -54,6 +54,7 @@ extension ButtonStyle where Self == PulsatingButtonStyle {
    }
 }
 
+#if DEBUG
 #Preview {
    VStack {
       Button {
@@ -67,3 +68,4 @@ extension ButtonStyle where Self == PulsatingButtonStyle {
    }
    .padding(20)
 }
+#endif
