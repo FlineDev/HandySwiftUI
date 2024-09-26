@@ -1,10 +1,10 @@
-# New Views
+# New Types
 
-Adding missing views commonly needed.
+Adding missing views and view-related types commonly needed.
 
 @Metadata {
    @PageImage(purpose: icon, source: "HandySwiftUI")
-   @PageImage(purpose: card, source: "NewViews")
+   @PageImage(purpose: card, source: "NewTypes")
 }
 
 ## Highlights
@@ -13,7 +13,18 @@ TODO
 
 ## Topics
 
-TODO
+### Views
+
+- ``AsyncButton``
+- ``HPicker``
+- ``MultiSelector``
+- ``VPicker``
+
+### Other
+
+- ``Platform``
+- ``ProgressState``
+- ``Xcode``
 
 
 [TranslateKit]: https://apps.apple.com/app/apple-store/id6476773066?pt=549314&ct=swiftpackageindex.com&mt=8

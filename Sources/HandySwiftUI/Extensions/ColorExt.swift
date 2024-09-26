@@ -526,27 +526,36 @@ extension Color {
 }
 
 extension Color {
+   /// Initializes a `Color` instance from a hexadecimal string representation.
+   ///
+   /// - Parameter hex: A string representing the color in hexadecimal format.
+   ///                  The string can include alpha transparency (e.g., "#RRGGBBAA").
    public init(hex: String) {
       let rgba = hex.toRGBA()
       self.init(.sRGB, red: Double(rgba.r), green: Double(rgba.g), blue: Double(rgba.b), opacity: Double(rgba.alpha))
    }
-   
+
+   /// Converts the `Color` instance to a hexadecimal string representation.
+   ///
+   /// - Parameter alpha: A Boolean value indicating whether the output string should include the alpha component.
+   ///                    If `true`, the alpha channel is included (e.g., "#RRGGBBAA"). If `false`, only RGB values are included (e.g., "#RRGGBB").
+   ///                    Defaults to `false`.
+   /// - Returns: A hexadecimal string representing the color, or `nil` if the color components could not be retrieved.
    public func toHex(alpha: Bool = false) -> String? {
       guard let components = cgColor?.components, components.count >= 3 else { return nil }
-      
+
       let r = Float(components[0])
       let g = Float(components[1])
       let b = Float(components[2])
       var a = Float(1.0)
-      
+
       if components.count >= 4 {
          a = Float(components[3])
       }
-      
+
       if alpha {
          return String(format: "%02lX%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255), lroundf(a * 255))
-      }
-      else {
+      } else {
          return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
       }
    }
