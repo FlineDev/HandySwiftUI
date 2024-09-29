@@ -28,6 +28,7 @@ public enum Platform: AutoConforming {
    case watch
 
    /// Returns the current platform based on the device's user interface idiom.
+   @MainActor
    public static var current: Platform {
       #if os(iOS)
       return UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
@@ -61,6 +62,7 @@ public enum Platform: AutoConforming {
    ///   - watch: The value for the watchOS platform.
    ///
    /// - Returns: The value associated with the current platform, or the default value.
+   @MainActor
    public static func value<T>(
       default defaultValue: T,
       mac: T? = nil,

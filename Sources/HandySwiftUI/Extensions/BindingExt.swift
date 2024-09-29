@@ -38,6 +38,7 @@ public prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
 ///   - binding: The optional binding.
 ///   - fallback: The default value used when the binding is `nil`.
 /// - Returns: A binding to a non-optional value, using the provided default if `nil`.
+@MainActor
 public func ?? <T: NilPlaceholdable>(binding: Binding<T?>, fallback: T) -> Binding<T> {
    Binding(
       get: { binding.wrappedValue ?? fallback },
@@ -68,6 +69,7 @@ extension Binding where Value: ExpressibleByNilLiteral {
    /// ```
    /// - Parameter wrappedType: The type to check if the wrapped value is present.
    /// - Returns: A binding that is `true` if the value is non-nil, and `false` otherwise.
+   @MainActor
    public func isPresent<T>(wrappedType: T.Type) -> Binding<Bool> {
       Binding<Bool> {
          if let typedWrappedValue = self.wrappedValue as? Optional<T> {
