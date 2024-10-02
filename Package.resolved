@@ -1,4 +1,5 @@
 {
+  "originHash" : "daf739e3fc36fdd30405bc72c478e798804f1114399de1a33bc310e18cbe65df",
   "pins" : [
     {
       "identity" : "handyswift",
@@ -10,5 +11,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
