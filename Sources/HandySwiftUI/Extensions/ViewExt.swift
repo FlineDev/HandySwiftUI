@@ -103,6 +103,32 @@ extension View {
       #endif
    }
 
+   /// Adds a `.frame` modifier only when the current platform is macOS.
+   @inlinable
+   public func macOSOnlyFrame(
+      minWidth: CGFloat? = nil,
+      idealWidth: CGFloat? = nil,
+      maxWidth: CGFloat? = nil,
+      minHeight: CGFloat? = nil,
+      idealHeight: CGFloat? = nil,
+      maxHeight: CGFloat? = nil,
+      alignment: Alignment = .center
+   ) -> some View {
+      #if os(macOS)
+      return self.frame(
+         minWidth: minWidth,
+         idealWidth: idealWidth,
+         maxWidth: maxWidth,
+         minHeight: minHeight,
+         idealHeight: idealHeight,
+         maxHeight: maxHeight,
+         alignment: alignment
+      )
+      #else
+      return self
+      #endif
+   }
+
    /// A wrapper for a view modifier that does **not** apply on macOS; only on iOS/iPadOS, tvOS and watchOS.
    ///
    /// **Example**: `.macOSExcluded { $0.foregroundColor(.red) }`

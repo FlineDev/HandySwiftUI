@@ -112,6 +112,7 @@ extension UIImage {
    ///   - maxWidth: The maximum width for the resized image.
    ///   - maxHeight: The maximum height for the resized image.
    /// - Returns: A new `UIImage` instance with the resized dimensions, or `nil` if resizing fails.
+   @MainActor
    public func resized(maxWidth: CGFloat, maxHeight: CGFloat) -> UIImage? {
       let size = self.size
       if size.width <= maxWidth && size.height <= maxHeight { return self }
