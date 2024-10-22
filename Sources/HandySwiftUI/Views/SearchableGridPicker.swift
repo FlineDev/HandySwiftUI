@@ -109,12 +109,16 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                            self.selection = option
                            self.showPicker = false
                         } label: {
-                           option.view
-                              .padding(15)
-                              #if os(visionOS)
-                              .contentShape(.hoverEffect, .rect(cornerRadius: 15))
-                              .hoverEffect()
-                              #endif
+                           ZStack {
+                              option.view
+                                 .padding(15)
+                                 #if os(visionOS)
+                                 .contentShape(.hoverEffect, .rect(cornerRadius: 15))
+                                 .hoverEffect()
+                                 #endif
+
+                              Color.gray.opacity(0.001)
+                           }
                         }
                         .buttonStyle(.plain)
                      }
