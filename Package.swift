@@ -14,8 +14,7 @@ let package = Package(
       .target(
          name: "HandySwiftUI",
          dependencies: [.product(name: "HandySwift", package: "HandySwift")],
-         resources: [.process("Localizable.xcstrings")],
-         swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]
+         resources: [.process("Localizable.xcstrings")]
       )
    ]
 )

@@ -120,7 +120,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                .contentMargins(.horizontal, 25, for: .scrollContent)
             }
          }
-         .navigationTitle("Pick Emoji")
+         .navigationTitle(self.title)
          #if os(visionOS)
          .searchable(text: self.$searchText, placement: .navigationBarDrawer)
          #else
