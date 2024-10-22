@@ -101,6 +101,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
          Group {
             if self.filteredOptions.isEmpty {
                ContentUnavailableView("No matches", systemImage: "exclamationmark.magnifyingglass", description: Text("No emojis match '\(self.searchText)'"))
+                  .frame(maxHeight: .infinity, alignment: .center)
             } else {
                ScrollView {
                   LazyVGrid(columns: [GridItem(.adaptive(minimum: Platform.value(default: 44, mac: 38, vision: 60)))]) {
@@ -124,14 +125,16 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                      }
                   }
                }
+               #if os(visionOS)
                .contentMargins(.horizontal, 25, for: .scrollContent)
+               #endif
             }
          }
          .navigationTitle(self.title)
-         #if os(visionOS)
-         .searchable(text: self.$searchText, placement: .navigationBarDrawer)
+         #if os(macOS)
+         .searchable(text: self.$searchText)
          #else
-         .searchable(text: self.$searchText, placement: .toolbar)
+         .searchable(text: self.$searchText, placement: .navigationBarDrawer)
          #endif
       }
    }
