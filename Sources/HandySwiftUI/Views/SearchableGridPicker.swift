@@ -38,7 +38,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
 
    @Binding var selection: Option?
 
-   @State var showPicker: Bool = false
+   @State var showPicker: Bool = Xcode.isRunningForPreviews
    @State var searchText: String = ""
 
    /// Filters the available options based on the entered search text.
@@ -103,7 +103,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                ContentUnavailableView("No matches", systemImage: "exclamationmark.magnifyingglass", description: Text("No emojis match '\(self.searchText)'"))
             } else {
                ScrollView {
-                  LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))]) {
+                  LazyVGrid(columns: [GridItem(.adaptive(minimum: Platform.value(default: 44, mac: 38, vision: 60)))]) {
                      ForEach(filteredOptions) { option in
                         Button {
                            self.selection = option
@@ -111,7 +111,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                         } label: {
                            ZStack {
                               option.view
-                                 .padding(15)
+                                 .padding(Platform.value(default: 15, mac: 12))
                                  #if os(visionOS)
                                  .contentShape(.hoverEffect, .rect(cornerRadius: 15))
                                  .hoverEffect()
