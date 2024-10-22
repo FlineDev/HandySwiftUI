@@ -75,7 +75,12 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
          self.showPicker = true
       } label: {
          ZStack {
-            LabeledContent {
+            HStack {
+               Text(self.title)
+                  .foregroundStyle(.secondary)
+
+               Spacer()
+
                HStack {
                   if let selection {
                      selection.view.scaleEffect(0.75)
@@ -85,9 +90,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
 
                   Image(systemName: "chevron.right")
                }
-            } label: {
-               Text(self.title)
-                  .foregroundStyle(.secondary)
+               .foregroundStyle(.secondary)
             }
 
             Color.gray.opacity(0.001)
