@@ -125,9 +125,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                      }
                   }
                }
-               #if os(visionOS)
-               .contentMargins(.horizontal, 25, for: .scrollContent)
-               #endif
+               .contentMargins(.horizontal, Platform.value(default: 10, vision: 25), for: .scrollContent)
             }
          }
          .navigationTitle(self.title)
