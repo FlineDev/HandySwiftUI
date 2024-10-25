@@ -129,7 +129,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
             }
          }
          .navigationTitle(self.title)
-         #if os(macOS)
+         #if os(macOS) || os(tvOS)
          .searchable(text: self.$searchText)
          #else
          .searchable(text: self.$searchText, placement: .navigationBarDrawer)

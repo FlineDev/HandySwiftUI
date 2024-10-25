@@ -299,6 +299,69 @@ extension View {
          return elseModifier(self).eraseToAnyView()
       }
    }
-   
+
+
+   /// Executes the provided closure when the app is about to resign its active state (e.g., when switching to another app or minimizing the window).
+   ///
+   /// Use this modifier to perform cleanup tasks or save state when the app moves to the background.
+   ///
+   /// Example:
+   /// ```swift
+   /// struct VideoPlayerView: View {
+   ///     @StateObject private var player = VideoPlayer()
+   ///
+   ///     var body: some View {
+   ///         VideoContent(player: player)
+   ///             .onAppResignActive {
+   ///                 player.pause()
+   ///             }
+   ///     }
+   /// }
+   /// ```
+   public func onAppResignActive(_ closure: @escaping () -> Void) -> some View {
+      #if os(macOS)
+      self.onReceive(
+         NotificationCenter.default.publisher(for: NSApplication.willResignActiveNotification),
+         perform: { _ in closure() }
+      )
+      #else
+      self.onReceive(
+         NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification),
+         perform: { _ in closure() }
+      )
+      #endif
+   }
+
+   /// Executes the provided closure when the app becomes active (e.g., when returning from another app or un-minimizing the window).
+   ///
+   /// Use this modifier to resume tasks or refresh content when the app returns to the foreground.
+   ///
+   /// Example:
+   /// ```swift
+   /// struct ChatView: View {
+   ///     @StateObject private var viewModel = ChatViewModel()
+   ///
+   ///     var body: some View {
+   ///         MessagesList(messages: viewModel.messages)
+   ///             .onAppBecomeActive {
+   ///                 viewModel.refreshMessages()
+   ///             }
+   ///     }
+   /// }
+   /// ```
+   public func onAppBecomeActive(_ closure: @escaping () -> Void) -> some View {
+      #if os(macOS)
+      self.onReceive(
+         NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification),
+         perform: { _ in closure() }
+      )
+      #else
+      self.onReceive(
+         NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification),
+         perform: { _ in closure() }
+      )
+      #endif
+   }
+
    #warning("🧑‍💻 consider creating keypath variants, as well as one for platforms")
 }
