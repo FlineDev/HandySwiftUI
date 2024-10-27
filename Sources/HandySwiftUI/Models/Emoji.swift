@@ -1878,6 +1878,8 @@ extension Emoji: SearchableOption {
 
    /// A SwiftUI view that displays the emoji in a large font size.
    ///
+   /// - Note: No need to use this directly. It will be used inside a ``SearchableGridPicker``.
+   ///
    /// Example:
    /// """
    /// var body: some View {
@@ -1893,11 +1895,13 @@ extension Emoji: SearchableOption {
    #warning("🧑‍💻 localize the search terms to support more languages")
    /// Search terms related to each emoji. This can be used to filter or find emojis based on keywords.
    ///
+   /// - Note: No need to use this directly. It will be used inside a ``SearchableGridPicker``.
+   ///
    /// Example:
-   /// """
+   /// ```
    /// let searchTerms = Emoji.airplane.searchTerms
    /// print(searchTerms) // Outputs: ["airplane", "vehicle", "transportation", "flight", "fly"]
-   /// """
+   /// ```
    public var searchTerms: [String] {
       switch self {
       case .firstPlaceMedal: ["1st", "place", "medal", "award", "winning", "first"]
@@ -3776,10 +3780,10 @@ extension Emoji: ExpressibleByStringLiteral {
    /// Initializes an `Emoji` from a string literal. If the string does not match any predefined emoji, it defaults to `.exclamationQuestionMark`.
    ///
    /// Example:
-   /// """
+   /// ```
    /// let emoji: Emoji = "🥇"
    /// print(emoji) // Outputs: firstPlaceMedal
-   /// """
+   /// ```
    public init(stringLiteral value: StringLiteralType) {
       self = Emoji(rawValue: value) ?? .exclamationQuestionMark
    }
