@@ -99,6 +99,8 @@ public struct CachedAsyncImage: View {
       self.url = url
    }
 
+   #warning("🧑‍💻 add an init overload that accepts a custom placeholder view to be shown while loading instead of the progress view")
+
    public var body: some View {
       Group {
          if let image = image {

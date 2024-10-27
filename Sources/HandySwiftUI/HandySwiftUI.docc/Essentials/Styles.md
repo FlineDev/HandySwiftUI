@@ -9,13 +9,130 @@ Adding missing styles commonly needed for existing SwiftUI views.
 
 ## Highlights
 
-TODO
+HandySwiftUI provides a collection of styles that enhance the visual appearance and functionality of SwiftUI's standard views. Here are some key features:
+
+### Enhanced Button Styles
+
+Create visually appealing buttons with pre-made styles for different use cases:
+
+```swift
+struct ButtonShowcase: View {
+   var body: some View {
+       VStack(spacing: 20) {
+           // Primary button with prominent background
+           Button("Get Started") {}
+               .buttonStyle(.primary())
+               
+           // Secondary button with border
+           Button("Learn More") {}
+               .buttonStyle(.secondary())
+               
+           // Attention-grabbing pulsating button
+           Button(action: {}) {
+               Image(systemName: "bell.fill")
+                   .font(.title2)
+           }
+           .buttonStyle(.pulsating(
+               color: .blue,
+               cornerRadius: 20,
+               glowRadius: 8,
+               duration: 2
+           ))
+       }
+   }
+}
+```
+
+### Versatile Label Styles
+
+Multiple label styles for different layout needs:
+
+```swift
+struct LabelShowcase: View {
+   var body: some View {
+       VStack(spacing: 20) {
+           // Horizontal layout with trailing icon
+           Label("Settings", systemImage: "gear")
+               .labelStyle(.horizontal(
+                   spacing: 8,
+                   iconIsTrailing: true,
+                   iconColor: .blue
+               ))
+           
+           // Fixed-width icon for alignment
+           Label("Profile", systemImage: "person")
+               .labelStyle(.fixedIconWidth(
+                   30,
+                   iconColor: .green,
+                   titleColor: .primary
+               ))
+           
+           // Vertical stack layout
+           Label("Messages", systemImage: "message.fill")
+               .labelStyle(.vertical(
+                   spacing: 8,
+                   iconColor: .blue,
+                   iconFont: .title
+               ))
+       }
+   }
+}
+```
+
+### Labeled Content Organization
+
+Structured content presentation with vertical layout:
+
+```swift
+struct ProfileView: View {
+   var body: some View {
+       VStack {
+           LabeledContent("Email", value: "user@example.com")
+               .labeledContentStyle(.vertical(
+                   alignment: .leading,
+                   spacing: 4,
+                   muteLabel: true
+               ))
+               
+           LabeledContent("Member Since", value: "January 2024")
+               .labeledContentStyle(.vertical(
+                   alignment: .leading
+               ))
+       }
+   }
+}
+```
+
+### Cross-Platform Toggle Style
+
+Consistent checkbox experience across all platforms:
+
+```swift
+struct SettingsView: View {
+   @State private var notifications = false
+   @State private var autoUpdate = true
+   
+   var body: some View {
+       Form {
+           Toggle("Enable Notifications", isOn: $notifications)
+               .toggleStyle(.checkboxUniversal)
+               
+           Toggle("Automatic Updates", isOn: $autoUpdate)
+               .toggleStyle(.checkboxUniversal)
+       }
+   }
+}
+```
+
+These styles work together to create a cohesive and professional look while maintaining consistency across different platforms. They're designed to be customizable while providing sensible defaults that follow platform conventions.
 
 ## Topics
 
 ### ButtonStyle
 
 - ``SwiftUI/ButtonStyle/pulsating(color:cornerRadius:glowRadius:duration:)``
+- ``SwiftUI/ButtonStyle/primary(disabled:compact:)``
+- ``SwiftUI/ButtonStyle/secondary(disabled:compact:)``
 
 ### LabelStyle
 
@@ -26,6 +143,10 @@ TODO
 ### LabeledContentStyle
 
 - ``SwiftUI/LabeledContentStyle/vertical(alignment:spacing:muteLabel:)``
+
+### ToggleStyle
+
+- ``SwiftUI/ToggleStyle/checkboxUniversal``
 
 
 [TranslateKit]: https://apps.apple.com/app/apple-store/id6476773066?pt=549314&ct=swiftpackageindex.com&mt=8
