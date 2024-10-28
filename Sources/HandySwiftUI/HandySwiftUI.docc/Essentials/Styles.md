@@ -9,7 +9,7 @@ Adding missing styles commonly needed for existing SwiftUI views.
 
 ## Highlights
 
-HandySwiftUI provides a collection of styles that enhance the visual appearance and functionality of SwiftUI's standard views. Here are some key features:
+HandySwiftUI provides a collection of styles that enhance SwiftUI's standard views. While you can find a full list of all styles at the [Topics](#topics) section of this page, I want to highlight the ones I use most often in my apps:
 
 ### Enhanced Button Styles
 

@@ -9,7 +9,7 @@ Adding missing views and view-related types commonly needed.
 
 ## Highlights
 
-HandySwiftUI provides a collection of powerful new types that enhance SwiftUI development. Here are some key features:
+HandySwiftUI provides a collection of views and types that fill common gaps in SwiftUI development. While you can find a full list of all types at the [Topics](#topics) section of this page, I want to highlight the ones I use most often in my apps:
 
 ### Efficient Image Loading
 

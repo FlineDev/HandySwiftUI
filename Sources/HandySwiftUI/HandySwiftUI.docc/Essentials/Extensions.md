@@ -1,6 +1,6 @@
 # Extensions
 
-Making existing types more convenient to use.
+Making existing types in SwiftUI more convenient to use.
 
 @Metadata {
    @PageImage(purpose: icon, source: "HandySwiftUI")

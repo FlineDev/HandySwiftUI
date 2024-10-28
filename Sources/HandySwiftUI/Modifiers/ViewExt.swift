@@ -413,7 +413,7 @@ extension View {
             isPresented.wrappedValue = false
          }
       } message: {
-         Text(String(localized: "This delete action cannot be undone. Continue?", bundle: .module))
+         Text(String(localized: "Deleting cannot be undone. Continue?", bundle: .module))
       }
    }
 
@@ -535,7 +535,7 @@ extension View {
             item.wrappedValue = nil
          }
       } message: {
-         Text(String(localized: "This delete action cannot be undone. Continue?", bundle: .module))
+         Text(String(localized: "Deleting cannot be undone. Continue?", bundle: .module))
       }
    }
 
