@@ -11,7 +11,7 @@ Adding missing styles commonly needed for existing SwiftUI views.
 
 HandySwiftUI provides a collection of styles that enhance SwiftUI's standard views. While you can find a full list of all styles at the [Topics](#topics) section of this page, I want to highlight the ones I use most often in my apps:
 
-### Enhanced Button Styles
+### Primary, Secondary, and Pulsating Buttons
 
 Create visually appealing buttons with pre-made styles for different use cases:
 
@@ -28,22 +28,17 @@ struct ButtonShowcase: View {
                .buttonStyle(.secondary())
                
            // Attention-grabbing pulsating button
-           Button(action: {}) {
-               Image(systemName: "bell.fill")
-                   .font(.title2)
-           }
-           .buttonStyle(.pulsating(
-               color: .blue,
-               cornerRadius: 20,
-               glowRadius: 8,
-               duration: 2
-           ))
+           Button("Updates", systemName: "bell.fill") {}
+              .buttonStyle(.pulsating(color: .blue, cornerRadius: 20, glowRadius: 8, duration: 2))
        }
    }
 }
 ```
 
-### Versatile Label Styles
+TODO: add video showcasing above view
+
+
+### Horizontal, Vertical, Fixed Icon-Width Labels
 
 Multiple label styles for different layout needs:
 
@@ -53,78 +48,99 @@ struct LabelShowcase: View {
        VStack(spacing: 20) {
            // Horizontal layout with trailing icon
            Label("Settings", systemImage: "gear")
-               .labelStyle(.horizontal(
-                   spacing: 8,
-                   iconIsTrailing: true,
-                   iconColor: .blue
-               ))
+               .labelStyle(.horizontal(spacing: 8, iconIsTrailing: true, iconColor: .blue))
            
            // Fixed-width icon for alignment
            Label("Profile", systemImage: "person")
-               .labelStyle(.fixedIconWidth(
-                   30,
-                   iconColor: .green,
-                   titleColor: .primary
-               ))
+               .labelStyle(.fixedIconWidth(30, iconColor: .green, titleColor: .primary))
            
            // Vertical stack layout
            Label("Messages", systemImage: "message.fill")
-               .labelStyle(.vertical(
-                   spacing: 8,
-                   iconColor: .blue,
-                   iconFont: .title
-               ))
+               .labelStyle(.vertical(spacing: 8, iconColor: .blue, iconFont: .title))
        }
    }
 }
 ```
 
-### Labeled Content Organization
+All parameters are optional with sensible defaults, so you can use them like `.vertical()`. You only need to specify what you want to customize.
 
-Structured content presentation with vertical layout:
+
+### Vertically Labeled Contents
+
+Structured form inputs with vertical labels, as used in [FreemiumKit]'s API configuration:
 
 ```swift
-struct ProfileView: View {
-   var body: some View {
-       VStack {
-           LabeledContent("Email", value: "user@example.com")
-               .labeledContentStyle(.vertical(
-                   alignment: .leading,
-                   spacing: 4,
-                   muteLabel: true
-               ))
-               
-           LabeledContent("Member Since", value: "January 2024")
-               .labeledContentStyle(.vertical(
-                   alignment: .leading
-               ))
-       }
-   }
+struct APIConfigView: View {
+    @State private var keyID = ""
+    @State private var apiKey = ""
+    
+    var body: some View {
+        Form {
+            HStack {
+                VStack {
+                    LabeledContent("Key ID") {
+                        TextField("e.g. 2X9R4HXF34", text: $keyID)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                    .labeledContentStyle(.vertical())
+                    
+                    LabeledContent("API Key") {
+                        TextEditor(text: $apiKey)
+                            .frame(height: 80)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                    .labeledContentStyle(.vertical())
+                }                
+            }
+        }
+    }
 }
 ```
 
-### Cross-Platform Toggle Style
+TODO: add image from FreemiumKit
 
-Consistent checkbox experience across all platforms:
+The `.vertical` style allows customizing alignment (defaults to `leading`) and spacing (defaults to 4). Pass `muteLabel: false` if you're providing a custom label style, as by default labels are automatically styled smaller and grayed out.
+
+For example:
 
 ```swift
-struct SettingsView: View {
-   @State private var notifications = false
-   @State private var autoUpdate = true
-   
-   var body: some View {
-       Form {
-           Toggle("Enable Notifications", isOn: $notifications)
-               .toggleStyle(.checkboxUniversal)
-               
-           Toggle("Automatic Updates", isOn: $autoUpdate)
-               .toggleStyle(.checkboxUniversal)
+LabeledContent {
+   LimitedTextField("English \(self.title)", text: self.$localizedString.fallback, characterLimit: self.characterLimit)
+      .textFieldStyle(.roundedBorder)
+} label: {
+   Text("English \(self.title) (\(self.isRequired ? "Required" : "Optional"))")
+      .font(.title3)
+}
+.labeledContentStyle(.vertical(muteLabel: false))
+```
+
+TODO: add image from FreemiumKit
+
+
+### Multi-Platform Toggle Style
+
+While SwiftUI provides a `.checkbox` toggle style, it's only available on macOS. HandySwiftUI adds `.checkboxUniversal` that brings checkbox-style toggles to all platforms (rendering as `.checkbox` on macOS):
+
+```swift
+struct ProductRow: View {
+    @State private var isEnabled: Bool = true
+    
+    var body: some View {
+       HStack {
+           Toggle("", isOn: $isEnabled)
+              .toggleStyle(.checkboxUniversal)
+           
+           Text("Pro Monthly")
+           
+           Spacer()
        }
-   }
+    }
 }
 ```
 
-These styles work together to create a cohesive and professional look while maintaining consistency across different platforms. They're designed to be customizable while providing sensible defaults that follow platform conventions.
+TODO: add image from FreemiumKit iOS
+
+The example is extracted from [FreemiumKit]'s products screen, which is optimized for macOS but also supports other platforms.
 
 ## Topics
 
