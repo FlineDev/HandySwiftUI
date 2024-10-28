@@ -204,10 +204,10 @@ These modifiers work together to create a more fluid and maintainable SwiftUI de
 - ``SwiftUICore/View/watchOSOnly(modifier:)``
 
 
-[TranslateKit]: https://apps.apple.com/app/apple-store/id6476773066?pt=549314&ct=swiftpackageindex.com&mt=8
-[FreemiumKit]: https://apps.apple.com/app/apple-store/id6502914189?pt=549314&ct=swiftpackageindex.com&mt=8
+[TranslateKit]: https://translatekit.app
+[FreemiumKit]: https://freemiumkit.app
 [FreelanceKit]: https://apps.apple.com/app/apple-store/id6480134993?pt=549314&ct=swiftpackageindex.com&mt=8
-[CrossCraft]: https://apps.apple.com/app/apple-store/id6472669260?pt=549314&ct=swiftpackageindex.com&mt=8
+[CrossCraft]: https://crosscraft.app
 [FocusBeats]: https://apps.apple.com/app/apple-store/id6477829138?pt=549314&ct=swiftpackageindex.com&mt=8
 [Guided Guest Mode]: https://apps.apple.com/app/apple-store/id6479207869?pt=549314&ct=swiftpackageindex.com&mt=8
 [Posters]: https://apps.apple.com/app/apple-store/id6478062053?pt=549314&ct=swiftpackageindex.com&mt=8
