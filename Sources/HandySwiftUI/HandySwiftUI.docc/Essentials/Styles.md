@@ -1,6 +1,6 @@
 # Styles
 
-Adding missing styles commonly needed for existing SwiftUI views.
+Adding missing styles commonly needed in SwiftUI views.
 
 @Metadata {
    @PageImage(purpose: icon, source: "HandySwiftUI")

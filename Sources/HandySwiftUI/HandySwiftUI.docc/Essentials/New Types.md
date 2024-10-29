@@ -1,6 +1,6 @@
 # New Types
 
-Adding missing views and view-related types commonly needed.
+Adding missing views & related types commonly needed.
 
 @Metadata {
    @PageImage(purpose: icon, source: "HandySwiftUI")
