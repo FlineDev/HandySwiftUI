@@ -1889,7 +1889,7 @@ extension Emoji: SearchableOption {
    /// """
    public var view: some View {
       Text(self.rawValue)
-         .font(.largeTitle)
+         .font(.title3)
    }
 
    #warning("🧑‍💻 localize the search terms to support more languages")

@@ -13,7 +13,7 @@ HandySwiftUI provides a collection of views and types that fill common gaps in S
 
 ### Platform-Specific Values
 
-HandySwiftUI provides an elegant way to handle platform-specific values of any type:
+HandySwiftUI provides an elegant way to handle platform-specific values:
 
 ```swift
 struct AdaptiveView: View {
@@ -27,25 +27,24 @@ struct AdaptiveView: View {
             Text("Welcome")
                 .padding(Platform.value(default: 20.0, phone: 12.0))
             
-            // Different fonts per platform
-            Text("Content")
-                .font(Platform.value(default: .headline, mac: .title3, phone: .subheadline))
-            
             // Different colors per platform
             Circle()
                 .fill(Platform.value(default: .blue, mac: .indigo, pad: .purple, vision: .cyan))
-            
-            // Even custom enum values
-            ContentLayout(style: Platform.value(default: .regular, phone: .compact, mac: .expanded))
         }
     }
 }
 ```
 
-TODO: add an image using "Last 30 Days" on Mac and iPhone with different font sizes
+![](Last30Days)
+
+> Image: Getting a similar look across platforms for a title in [FreemiumKit] via:
+> ```swift
+> .font(Platform.value(default: .title2, phone: .headline))
+> ```
 
 `Platform.value` works with any type - from simple numbers to colors, fonts, or your own custom types. Just provide a default and override specific platforms as needed. This can be enormously useful, especially given that it even has a specific case for iPad named `pad`, so you can even address phones and tablets separately.
 
+This is by far my most-used HandySwiftUI helper saving me a ton of boilerplate `#if` checks. It's simple but so powerful!
 
 ### Readable Preview Detection
 
@@ -136,7 +135,7 @@ struct SettingsView: View {
 }
 ```
 
-TODO: add video for above view
+![](SettingsView)
 
 HandySwiftUI includes `Emoji` and `SFSymbol` enums that contain common emoji and symbols. You can also create custom enums by conforming to `SearchableOption` and providing `searchTerms` for each case to power the search functionality.
 
@@ -231,7 +230,7 @@ struct SecureFileLoader {
 }
 ```
 
-TODO: add photo from FreemiumKit with access dialog
+![](OpenPanel)
 
 The example taken right out of [FreemiumKit] demonstrates how `OpenPanel` simplifies handling security-scoped file access for dragged items on macOS while maintaining cross-platform compatibility.
 
@@ -242,7 +241,7 @@ An alternative to SwiftUI's `TabView` that implements sidebar-style navigation c
 
 ```swift
 struct MainView: View {
-    enum Tab: String, Identifiable, CustomLabelConvertible {
+    enum Tab: String, CaseIterable, Identifiable, CustomLabelConvertible {
         case documents, recents, settings
         
         var id: Self { self }
@@ -278,7 +277,7 @@ struct MainView: View {
 }
 ```
 
-TODO: add screenshot from Mac
+![](SideTabView)
 
 `SideTabView` provides a vertical sidebar with icons and labels, optimized for larger screens with support for bottom-aligned tabs. The view automatically handles platform-specific styling and hover effects.
 

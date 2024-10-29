@@ -28,14 +28,17 @@ struct ButtonShowcase: View {
                .buttonStyle(.secondary())
                
            // Attention-grabbing pulsating button
-           Button("Updates", systemName: "bell.fill") {}
-              .buttonStyle(.pulsating(color: .blue, cornerRadius: 20, glowRadius: 8, duration: 2))
+           Button {} label: {
+              Label("Updates", systemImage: "bell.fill")
+                 .padding(15)
+           }
+           .buttonStyle(.pulsating(color: .blue, cornerRadius: 20, glowRadius: 8, duration: 2))
        }
    }
 }
 ```
 
-TODO: add video showcasing above view
+![](ButtonStyles)
 
 
 ### Horizontal, Vertical, Fixed Icon-Width Labels
@@ -97,11 +100,11 @@ struct APIConfigView: View {
 }
 ```
 
-TODO: add image from FreemiumKit
+![](VerticalLabeledContent)
 
 The `.vertical` style allows customizing alignment (defaults to `leading`) and spacing (defaults to 4). Pass `muteLabel: false` if you're providing a custom label style, as by default labels are automatically styled smaller and grayed out.
 
-For example:
+For example, in [FreemiumKit]'s feature localization form, I want the vertical label to have a larger font:
 
 ```swift
 LabeledContent {
@@ -114,7 +117,7 @@ LabeledContent {
 .labeledContentStyle(.vertical(muteLabel: false))
 ```
 
-TODO: add image from FreemiumKit
+![](MuteLabelFalse)
 
 
 ### Multi-Platform Toggle Style
@@ -138,7 +141,7 @@ struct ProductRow: View {
 }
 ```
 
-TODO: add image from FreemiumKit iOS
+![](CheckboxUniversal)
 
 The example is extracted from [FreemiumKit]'s products screen, which is optimized for macOS but also supports other platforms.
 

@@ -63,7 +63,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    ///   - locked: A set of options that should be displayed as locked (non-selectable).
    ///   - selection: A binding to the currently selected option.
    ///   - label: A closure that returns the label view for the picker.
-   public init(options: [T], locked: Set<T>, selection: Binding<T?>, label: @escaping () -> L) {
+   public init(options: [T], locked: Set<T> = [], selection: Binding<T?>, label: @escaping () -> L) {
       self.options = options
       self.locked = locked
       self.selection = selection

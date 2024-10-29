@@ -33,7 +33,9 @@ struct AdaptiveText: View {
 }
 ```
 
-TODO: add example image from TranslateKit (API keys view when test unsuccessful)
+![](YellowWithContrast)
+
+> Image: This warning indicator in [TranslateKit] uses `.yellow` but ensures a good contrast even in light mode to be legible.
 
 The `minContrast` parameter (ranging from 0 to 1) determines the minimum contrast ratio against either white (in dark mode) or black (in light mode) using the luminance value (perceived brightness). This ensures text stays readable regardless of the current color scheme.
 
@@ -106,7 +108,10 @@ Text("With HandySwiftUI")
     .roundedRectangleBorder(.blue, cornerRadius: 12, lineWidth: 2)
 ```
 
-TODO: add example from TranslateKit badges
+![](StateBadges)
+
+> Image: Badges in [TranslateKit] use this for rounded borders, for example.
+
 
 ### Conditional Modifiers
 
@@ -226,7 +231,9 @@ struct TodoView: View {
 }
 ```
 
-TODO: add example from CrossCraft when deleting a puzzle
+![](ConfirmDelete)
+
+> Image: Puzzle deletion in [CrossCraft] with a confirmation dialog to avoid accidental deletes.
 
 The example shows how `.confirmDeleteDialog` handles the entire deletion flow – from confirmation to execution – with a single modifier. The dialog is automatically localized in ~40 languages and follows platform design guidelines. You can provide an optional `message` parameter in case you need to provide a different message. There's also an overload that takes a boolean for situations where no list is involved.
 

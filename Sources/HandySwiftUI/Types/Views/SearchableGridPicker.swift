@@ -38,7 +38,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
 
    @Binding var selection: Option?
 
-   @State var showPicker: Bool = Xcode.isRunningForPreviews
+   @State var showPicker: Bool = false
    @State var searchText: String = ""
 
    /// Filters the available options based on the entered search text.
@@ -77,7 +77,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
          ZStack {
             HStack {
                Text(self.title)
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(Platform.value(default: .primary, mac: .secondary))
 
                Spacer()
 
@@ -89,6 +89,8 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                   }
 
                   Image(systemName: "chevron.right")
+                     .font(.system(size: 13.5).weight(.semibold))
+                     .opacity(0.55)
                }
                .foregroundStyle(.secondary)
             }
@@ -112,9 +114,9 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                         } label: {
                            ZStack {
                               option.view
-                                 .padding(Platform.value(default: 15, mac: 12))
+                                 .padding(Platform.value(default: 12, mac: 8))
                                  #if os(visionOS)
-                                 .contentShape(.hoverEffect, .rect(cornerRadius: 15))
+                                 .contentShape(.hoverEffect, .rect(cornerRadius: 12))
                                  .hoverEffect()
                                  #endif
 

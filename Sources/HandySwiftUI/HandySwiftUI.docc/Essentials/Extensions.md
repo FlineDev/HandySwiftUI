@@ -72,7 +72,7 @@ struct ColorfulView: View {
 }
 ```
 
-TODO: add image of above view
+![](ColorfulView)
 
 When adjusting color brightness, use .luminance instead of .brightness from the HSB color system. Luminance better represents how humans perceive light and dark, which is why HandySwiftUI includes support for the HLC color space.
 
@@ -95,7 +95,7 @@ struct FormattedText: View {
 }
 ```
 
-TODO: add image of above view
+![](FormattedText)
 
 In the above example, the built-in `.htmlLike` styling that ships with HandySwiftUI is combined with custom tags. Note that `.htmlLike` simply returns this:
 
@@ -230,7 +230,7 @@ extension [String] {
 }
 ```
 
-TODO: add image of TranslateKit's menu bar
+![](CommonTranslations)
 
 This highlighting feature was originally developed for [TranslateKit]'s menu bar "Common Translations" feature, where it helps users quickly spot matching phrases in their translation history. The function breaks down the search text into tokens and highlights each matching prefix, making it perfect for:
 
