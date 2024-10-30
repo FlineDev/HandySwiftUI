@@ -74,9 +74,10 @@ public struct WebView: View {
 
          func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
             if let scrollOffsetOnPageLoad = parent.scrollOffsetOnPageLoad {
-               delay(by: .milliseconds(250)) {
+               Task {
+                  try await Task.sleep(for: .milliseconds(250))
                   let scrollScript = "window.scrollBy({ top: \(scrollOffsetOnPageLoad.y), left: \(scrollOffsetOnPageLoad.x), behavior: 'smooth' });"
-                  webView.evaluateJavaScript(scrollScript, completionHandler: nil)
+                  try await webView.evaluateJavaScript(scrollScript)
                }
             }
          }
