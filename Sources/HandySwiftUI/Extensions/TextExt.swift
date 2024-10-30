@@ -72,7 +72,7 @@ extension Text {
       let suffix = String(formatString[(previousRange?.upperBound ?? formatString.startIndex)..<formatString.endIndex])
       subtexts.append(Text(suffix))
       
-      self = subtexts.reduce(Text("")) { $0 + $1 }
+      self = subtexts.reduce(Text(verbatim: "")) { $0 + $1 }
    }
 }
 
