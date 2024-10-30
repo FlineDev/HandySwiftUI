@@ -1,13 +1,13 @@
 {
-  "originHash" : "daf739e3fc36fdd30405bc72c478e798804f1114399de1a33bc310e18cbe65df",
+  "originHash" : "e36a5c8f6d235ea9fc5cb60d89bf61bfc85193db03674fe4ad2e3f0276cddea5",
   "pins" : [
     {
       "identity" : "handyswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FlineDev/HandySwift.git",
       "state" : {
-        "revision" : "7ef8da8ead653a69420765a1657a814ac0ad115f",
-        "version" : "4.2.0"
+        "revision" : "20b51652a71eca85c6c5502aac870c6708fa148b",
+        "version" : "4.3.0"
       }
     }
   ],
