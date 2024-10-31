@@ -152,12 +152,8 @@ struct DocumentView: View {
         Group {
             switch loadState {
             case .notStarted:
-                AsyncButton("Load Document") {
-                    loadState = .inProgress
-                    try await loadDocument()
-                    loadState = .successful
-                } catchError: { error in
-                    loadState = .failed(error: error.localizedDescription)
+                Color.clear.onAppear {
+                    loadDocument()
                 }
                 
             case .inProgress:
@@ -170,12 +166,8 @@ struct DocumentView: View {
                     Text(errorMessage)
                         .foregroundStyle(.red)
                     
-                  AsyncButton("Try Again") {
-                      loadState = .inProgress
-                      try await loadDocument()
-                      loadState = .successful
-                  } catchError: { error in
-                      loadState = .failed(error: error.localizedDescription)
+                  Button("Try Again") {
+                      loadDocument()
                   }
                 }
                 
@@ -186,11 +178,23 @@ struct DocumentView: View {
             }
         }
     }
+
+    func loadDocument() {
+        loadState = .inProgress
+        Task {
+           do {
+               try await loadDocumentFromStorage()
+               loadState = .successful
+           } catch {
+               loadState = .failed(error: error.localizedDescription)
+           }
+        }
+    }
 }
 ```
 
 The example demonstrates handling all states in a type-safe way:
-- `.notStarted` shows the initial load button
+- `.notStarted` starts loading immediately (alternatively, you could use a button)
 - `.inProgress` displays a loading indicator
 - `.failed` shows the error with a retry option
 - `.successful` presents the loaded content
