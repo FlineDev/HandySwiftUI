@@ -22,7 +22,7 @@ Learn how you can make the most of HandySwiftUI by reading the guides inside the
 
 ## Showcase
 
-I extracted this library from my following Indie apps (rate them with 5 stars to support me!):
+I extracted this library from my following Indie apps (rate them with 5 stars to thank me!):
 
 <table>
   <tr>
