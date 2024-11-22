@@ -86,3 +86,51 @@ extension Binding where Value: ExpressibleByNilLiteral {
       }
    }
 }
+
+extension Binding where Value: SetAlgebra {
+   /// Creates a binding to track whether a specific element is contained within a set.
+   ///
+   /// This method is particularly useful when working with SwiftUI `Toggle` controls that need to
+   /// modify a set of selected items. Instead of manually creating complex bindings with get/set closures,
+   /// this method provides a simple, declarative way to bind set membership to a toggle control.
+   ///
+   /// Example usage:
+   /// ```swift
+   /// struct ContentView: View {
+   ///     // A set to track selected categories in a filter UI
+   ///     @State private var selectedCategories: Set<String> = []
+   ///
+   ///     let availableCategories = ["Sports", "News", "Entertainment", "Technology"]
+   ///
+   ///     var body: some View {
+   ///         List {
+   ///             ForEach(availableCategories, id: \.self) { category in
+   ///                 // Simple, declarative binding for the toggle
+   ///                 Toggle(category, isOn: $selectedCategories.contains(category))
+   ///             }
+   ///         }
+   ///         .onChange(of: selectedCategories) { newSelection in
+   ///             print("Selected categories: \(newSelection)")
+   ///         }
+   ///     }
+   /// }
+   /// ```
+   ///
+   /// - Parameter element: The element to check for containment in the set.
+   /// - Returns: A binding that can be used directly with SwiftUI toggle controls.
+   ///           The binding's value is `true` when the element is in the set and `false` otherwise.
+   ///           When the binding is modified, the element is either inserted into or removed from the set.
+   @MainActor
+   public func contains<T>(_ element: T) -> Binding<Bool> where T: Hashable, Value.Element == T {
+      Binding<Bool>(
+         get: { wrappedValue.contains(element) },
+         set: { contains in
+            if contains {
+               wrappedValue.insert(element)
+            } else {
+               wrappedValue.remove(element)
+            }
+         }
+      )
+   }
+}
