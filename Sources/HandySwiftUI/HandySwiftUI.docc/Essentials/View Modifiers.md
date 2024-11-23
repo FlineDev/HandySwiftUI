@@ -262,6 +262,7 @@ The example shows how `.confirmDeleteDialog` handles the entire deletion flow â€
 - ``SwiftUICore/View/macOSOnlyPadding(_:_:)``
 - ``SwiftUICore/View/macOSOnlyPadding(insets:)``
 - ``SwiftUICore/View/macOSOnlyFrame(minWidth:idealWidth:maxWidth:minHeight:idealHeight:maxHeight:alignment:)``
+- ``SwiftUICore/View/onFirstAppear(perform:)``
 - ``SwiftUICore/View/progressOverlay(type:)``
 - ``SwiftUICore/View/roundedRectangleBorder(_:cornerRadius:lineWidth:)``
 - ``SwiftUICore/View/throwingTask(asyncAction:catchError:)``
