@@ -70,12 +70,11 @@ public struct OpenPanel {
    /// - Returns: `true` if write access is available, `false` otherwise
    public static func hasWriteAccess(to url: URL) -> Bool {
       // Check if we have direct access to the URL
-      if urlsWithWriteAccess.contains(url) {
+      if urlsWithWriteAccess.contains(where: { url.normalizedPath == $0.normalizedPath }) {
          return true
       } else {
          // Check if we have access to any parent directory
-         let urlPath = url.path
-         return urlsWithWriteAccess.contains { urlPath.hasPrefix($0.path) }
+         return urlsWithWriteAccess.contains { $0.isParent(of: url) }
       }
    }
 
@@ -152,6 +151,8 @@ public struct OpenPanel {
       switch modalResponse {
       case .OK:
          guard let url = self.openPanel.url else { return nil }
+
+         Self.urlsWithWriteAccess.insert(url)
          return url
 
       default:
@@ -170,11 +171,26 @@ public struct OpenPanel {
       let modalResponse: NSApplication.ModalResponse = self.openPanel.runModal()
       switch modalResponse {
       case .OK:
+         self.openPanel.urls.forEach { Self.urlsWithWriteAccess.insert($0) }
          return self.openPanel.urls
 
       default:
          return []
       }
+   }
+}
+
+extension URL {
+   /// Returns the path with leading slashes removed.
+   fileprivate var normalizedPath: String {
+      return self.path(percentEncoded: false).trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+   }
+
+   /// Returns true if self is a parent path of the provided URL.
+   fileprivate func isParent(of url: URL) -> Bool {
+      let parentPath = self.normalizedPath + "/"
+      let childPath = url.normalizedPath
+      return childPath.hasPrefix(parentPath)
    }
 }
 #endif
