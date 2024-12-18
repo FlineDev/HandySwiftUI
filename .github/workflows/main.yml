@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-macos:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build package
+        run: swift build
+
+      - name: Run tests
+        if: hashFiles('Tests/**') != ''
+        run: swift test
