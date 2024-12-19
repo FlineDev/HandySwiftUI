@@ -161,6 +161,7 @@ The example is extracted from [FreemiumKit]'s products screen, which is optimize
 
 ### LabeledContentStyle
 
+- ``SwiftUI/LabeledContentStyle/horizontal(muteContent:)``
 - ``SwiftUI/LabeledContentStyle/vertical(alignment:spacing:muteLabel:)``
 
 ### ToggleStyle
