@@ -2,6 +2,8 @@ import SwiftUI
 
 /// A custom toggle style that works like ``CheckboxToggleStyle`` but supports all Apple platforms, not just macOS.
 public struct CheckboxUniversalToggleStyle: ToggleStyle {
+   let spacing: Double
+
    public func makeBody(configuration: Configuration) -> some View {
       #if os(macOS)
       Toggle(isOn: configuration.$isOn) {
@@ -18,7 +20,7 @@ public struct CheckboxUniversalToggleStyle: ToggleStyle {
             configuration.isOn.toggle()
          }
       } label: {
-         HStack(spacing: 14) {
+         HStack(spacing: self.spacing) {
             Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
                .foregroundStyle(Color.accentColor)
                .font(.title2)
@@ -35,7 +37,9 @@ public struct CheckboxUniversalToggleStyle: ToggleStyle {
 
 extension ToggleStyle where Self == CheckboxUniversalToggleStyle {
    /// A custom toggle style that works like ``ToggleStyle.checkbox`` but supports all Apple platforms, not just macOS.
-   public static var checkboxUniversal: CheckboxUniversalToggleStyle { .init() }
+   public static func checkboxUniversal(spacing: Double = 14) -> CheckboxUniversalToggleStyle {
+      CheckboxUniversalToggleStyle(spacing: spacing)
+   }
 }
 
 #if DEBUG && swift(>=6.0)
@@ -47,7 +51,7 @@ extension ToggleStyle where Self == CheckboxUniversalToggleStyle {
       Toggle("Default Toggle Style", isOn: $isOn)
 
       Toggle("Checkbox Universal Style", isOn: $isOn)
-         .toggleStyle(.checkboxUniversal)
+         .toggleStyle(.checkboxUniversal())
 
       Label("Checkbox Label", systemImage: "square.fill")
    }
