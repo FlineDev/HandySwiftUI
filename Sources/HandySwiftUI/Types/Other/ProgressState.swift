@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents the state of a progress operation.
-public enum ProgressState<ErrorType: CustomStringConvertible> {
+public enum ProgressState<ResultType: Sendable, ErrorType: CustomStringConvertible> {
    /// The operation has not started yet.
    case notStarted
 
@@ -12,14 +12,14 @@ public enum ProgressState<ErrorType: CustomStringConvertible> {
    case failed(error: ErrorType)
 
    /// The operation completed successfully.
-   case successful
+   case successful(result: ResultType)
 }
 
-extension ProgressState: Equatable where ErrorType: Equatable {}
-extension ProgressState: Hashable where ErrorType: Hashable {}
-extension ProgressState: Encodable where ErrorType: Encodable {}
-extension ProgressState: Decodable where ErrorType: Decodable {}
-extension ProgressState: Sendable where ErrorType: Sendable {}
+extension ProgressState: Equatable where ResultType: Equatable, ErrorType: Equatable {}
+extension ProgressState: Hashable where ResultType: Hashable, ErrorType: Hashable {}
+extension ProgressState: Encodable where ResultType: Encodable, ErrorType: Encodable {}
+extension ProgressState: Decodable where ResultType: Decodable, ErrorType: Decodable {}
+extension ProgressState: Sendable where ResultType: Sendable, ErrorType: Sendable {}
 
 extension ProgressState where ErrorType == String {
    /// Returns the error message if the state is `.failed`, or `nil` otherwise.
