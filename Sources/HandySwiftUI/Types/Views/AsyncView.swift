@@ -9,7 +9,32 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
    let successContent: (ResultType) -> SuccessContent
    let loadingTask: () async throws -> ResultType
 
+   let resultOptionalStorage: Binding<ResultType?>?
+   let resultDefaultValueStorage: Binding<ResultType>?
+
    @State private var task: Task<Void, Error>?
+
+   public init(
+      editableResult resultOptionalStorage: Binding<ResultType?>,
+      @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
+      loadingTask: @escaping () async throws -> ResultType
+   ) {
+      self.successContent = successContent
+      self.loadingTask = loadingTask
+      self.resultOptionalStorage = resultOptionalStorage
+      self.resultDefaultValueStorage = nil
+   }
+
+   public init(
+      editableResult resultDefaultValueStorage: Binding<ResultType>,
+      @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
+      loadingTask: @escaping () async throws -> ResultType
+   ) {
+      self.successContent = successContent
+      self.loadingTask = loadingTask
+      self.resultOptionalStorage = nil
+      self.resultDefaultValueStorage = resultDefaultValueStorage
+   }
 
    public init(
       @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
@@ -17,6 +42,8 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
    ) {
       self.successContent = successContent
       self.loadingTask = loadingTask
+      self.resultOptionalStorage = nil
+      self.resultDefaultValueStorage = nil
    }
 
    public var body: some View {
@@ -30,6 +57,8 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
                   self.task = Task {
                      do {
                         let result = try await self.loadingTask()
+                        self.resultDefaultValueStorage?.wrappedValue = result
+                        self.resultOptionalStorage?.wrappedValue = result
                         self.progressState = .successful(result: result)
                      } catch {
                         self.progressState = .failed(error: error.localizedDescription)
@@ -51,6 +80,8 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
                   self.task = Task {
                      do {
                         let result = try await self.loadingTask()
+                        self.resultDefaultValueStorage?.wrappedValue = result
+                        self.resultOptionalStorage?.wrappedValue = result
                         self.progressState = .successful(result: result)
                      } catch {
                         self.progressState = .failed(error: error.localizedDescription)
@@ -70,12 +101,16 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
    }
 }
 
-#if DEBUG
+#if DEBUG && swift(>=6.0)
+@available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
 #Preview {
-   AsyncView {
-      Text("Hello World")
+   @Previewable @State var projectPath: String = ""
+
+   AsyncView(editableResult: $projectPath) { projectPath in
+      Text(verbatim: "Project Path: \(projectPath)")
    } loadingTask: {
       try await Task.sleep(for: .seconds(1))
+      return "/fake/path/to/project"
    }
 }
 #endif
