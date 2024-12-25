@@ -4,9 +4,21 @@ import SwiftUI
 // TODO: document all public APIs in detail with practical real-world examples (and also improve the preview example to be more realistic)
 
 public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
+   enum SuccessContentCallback {
+      case withResult((ResultType) -> SuccessContent)
+      case withoutResult(() -> SuccessContent)
+
+      func perform(result: ResultType) -> SuccessContent {
+         switch self {
+         case .withResult(let callback): return callback(result)
+         case .withoutResult(let callback): return callback()
+         }
+      }
+   }
+
    @State private var progressState: ProgressState<ResultType, String> = .notStarted
 
-   let successContent: (ResultType) -> SuccessContent
+   let successContentCallback: SuccessContentCallback
    let loadingTask: () async throws -> ResultType
 
    let resultOptionalStorage: Binding<ResultType?>?
@@ -14,23 +26,25 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 
    @State private var task: Task<Void, Error>?
 
+   // Note that a parameter is provided in the success closure here because the storage is an optional and having a non-optional type can be more convenient for read access. Make sure to use the storage for write access.
    public init(
-      editableResult resultOptionalStorage: Binding<ResultType?>,
+      storeResultIn resultOptionalStorage: Binding<ResultType?>,
       @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
       loadingTask: @escaping () async throws -> ResultType
    ) {
-      self.successContent = successContent
+      self.successContentCallback = .withResult(successContent)
       self.loadingTask = loadingTask
       self.resultOptionalStorage = resultOptionalStorage
       self.resultDefaultValueStorage = nil
    }
 
+   // Note that no parameter is provided in the success closure here because the result is available from storage.
    public init(
-      editableResult resultDefaultValueStorage: Binding<ResultType>,
-      @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
+      storeResultIn resultDefaultValueStorage: Binding<ResultType>,
+      @ViewBuilder success successContent: @escaping () -> SuccessContent,
       loadingTask: @escaping () async throws -> ResultType
    ) {
-      self.successContent = successContent
+      self.successContentCallback = .withoutResult(successContent)
       self.loadingTask = loadingTask
       self.resultOptionalStorage = nil
       self.resultDefaultValueStorage = resultDefaultValueStorage
@@ -40,7 +54,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
       @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
       loadingTask: @escaping () async throws -> ResultType
    ) {
-      self.successContent = successContent
+      self.successContentCallback = .withResult(successContent)
       self.loadingTask = loadingTask
       self.resultOptionalStorage = nil
       self.resultDefaultValueStorage = nil
@@ -92,7 +106,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
             .padding()
 
          case .successful(let result):
-            self.successContent(result)
+            self.successContentCallback.perform(result: result)
          }
       }
       .onDisappear {
@@ -106,7 +120,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 #Preview {
    @Previewable @State var projectPath: String = ""
 
-   AsyncView(editableResult: $projectPath) { projectPath in
+   AsyncView(storeResultIn: $projectPath) {
       Text(verbatim: "Project Path: \(projectPath)")
    } loadingTask: {
       try await Task.sleep(for: .seconds(1))
