@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents the state of a progress operation.
-public enum ProgressState<ResultType: Sendable, ErrorType: CustomStringConvertible> {
+public enum ProgressState<ResultType: Sendable & Equatable, ErrorType: CustomStringConvertible & Equatable>: Equatable {
    /// The operation has not started yet.
    case notStarted
 
@@ -15,7 +15,6 @@ public enum ProgressState<ResultType: Sendable, ErrorType: CustomStringConvertib
    case successful(result: ResultType)
 }
 
-extension ProgressState: Equatable where ResultType: Equatable, ErrorType: Equatable {}
 extension ProgressState: Hashable where ResultType: Hashable, ErrorType: Hashable {}
 extension ProgressState: Encodable where ResultType: Encodable, ErrorType: Encodable {}
 extension ProgressState: Decodable where ResultType: Decodable, ErrorType: Decodable {}

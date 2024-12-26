@@ -3,7 +3,7 @@ import SwiftUI
 // TODO: make view more customizable with customizable in progress view (keep the default) and a customizable failed view (keep the default)
 // TODO: document all public APIs in detail with practical real-world examples (and also improve the preview example to be more realistic)
 
-public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
+public struct AsyncView<ResultType: Sendable & Equatable, SuccessContent: View>: View {
    enum SuccessContentCallback {
       case withResult((ResultType) -> SuccessContent)
       case withoutResult(() -> SuccessContent)
