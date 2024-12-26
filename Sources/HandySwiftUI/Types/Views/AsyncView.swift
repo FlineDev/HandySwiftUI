@@ -19,7 +19,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
    @State private var progressState: ProgressState<ResultType, String> = .notStarted
 
    let successContentCallback: SuccessContentCallback
-   let loadingTask: () async throws -> ResultType
+   let performTask: () async throws -> ResultType
 
    let resultOptionalStorage: Binding<ResultType?>?
    let resultDefaultValueStorage: Binding<ResultType>?
@@ -28,34 +28,34 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 
    // Note that a parameter is provided in the success closure here because the storage is an optional and having a non-optional type can be more convenient for read access. Make sure to use the storage for write access.
    public init(
+      performTask: @escaping () async throws -> ResultType,
       storeResultIn resultOptionalStorage: Binding<ResultType?>,
-      @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
-      loadingTask: @escaping () async throws -> ResultType
+      @ViewBuilder successContent: @escaping (ResultType) -> SuccessContent
    ) {
       self.successContentCallback = .withResult(successContent)
-      self.loadingTask = loadingTask
+      self.performTask = performTask
       self.resultOptionalStorage = resultOptionalStorage
       self.resultDefaultValueStorage = nil
    }
 
    // Note that no parameter is provided in the success closure here because the result is available from storage.
    public init(
+      performTask: @escaping () async throws -> ResultType,
       storeResultIn resultDefaultValueStorage: Binding<ResultType>,
-      @ViewBuilder success successContent: @escaping () -> SuccessContent,
-      loadingTask: @escaping () async throws -> ResultType
+      @ViewBuilder successContent: @escaping () -> SuccessContent
    ) {
       self.successContentCallback = .withoutResult(successContent)
-      self.loadingTask = loadingTask
+      self.performTask = performTask
       self.resultOptionalStorage = nil
       self.resultDefaultValueStorage = resultDefaultValueStorage
    }
 
    public init(
-      @ViewBuilder success successContent: @escaping (ResultType) -> SuccessContent,
-      loadingTask: @escaping () async throws -> ResultType
+      performTask: @escaping () async throws -> ResultType,
+      @ViewBuilder successContent: @escaping (ResultType) -> SuccessContent
    ) {
       self.successContentCallback = .withResult(successContent)
-      self.loadingTask = loadingTask
+      self.performTask = performTask
       self.resultOptionalStorage = nil
       self.resultDefaultValueStorage = nil
    }
@@ -70,7 +70,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 
                   self.task = Task {
                      do {
-                        let result = try await self.loadingTask()
+                        let result = try await self.performTask()
                         self.resultDefaultValueStorage?.wrappedValue = result
                         self.resultOptionalStorage?.wrappedValue = result
                         self.progressState = .successful(result: result)
@@ -93,7 +93,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 
                   self.task = Task {
                      do {
-                        let result = try await self.loadingTask()
+                        let result = try await self.performTask()
                         self.resultDefaultValueStorage?.wrappedValue = result
                         self.resultOptionalStorage?.wrappedValue = result
                         self.progressState = .successful(result: result)
@@ -116,15 +116,17 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 }
 
 #if DEBUG && swift(>=6.0)
+func previewLoadingTask() async throws -> String {
+   try await Task.sleep(for: .seconds(1))
+   return "/fake/path/to/project"
+}
+
 @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
 #Preview {
    @Previewable @State var projectPath: String = ""
 
-   AsyncView(storeResultIn: $projectPath) {
+   AsyncView(performTask: previewLoadingTask, storeResultIn: $projectPath) {
       Text(verbatim: "Project Path: \(projectPath)")
-   } loadingTask: {
-      try await Task.sleep(for: .seconds(1))
-      return "/fake/path/to/project"
    }
 }
 #endif
