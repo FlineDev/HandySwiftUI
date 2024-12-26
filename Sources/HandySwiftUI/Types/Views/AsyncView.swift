@@ -66,18 +66,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
          case .notStarted:
             Color.clear
                .onAppear {
-                  self.progressState = .inProgress
-
-                  self.task = Task {
-                     do {
-                        let result = try await self.performTask()
-                        self.resultDefaultValueStorage?.wrappedValue = result
-                        self.resultOptionalStorage?.wrappedValue = result
-                        self.progressState = .successful(result: result)
-                     } catch {
-                        self.progressState = .failed(error: error.localizedDescription)
-                     }
-                  }
+                  self.startPerformingTask()
                }
 
          case .inProgress:
@@ -89,18 +78,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
                Text("Failed to load with error: \(errorMessage)", bundle: .module)
 
                Button(String(localized: "Try again", bundle: .module)) {
-                  self.progressState = .inProgress
-
-                  self.task = Task {
-                     do {
-                        let result = try await self.performTask()
-                        self.resultDefaultValueStorage?.wrappedValue = result
-                        self.resultOptionalStorage?.wrappedValue = result
-                        self.progressState = .successful(result: result)
-                     } catch {
-                        self.progressState = .failed(error: error.localizedDescription)
-                     }
-                  }
+                  self.startPerformingTask()
                }
             }
             .padding()
@@ -111,6 +89,26 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
       }
       .onDisappear {
          self.task?.cancel()
+      }
+   }
+
+   private func startPerformingTask() {
+      self.progressState = .inProgress
+
+      self.task = Task {
+         do {
+            let result = try await self.performTask()
+
+            await MainActor.run {
+               self.resultDefaultValueStorage?.wrappedValue = result
+               self.resultOptionalStorage?.wrappedValue = result
+               self.progressState = .successful(result: result)
+            }
+         } catch {
+            await MainActor.run {
+               self.progressState = .failed(error: error.localizedDescription)
+            }
+         }
       }
    }
 }
