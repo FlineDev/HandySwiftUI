@@ -50,7 +50,7 @@ extension String {
    /// - Parameters:
    ///   - searchText: The text to search for within the string.
    ///   - locale: The locale to use for string comparisons. Defaults to `nil`.
-   ///   - font: The font to apply to matching prefixes. Defaults to `.body.bold()`.
+   ///   - applytingAttributes: A closure that gets passed an `AttributedSubstring` you can customize to define how to highlight. By default, a yellow background and bold black foreground text is used.
    ///
    /// - Returns: An `AttributedString` with matching prefixes highlighted.
    ///
@@ -61,13 +61,21 @@ extension String {
    ///   // Returns an AttributedString with "He" and "Wo" in bold
    ///   ```
    @available(iOS 15, macOS 12, tvOS 15, visionOS 1, watchOS 8, *)
-   public func highlightMatchingTokenizedPrefixes(in searchText: String, locale: Locale? = nil, with font: Font = .body.bold()) -> AttributedString {
+   public func highlightMatchingTokenizedPrefixes(
+      in searchText: String,
+      locale: Locale? = nil,
+      applyingAttributes: (inout AttributedSubstring) -> Void = {
+         $0.font = $0.font?.bold()
+         $0.backgroundColor = .yellow
+         $0.foregroundColor = .black
+      }
+   ) -> AttributedString {
       var attributedSelf = AttributedString(self)
       let normalizedSelf = self.folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: locale)
 
       for token in searchText.tokenized() {
          if let range = AttributedString(normalizedSelf).range(of: token) {
-            attributedSelf[range].font = font
+            applyingAttributes(&attributedSelf[range])
          }
       }
 
@@ -79,3 +87,19 @@ extension String: NilPlaceholdable {
    /// The placeholder value to use when the string is nil.
    public static var nilPlaceholderValue: String { "" }
 }
+
+#if DEBUG
+#Preview {
+   VStack(spacing: 10) {
+      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "hewo"))
+      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "ello", applyingAttributes: {
+         $0.font = .body.bold()
+         $0.backgroundColor = .yellow
+         $0.foregroundColor = .black
+      }))
+      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "wo"))
+      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "hello world"))
+   }
+   .macOSOnlyPadding()
+}
+#endif
