@@ -83,11 +83,6 @@ extension String {
    }
 }
 
-extension String: NilPlaceholdable {
-   /// The placeholder value to use when the string is nil.
-   public static var nilPlaceholderValue: String { "" }
-}
-
 #if DEBUG
 #Preview {
    VStack(spacing: 10) {

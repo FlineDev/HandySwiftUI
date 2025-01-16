@@ -22,27 +22,29 @@ public prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
 }
 
 /// Provides a default value for a `Binding<T?>`, returning a non-optional `Binding<T>`.
-/// If the binding's value is `nil`, it returns the right-hand side `fallback` default value. If the value is updated to match the `nilPlaceholderValue`, it resets to `nil`.
+///
+/// If the binding's value is `nil`, it returns the right-hand side `nilPlaceholderValue`.
+/// If the value is updated to match the `nilPlaceholderValue`, it resets the binding to `nil`.
 ///
 /// ## Usage Example:
 /// ```swift
-/// struct ContentView: View {
-///     @State private var optionalText: String? = nil
+/// struct ProfileView: View {
+///    @State private var username: String? = nil
 ///
-///     var body: some View {
-///         TextField("Placeholder", text: $optionalText ?? "Default")
-///     }
+///    var body: some View {
+///       TextField("Enter your name", text: self.$username ?? "")
+///    }
 /// }
 /// ```
 /// - Parameters:
 ///   - binding: The optional binding.
-///   - fallback: The default value used when the binding is `nil`.
-/// - Returns: A binding to a non-optional value, using the provided default if `nil`.
+///   - nilPlaceholderValue: The default value used when the binding is `nil`. When this value is set, the binding is set to `nil`.
+/// - Returns: A binding to a non-optional value, using the provided placeholder value if `nil`.
 @MainActor
-public func ?? <T: NilPlaceholdable>(binding: Binding<T?>, fallback: T) -> Binding<T> {
+public func ?? <T: Equatable>(binding: Binding<T?>, nilPlaceholderValue: T) -> Binding<T> {
    Binding(
-      get: { binding.wrappedValue ?? fallback },
-      set: { binding.wrappedValue = $0 == T.nilPlaceholderValue ? nil : $0 }
+      get: { binding.wrappedValue ?? nilPlaceholderValue },
+      set: { binding.wrappedValue = ($0 == nilPlaceholderValue ? nil : $0) }
    )
 }
 
