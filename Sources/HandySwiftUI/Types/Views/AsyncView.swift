@@ -16,7 +16,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
       }
    }
 
-   @State private var progressState: ProgressState<ResultType, String> = .notStarted
+   @State private var progressState: AsyncResult<ResultType, String> = .notStarted
 
    let successContentCallback: SuccessContentCallback
    let performTask: () async throws -> ResultType
