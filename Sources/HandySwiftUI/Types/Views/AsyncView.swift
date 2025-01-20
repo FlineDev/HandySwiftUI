@@ -97,12 +97,12 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 
       self.task = Task {
          do {
-            let result = try await self.performTask()
+            let value = try await self.performTask()
 
             await MainActor.run {
-               self.resultDefaultValueStorage?.wrappedValue = result
-               self.resultOptionalStorage?.wrappedValue = result
-               self.progressState = .successful(result: result)
+               self.resultDefaultValueStorage?.wrappedValue = value
+               self.resultOptionalStorage?.wrappedValue = value
+               self.progressState = .successful(value: value)
             }
          } catch {
             await MainActor.run {
