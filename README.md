@@ -22,7 +22,7 @@ Learn how you can make the most of HandySwiftUI by reading the guides inside the
 
 ## Showcase
 
-I extracted this library from my following Indie apps (rate them with 5 stars to thank me!):
+I created this library for my own Indie apps (download & rate them to thank me!):
 
 <table>
   <tr>
@@ -41,9 +41,24 @@ I extracted this library from my following Indie apps (rate them with 5 stars to
         <strong>TranslateKit: App Localizer</strong>
       </a>
       <br />
-      Simple drag & drop translation of String Catalog files with support for multiple translation services & smart correctness checks.
+      Indie-focused app localization with unmatched accuracy. Fast & easy: AI & proofreading, 125+ languages, market insights. Budget-friendly, free to try.
     </td>
     <td>Mac</td>
+  </tr>
+    <tr>
+    <td>
+      <a href="https://apps.apple.com/app/apple-store/id6502914189?pt=549314&ct=github.com&mt=8">
+        <img src="https://raw.githubusercontent.com/FlineDev/HandySwiftUI/main/Images/Apps/FreemiumKit.webp" width="64" />
+      </a>
+    </td>
+    <td>
+      <a href="https://apps.apple.com/app/apple-store/id6502914189?pt=549314&ct=github.com&mt=8">
+        <strong>FreemiumKit: In-App Purchases</strong>
+      </a>
+      <br />
+      Simple In-App Purchases and Subscriptions for Apple Platforms: Automation, Paywalls, A/B Testing, Live Notifications, PPP, and more.
+    </td>
+    <td>iPhone, iPad, Mac, Vision</td>
   </tr>
   <tr>
     <td>
@@ -59,21 +74,6 @@ I extracted this library from my following Indie apps (rate them with 5 stars to
       Simple, fast, and smart media management for your Movie, TV Show and Anime collection.
     </td>
     <td>Mac</td>
-  </tr>
-  <tr>
-    <td>
-      <a href="https://apps.apple.com/app/apple-store/id6502914189?pt=549314&ct=github.com&mt=8">
-        <img src="https://raw.githubusercontent.com/FlineDev/HandySwiftUI/main/Images/Apps/FreemiumKit.webp" width="64" />
-      </a>
-    </td>
-    <td>
-      <a href="https://apps.apple.com/app/apple-store/id6502914189?pt=549314&ct=github.com&mt=8">
-        <strong>FreemiumKit: In-App Purchases</strong>
-      </a>
-      <br />
-      Simple In-App Purchases and Subscriptions for Apple Platforms: Automation, Paywalls, A/B Testing, Live Notifications, PPP, and more.
-    </td>
-    <td>iPhone, iPad, Mac, Vision</td>
   </tr>
   <tr>
     <td>
@@ -119,21 +119,6 @@ I extracted this library from my following Indie apps (rate them with 5 stars to
       Deep Focus with proven Pomodoro method & select Apple Music playlists & themes. Automatically pauses music during breaks.
     </td>
     <td>iPhone, iPad, Mac, Vision</td>
-  </tr>
-  <tr>
-    <td>
-      <a href="https://apps.apple.com/app/apple-store/id6479207869?pt=549314&ct=github.com&mt=8">
-        <img src="https://raw.githubusercontent.com/FlineDev/HandySwiftUI/main/Images/Apps/GuidedGuestMode.webp" width="64" />
-      </a>
-    </td>
-    <td>
-      <a href="https://apps.apple.com/app/apple-store/id6479207869?pt=549314&ct=github.com&mt=8">
-        <strong>Guided Guest Mode</strong>
-      </a>
-      <br />
-      Showcase Apple Vision Pro effortlessly to friends & family. Customizable, easy-to-use guides for everyone!
-    </td>
-    <td>Vision</td>
   </tr>
   <tr>
     <td>
