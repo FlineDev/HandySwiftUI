@@ -22,7 +22,7 @@ Learn how you can make the most of HandySwiftUI by reading the guides inside the
 
 ## Showcase
 
-I created this library for my own Indie apps (download & rate them to thank me!):
+I created this library for my own Indie apps (download & rate them to show your appreciation):
 
 <table>
   <tr>
@@ -38,14 +38,14 @@ I created this library for my own Indie apps (download & rate them to thank me!)
     </td>
     <td>
       <a href="https://apps.apple.com/app/apple-store/id6476773066?pt=549314&ct=github.com&mt=8">
-        <strong>TranslateKit: App Localizer</strong>
+        <strong>TranslateKit: App Localization</strong>
       </a>
       <br />
-      Indie-focused app localization with unmatched accuracy. Fast & easy: AI & proofreading, 125+ languages, market insights. Budget-friendly, free to try.
+      AI-powered app localization with unmatched accuracy. Fast & easy: AI & proofreading, 125+ languages, market insights. Budget-friendly, free to try.
     </td>
     <td>Mac</td>
   </tr>
-    <tr>
+  <tr>
     <td>
       <a href="https://apps.apple.com/app/apple-store/id6502914189?pt=549314&ct=github.com&mt=8">
         <img src="https://raw.githubusercontent.com/FlineDev/HandySwiftUI/main/Images/Apps/FreemiumKit.webp" width="64" />
@@ -53,10 +53,10 @@ I created this library for my own Indie apps (download & rate them to thank me!)
     </td>
     <td>
       <a href="https://apps.apple.com/app/apple-store/id6502914189?pt=549314&ct=github.com&mt=8">
-        <strong>FreemiumKit: In-App Purchases</strong>
+        <strong>FreemiumKit: In-App Purchases for Indies</strong>
       </a>
       <br />
-      Simple In-App Purchases and Subscriptions for Apple Platforms: Automation, Paywalls, A/B Testing, Live Notifications, PPP, and more.
+      Simple In-App Purchases and Subscriptions: Automation, Paywalls, A/B Testing, Live Notifications, PPP, and more.
     </td>
     <td>iPhone, iPad, Mac, Vision</td>
   </tr>
@@ -83,10 +83,10 @@ I created this library for my own Indie apps (download & rate them to thank me!)
     </td>
     <td>
       <a href="https://apps.apple.com/app/apple-store/id6480134993?pt=549314&ct=github.com&mt=8">
-        <strong>FreelanceKit: Time Tracking</strong>
+        <strong>FreelanceKit: Project Time Tracking</strong>
       </a>
       <br />
-      Simple & affordable time tracking with a native experience for all  devices. iCloud sync & CSV export included.
+      Simple & affordable time tracking with a native experience for all devices. iCloud sync & CSV export included.
     </td>
     <td>iPhone, iPad, Mac, Vision</td>
   </tr>
