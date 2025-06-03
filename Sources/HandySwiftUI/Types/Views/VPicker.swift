@@ -162,6 +162,21 @@ extension VPicker where L == Text {
    }
 }
 
+/// Convenience initializer for `VPicker` that uses a `Text` view as the label.
+extension VPicker where L == Text {
+   /// Creates a new `VPicker` with a `Text` label using a localized string key.
+   ///
+   /// - Parameters:
+   ///   - title: The localized string key for the picker's title.
+   ///   - options: An array of selectable options.
+   ///   - selection: A binding to the currently selected option.
+   public init(_ title: String, options: [T], selection: Binding<T?>) {
+      self.label = { Text(title).font(.headline) }
+      self.options = options
+      self.selection = selection
+   }
+}
+
 /// Convenience initializer for `VPicker` when `T` conforms to `CaseIterable`.
 extension VPicker where T: CaseIterable {
    /// Creates a new `VPicker` using all cases of an enumeration that conforms to `CaseIterable`.

@@ -198,6 +198,22 @@ extension HPicker where T: CaseIterable, L == Text {
    }
 }
 
+/// Convenience initializer for `HPicker` when `T` conforms to `CaseIterable` and using a `Text` label.
+extension HPicker where T: CaseIterable, L == Text {
+   /// Creates a new `HPicker` using all cases of an enumeration that conforms to `CaseIterable`, with a `Text` label.
+   ///
+   /// - Parameters:
+   ///   - title: The string for the picker's title.
+   ///   - locked: A set of options that should be displayed as locked (non-selectable).
+   ///   - selection: A binding to the currently selected option.
+   public init(_ title: String, locked: Set<T>, selection: Binding<T?>) {
+      self.label = { Text(title).font(.headline) }
+      self.locked = locked
+      self.options = T.allCases as! [T]
+      self.selection = selection
+   }
+}
+
 #if DEBUG
 #Preview {
    struct Preview: View {
