@@ -1,5 +1,5 @@
-import SwiftUI
 import HandySwift
+import SwiftUI
 
 /// A custom picker that displays options as a horizontal row of buttons with icons and labels.
 /// It supports locked options, custom labels, and accessibility features.
@@ -73,7 +73,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    public var body: some View {
       VStack(spacing: 10) {
          self.label().padding(.top, 10)
-         
+
          HStack {
             ForEach(self.options) { option in
                Button {
@@ -108,7 +108,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                      .clipShape(.rect(cornerRadius: 12.5))
                      .shadow(color: .black.opacity(self.colorScheme == .dark ? 0.33 : 0.1), radius: 6)
                      #if os(iOS) || os(visionOS)
-                     .contentShape(.hoverEffect, .rect(cornerRadius: 12.5)).hoverEffect()
+                        .contentShape(.hoverEffect, .rect(cornerRadius: 12.5)).hoverEffect()
                      #endif
                }
                .padding(.vertical)
@@ -119,7 +119,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
       .accessibilityRepresentation {
          Picker(selection: self.selection) {
             Text(verbatim: "–").tag(T?.none)
-            
+
             ForEach(self.options) { option in
                option.label.tag(option as T?)
             }
@@ -129,7 +129,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
       }
       .frame(maxHeight: 190)
    }
-   
+
    func iconAngle(option: T) -> Angle? {
       guard
          !self.locked.contains(option),
@@ -138,7 +138,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
       else { return nil }
       return Angle(degrees: degrees)
    }
-   
+
    func iconAmount(option: T) -> Int {
       guard
          !self.locked.contains(option),
@@ -215,33 +215,33 @@ extension HPicker where T: CaseIterable, L == Text {
 }
 
 #if DEBUG
-#Preview {
-   struct Preview: View {
-      enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
-         case gryffindor, ravenclaw, hufflepuff, slytherin
-         
-         var description: String { [self.rawValue.firstUppercased, "(Some additional information!)"].joined(separator: "\n") }
-         var symbolName: String {
-            switch self {
-            case .gryffindor: "cat"
-            case .ravenclaw: "bird:-30"
-            case .hufflepuff: "dog*2"
-            case .slytherin: "lizard:90*2"
-            }
-         }
-         var id: String { self.rawValue }
-      }
-      
-      @State var selectedHouse: HogwartsHouse? = .gryffindor
+   #Preview {
+      struct Preview: View {
+         enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
+            case gryffindor, ravenclaw, hufflepuff, slytherin
 
-      var body: some View {
-         Form {
-            HPicker("Hogwarts House", locked: [.gryffindor, .slytherin], selection: self.$selectedHouse)
+            var description: String { [self.rawValue.firstUppercased, "(Some additional information!)"].joined(separator: "\n") }
+            var symbolName: String {
+               switch self {
+               case .gryffindor: "cat"
+               case .ravenclaw: "bird:-30"
+               case .hufflepuff: "dog*2"
+               case .slytherin: "lizard:90*2"
+               }
+            }
+            var id: String { self.rawValue }
          }
-         .macOSOnly { $0.padding().frame(minWidth: 700) }
+
+         @State var selectedHouse: HogwartsHouse? = .gryffindor
+
+         var body: some View {
+            Form {
+               HPicker("Hogwarts House", locked: [.gryffindor, .slytherin], selection: self.$selectedHouse)
+            }
+            .macOSOnly { $0.padding().frame(minWidth: 700) }
+         }
       }
+
+      return Preview()
    }
-   
-   return Preview()
-}
 #endif

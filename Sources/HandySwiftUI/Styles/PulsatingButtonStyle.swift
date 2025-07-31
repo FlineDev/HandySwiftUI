@@ -49,23 +49,25 @@ extension ButtonStyle where Self == PulsatingButtonStyle {
    ///   - duration: The duration of a single pulsation cycle (default: 2 seconds).
    ///
    /// - Returns: A new `PulsatingButtonStyle` instance.
-   public static func pulsating(color: Color, cornerRadius: CGFloat, glowRadius: CGFloat = 5, duration: TimeInterval = .seconds(2)) -> PulsatingButtonStyle {
+   public static func pulsating(color: Color, cornerRadius: CGFloat, glowRadius: CGFloat = 5, duration: TimeInterval = .seconds(2))
+      -> PulsatingButtonStyle
+   {
       PulsatingButtonStyle(color: color, cornerRadius: cornerRadius, glowRadius: glowRadius, duration: duration)
    }
 }
 
 #if DEBUG
-#Preview {
-   VStack {
-      Button {
+   #Preview {
+      VStack {
+         Button {
 
-      } label: {
-         Image(systemName: "person.circle")
-            .font(.largeTitle)
-            .foregroundStyle(Color.accentColor)
+         } label: {
+            Image(systemName: "person.circle")
+               .font(.largeTitle)
+               .foregroundStyle(Color.accentColor)
+         }
+         .buttonStyle(.pulsating(color: Color.accentColor, cornerRadius: 25))
       }
-      .buttonStyle(.pulsating(color: Color.accentColor, cornerRadius: 25))
+      .padding(20)
    }
-   .padding(20)
-}
 #endif

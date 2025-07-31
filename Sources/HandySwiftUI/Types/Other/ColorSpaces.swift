@@ -22,7 +22,7 @@ struct RGBColor {
    let g: Double  // 0..1
    let b: Double  // 0..1
    let alpha: Double  // 0..1
-   
+
    init(
       r: Double,
       g: Double,
@@ -34,13 +34,13 @@ struct RGBColor {
       self.b = b
       self.alpha = alpha
    }
-   
+
    fileprivate func sRGBCompand(_ v: Double) -> Double {
       let absV = abs(v)
       let out = absV > 0.040_45 ? pow((absV + 0.055) / 1.055, 2.4) : absV / 12.92
       return v > 0 ? out : -out
    }
-   
+
    func toXYZ() -> XYZColor {
       let R = sRGBCompand(r)
       let G = sRGBCompand(g)
@@ -50,17 +50,17 @@ struct RGBColor {
       let z: Double = (R * 0.019_333_9) + (G * 0.119_192_0) + (B * 0.950_304_1)
       return XYZColor(x: x, y: y, z: z, alpha: alpha)
    }
-   
+
    func toLAB() -> LABColor {
-      return toXYZ().toLAB()
+      toXYZ().toLAB()
    }
-   
+
    func toLCH() -> LCHColor {
-      return toXYZ().toLCH()
+      toXYZ().toLCH()
    }
-   
+
    func lerp(_ other: RGBColor, t: Double) -> RGBColor {
-      return RGBColor(
+      RGBColor(
          r: r + (other.r - r) * t,
          g: g + (other.g - g) * t,
          b: b + (other.b - b) * t,
@@ -83,7 +83,7 @@ struct XYZColor {
    let y: Double  // 0..1
    let z: Double  // 0..1.08883
    let alpha: Double  // 0..1
-   
+
    init(
       x: Double,
       y: Double,
@@ -95,13 +95,13 @@ struct XYZColor {
       self.z = z
       self.alpha = alpha
    }
-   
+
    fileprivate func sRGBCompand(_ v: Double) -> Double {
       let absV = abs(v)
       let out = absV > 0.003_130_8 ? 1.055 * pow(absV, 1 / 2.4) - 0.055 : absV * 12.92
       return v > 0 ? out : -out
    }
-   
+
    func toRGB() -> RGBColor {
       let r = (x * 3.240_454_2) + (y * -1.537_138_5) + (z * -0.498_531_4)
       let g = (x * -0.969_266_0) + (y * 1.876_010_8) + (z * 0.041_556_0)
@@ -111,11 +111,11 @@ struct XYZColor {
       let B = sRGBCompand(b)
       return RGBColor(r: R, g: G, b: B, alpha: alpha)
    }
-   
+
    fileprivate func labCompand(_ v: Double) -> Double {
-      return v > LAB_E ? pow(v, 1.0 / 3.0) : (LAB_K_116 * v) + LAB_16_116
+      v > LAB_E ? pow(v, 1.0 / 3.0) : (LAB_K_116 * v) + LAB_16_116
    }
-   
+
    func toLAB() -> LABColor {
       let fx = labCompand(x / LAB_X)
       let fy = labCompand(y / LAB_Y)
@@ -127,13 +127,13 @@ struct XYZColor {
          alpha: alpha
       )
    }
-   
+
    func toLCH() -> LCHColor {
-      return toLAB().toLCH()
+      toLAB().toLCH()
    }
-   
+
    func lerp(_ other: XYZColor, t: Double) -> XYZColor {
-      return XYZColor(
+      XYZColor(
          x: x + (other.x - x) * t,
          y: y + (other.y - y) * t,
          z: z + (other.z - z) * t,
@@ -149,7 +149,7 @@ struct LABColor {
    let a: Double  // -128..128
    let b: Double  // -128..128
    let alpha: Double  //    0..1
-   
+
    init(
       l: Double,
       a: Double,
@@ -161,12 +161,12 @@ struct LABColor {
       self.b = b
       self.alpha = alpha
    }
-   
+
    fileprivate func xyzCompand(_ v: Double) -> Double {
       let v3 = v * v * v
       return v3 > LAB_E ? v3 : (v - LAB_16_116) / LAB_K_116
    }
-   
+
    func toXYZ() -> XYZColor {
       let y = (l + 16) / 116
       let x = y + (a / 500)
@@ -178,20 +178,20 @@ struct LABColor {
          alpha: alpha
       )
    }
-   
+
    func toLCH() -> LCHColor {
       let c = sqrt(a * a + b * b)
       let angle = atan2(b, a) * RAD_TO_DEG
       let h = angle < 0 ? angle + 360 : angle
       return LCHColor(l: l, c: c, h: h, alpha: alpha)
    }
-   
+
    func toRGB() -> RGBColor {
-      return toXYZ().toRGB()
+      toXYZ().toRGB()
    }
-   
+
    func lerp(_ other: LABColor, t: Double) -> LABColor {
-      return LABColor(
+      LABColor(
          l: l + (other.l - l) * t,
          a: a + (other.a - a) * t,
          b: b + (other.b - b) * t,
@@ -207,7 +207,7 @@ struct LCHColor {
    let c: Double  // 0..128
    let h: Double  // 0..360
    let alpha: Double  // 0..1
-   
+
    init(
       l: Double,
       c: Double,
@@ -219,25 +219,25 @@ struct LCHColor {
       self.h = h
       self.alpha = alpha
    }
-   
+
    func toLAB() -> LABColor {
       let rad = h / RAD_TO_DEG
       let a = cos(rad) * c
       let b = sin(rad) * c
       return LABColor(l: l, a: a, b: b, alpha: alpha)
    }
-   
+
    func toXYZ() -> XYZColor {
-      return toLAB().toXYZ()
+      toLAB().toXYZ()
    }
-   
+
    func toRGB() -> RGBColor {
-      return toXYZ().toRGB()
+      toXYZ().toRGB()
    }
-   
+
    func lerp(_ other: LCHColor, t: Double) -> LCHColor {
       let angle =
-      (((((other.h - h).truncatingRemainder(dividingBy: 360)) + 540).truncatingRemainder(dividingBy: 360)) - 180) * t
+         (((((other.h - h).truncatingRemainder(dividingBy: 360)) + 540).truncatingRemainder(dividingBy: 360)) - 180) * t
       return LCHColor(
          l: l + (other.l - l) * t,
          c: c + (other.c - c) * t,

@@ -114,17 +114,17 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 }
 
 #if DEBUG && swift(>=6.0)
-func previewLoadingTask() async throws -> String {
-   try await Task.sleep(for: .seconds(1))
-   return "/fake/path/to/project"
-}
-
-@available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
-#Preview {
-   @Previewable @State var projectPath: String = ""
-
-   AsyncView(performTask: previewLoadingTask, storeResultIn: $projectPath) {
-      Text(verbatim: "Project Path: \(projectPath)")
+   func previewLoadingTask() async throws -> String {
+      try await Task.sleep(for: .seconds(1))
+      return "/fake/path/to/project"
    }
-}
+
+   @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
+   #Preview {
+      @Previewable @State var projectPath: String = ""
+
+      AsyncView(performTask: previewLoadingTask, storeResultIn: $projectPath) {
+         Text(verbatim: "Project Path: \(projectPath)")
+      }
+   }
 #endif

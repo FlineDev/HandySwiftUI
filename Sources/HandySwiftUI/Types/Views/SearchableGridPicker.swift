@@ -102,8 +102,12 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
       .navigationDestination(isPresented: self.$showPicker) {
          Group {
             if self.filteredOptions.isEmpty {
-               ContentUnavailableView("No matches", systemImage: "exclamationmark.magnifyingglass", description: Text("No emojis match '\(self.searchText)'"))
-                  .frame(maxHeight: .infinity, alignment: .center)
+               ContentUnavailableView(
+                  "No matches",
+                  systemImage: "exclamationmark.magnifyingglass",
+                  description: Text("No emojis match '\(self.searchText)'")
+               )
+               .frame(maxHeight: .infinity, alignment: .center)
             } else {
                ScrollView {
                   LazyVGrid(columns: [GridItem(.adaptive(minimum: Platform.value(default: 44, mac: 38, vision: 60)))]) {
@@ -116,8 +120,8 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                               option.view
                                  .padding(Platform.value(default: 12, mac: 8))
                                  #if os(visionOS)
-                                 .contentShape(.hoverEffect, .rect(cornerRadius: 12))
-                                 .hoverEffect()
+                                    .contentShape(.hoverEffect, .rect(cornerRadius: 12))
+                                    .hoverEffect()
                                  #endif
 
                               Color.gray.opacity(0.001)
@@ -132,61 +136,61 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
          }
          .navigationTitle(self.title)
          #if os(macOS) || os(tvOS)
-         .searchable(text: self.$searchText)
+            .searchable(text: self.$searchText)
          #else
-         .searchable(text: self.$searchText, placement: .navigationBarDrawer)
+            .searchable(text: self.$searchText, placement: .navigationBarDrawer)
          #endif
       }
    }
 }
 
 #if DEBUG && swift(>=6.0)
-struct FakeOption: SearchableOption {
-   let id = UUID()
+   struct FakeOption: SearchableOption {
+      let id = UUID()
 
-   var view: some View {
-      Text(verbatim: ["👇", "🚀", "🙏", "🚨", "🤷‍♂️"].randomElement()!)
-   }
-
-   var searchTerms: [String] = [
-      ["one", "two", "three", "four"].randomElement()!,
-      ["hands", "eyes", "ears", "rockets", "legs"].randomElement()!
-   ]
-}
-
-@available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
-#Preview(traits: .fixedLayout(width: 500, height: 100)) {
-   @Previewable @State var selection: FakeOption?
-
-   NavigationStack {
-      Form {
-         SearchableGridPicker(
-            title: "Pick Emoji",
-            options: [
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-               FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
-            ],
-            selection: $selection
-         )
+      var view: some View {
+         Text(verbatim: ["👇", "🚀", "🙏", "🚨", "🤷‍♂️"].randomElement()!)
       }
-      .formStyle(.grouped)
+
+      var searchTerms: [String] = [
+         ["one", "two", "three", "four"].randomElement()!,
+         ["hands", "eyes", "ears", "rockets", "legs"].randomElement()!,
+      ]
    }
-   #if os(visionOS) || os(macOS)
-   .frame(minWidth: 600, minHeight: 400)
-   #endif
-}
+
+   @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
+   #Preview(traits: .fixedLayout(width: 500, height: 100)) {
+      @Previewable @State var selection: FakeOption?
+
+      NavigationStack {
+         Form {
+            SearchableGridPicker(
+               title: "Pick Emoji",
+               options: [
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+                  FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(), FakeOption(),
+               ],
+               selection: $selection
+            )
+         }
+         .formStyle(.grouped)
+      }
+      #if os(visionOS) || os(macOS)
+         .frame(minWidth: 600, minHeight: 400)
+      #endif
+   }
 #endif

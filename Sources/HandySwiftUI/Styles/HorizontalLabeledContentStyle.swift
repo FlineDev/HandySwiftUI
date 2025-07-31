@@ -28,27 +28,27 @@ extension LabeledContentStyle where Self == HorizontalLabeledContentStyle {
 }
 
 #if DEBUG
-#Preview {
-   VStack {
-      Form {
-         LabeledContent("Default Key", value: "Some Value")
+   #Preview {
+      VStack {
+         Form {
+            LabeledContent("Default Key", value: "Some Value")
 
-         LabeledContent("Horizontal Key", value: "Some Value")
-            .labeledContentStyle(.horizontal())
+            LabeledContent("Horizontal Key", value: "Some Value")
+               .labeledContentStyle(.horizontal())
+         }
+         .formStyle(.grouped)
+
+         GroupBox {
+            LabeledContent("Default Key", value: "Some Value")
+               .padding(5)
+
+            Divider()
+
+            LabeledContent("Horizontal Key", value: "Some Value")
+               .labeledContentStyle(.horizontal())
+               .padding(5)
+         }
+         .macOSOnlyPadding()
       }
-      .formStyle(.grouped)
-
-      GroupBox {
-         LabeledContent("Default Key", value: "Some Value")
-            .padding(5)
-
-         Divider()
-
-         LabeledContent("Horizontal Key", value: "Some Value")
-            .labeledContentStyle(.horizontal())
-            .padding(5)
-      }
-      .macOSOnlyPadding()
    }
-}
 #endif

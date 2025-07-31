@@ -143,18 +143,17 @@ public struct DisclosureSection<Content: View, Label: View, Footer: View>: View 
 }
 
 #if DEBUG && !os(tvOS)
-#Preview {
-   Form {
-      DisclosureGroup("Original Disclosure Group") {
-         Text("Test")
-      }
+   #Preview {
+      Form {
+         DisclosureGroup("Original Disclosure Group") {
+            Text("Test")
+         }
 
-      DisclosureSection("Custom Disclosure Section") {
-         Text("Test")
-         Text("Test")
+         DisclosureSection("Custom Disclosure Section") {
+            Text("Test")
+            Text("Test")
+         }
       }
+      .formStyle(.grouped)
    }
-   .formStyle(.grouped)
-}
 #endif
-

@@ -27,7 +27,7 @@ public struct LimitedTextField: View {
                }
             }
             #if !os(tvOS)
-            .textFieldStyle(.roundedBorder)
+               .textFieldStyle(.roundedBorder)
             #endif
 
          Text(String(localized: "\(characterLimit - self.text.count) chars left", bundle: .module))
@@ -38,13 +38,13 @@ public struct LimitedTextField: View {
 }
 
 #if DEBUG && swift(>=6.0)
-@available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
-#Preview {
-   @Previewable @State var previewText = ""
+   @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
+   #Preview {
+      @Previewable @State var previewText = ""
 
-   Form {
-      LimitedTextField("Enter text", text: $previewText, characterLimit: 10)
+      Form {
+         LimitedTextField("Enter text", text: $previewText, characterLimit: 10)
+      }
+      .formStyle(.grouped)
    }
-   .formStyle(.grouped)
-}
 #endif

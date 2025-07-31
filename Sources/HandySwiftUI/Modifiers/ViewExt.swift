@@ -40,7 +40,7 @@ extension View {
    // MARK: - Platform-specific modifiers
    // Original source (modified):
    // https://github.com/InvadingOctopus/octopusui/blob/develop/Sources/OctopusUI/View%20Modifiers/OSSpecificViewModifiers.swift
-   
+
    /// A wrapper for a view modifier that only applies on iOS/iPadOS.
    ///
    /// **Example**: `.iOSOnly { $0.foregroundColor(.green) }`
@@ -49,12 +49,12 @@ extension View {
    @inlinable
    public func iOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if os(iOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
-   
+
    /// A wrapper for a view modifier that does **not** apply on iOS/iPadOS; only on macOS, tvOS and watchOS.
    ///
    /// **Example**: `.iOSExcluded { $0.foregroundColor(.red) }`
@@ -63,12 +63,12 @@ extension View {
    @inlinable
    public func iOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if !os(iOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
-   
+
    /// A wrapper for a view modifier that only applies on macOS.
    ///
    /// **Example**: `.macOSOnly { $0.foregroundColor(.green) }`
@@ -77,9 +77,9 @@ extension View {
    @inlinable
    public func macOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if os(macOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
 
@@ -87,9 +87,9 @@ extension View {
    @inlinable
    public func macOSOnlyPadding(insets: EdgeInsets) -> some View {
       #if os(macOS)
-      return self.padding(insets)
+         return self.padding(insets)
       #else
-      return self
+         return self
       #endif
    }
 
@@ -97,9 +97,9 @@ extension View {
    @inlinable
    public func macOSOnlyPadding(_ edges: Edge.Set = .all, _ length: CGFloat? = nil) -> some View {
       #if os(macOS)
-      return self.padding(edges, length)
+         return self.padding(edges, length)
       #else
-      return self
+         return self
       #endif
    }
 
@@ -115,17 +115,17 @@ extension View {
       alignment: Alignment = .center
    ) -> some View {
       #if os(macOS)
-      return self.frame(
-         minWidth: minWidth,
-         idealWidth: idealWidth,
-         maxWidth: maxWidth,
-         minHeight: minHeight,
-         idealHeight: idealHeight,
-         maxHeight: maxHeight,
-         alignment: alignment
-      )
+         return self.frame(
+            minWidth: minWidth,
+            idealWidth: idealWidth,
+            maxWidth: maxWidth,
+            minHeight: minHeight,
+            idealHeight: idealHeight,
+            maxHeight: maxHeight,
+            alignment: alignment
+         )
       #else
-      return self
+         return self
       #endif
    }
 
@@ -137,12 +137,12 @@ extension View {
    @inlinable
    public func macOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if !os(macOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
-   
+
    /// A wrapper for a view modifier that only applies on tvOS.
    ///
    /// **Example**: `.tvOSOnly { $0.foregroundColor(.green) }`
@@ -151,12 +151,12 @@ extension View {
    @inlinable
    public func tvOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if os(tvOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
-   
+
    /// A wrapper for a view modifier that does **not** apply on tvOS; only on iOS/iPadOS, macOS and watchOS.
    ///
    /// **Example**: `.tvOSExcluded { $0.foregroundColor(.red) }`
@@ -165,12 +165,12 @@ extension View {
    @inlinable
    public func tvOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if !os(tvOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
-   
+
    /// A wrapper for a view modifier that only applies on watchOS.
    ///
    /// **Example**: `.watchOSOnly { $0.foregroundColor(.green) }`
@@ -179,12 +179,12 @@ extension View {
    @inlinable
    public func watchOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if os(watchOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
-   
+
    /// A wrapper for a view modifier that does **not** apply on watchOS; only on iOS/iPadOS, macOS and tvOS.
    ///
    /// **Example**: `.watchOSExcluded { $0.foregroundColor(.red) }`
@@ -193,9 +193,9 @@ extension View {
    @inlinable
    public func watchOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if !os(watchOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
 
@@ -207,9 +207,9 @@ extension View {
    @inlinable
    public func visionOSOnly<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if os(visionOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
 
@@ -221,9 +221,9 @@ extension View {
    @inlinable
    public func visionOSExcluded<ModifiedView: View>(modifier: (Self) -> ModifiedView) -> some View {
       #if !os(visionOS)
-      return modifier(self)
+         return modifier(self)
       #else
-      return self
+         return self
       #endif
    }
 
@@ -238,12 +238,11 @@ extension View {
    ) -> some View {
       if condition {
          return modifier(self).eraseToAnyView()
-      }
-      else {
+      } else {
          return alternativeModifier(self).eraseToAnyView()
       }
    }
-   
+
    /// A wrapper for a view modifier that only applies if the given condition is met.
    ///
    /// **Example**: `.applyIf(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) }`
@@ -251,12 +250,11 @@ extension View {
    public func applyIf<ModifiedView: View>(_ condition: Bool, modifier: (Self) -> ModifiedView) -> some View {
       if condition {
          return modifier(self).eraseToAnyView()
-      }
-      else {
+      } else {
          return self.eraseToAnyView()
       }
    }
-   
+
    /// A wrapper for a view modifier that only applies if the given condition is **not** met.
    ///
    /// **Example**: `.applyIfNot(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) }`
@@ -264,8 +262,7 @@ extension View {
    public func applyIfNot<ModifiedView: View>(_ condition: Bool, modifier: (Self) -> ModifiedView) -> some View {
       if !condition {
          return modifier(self).eraseToAnyView()
-      }
-      else {
+      } else {
          return self.eraseToAnyView()
       }
    }
@@ -277,8 +274,7 @@ extension View {
    public func ifLet<T, ModifiedView: View>(_ optionalValue: T?, modifier: (Self, T) -> ModifiedView) -> some View {
       if let optionalValue {
          return modifier(self, optionalValue).eraseToAnyView()
-      }
-      else {
+      } else {
          return self.eraseToAnyView()
       }
    }
@@ -294,12 +290,10 @@ extension View {
    ) -> some View {
       if let optionalValue {
          return modifier(self, optionalValue).eraseToAnyView()
-      }
-      else {
+      } else {
          return elseModifier(self).eraseToAnyView()
       }
    }
-
 
    /// Executes the provided closure when the app is about to resign its active state (e.g., when switching to another app or minimizing the window).
    ///
@@ -320,15 +314,15 @@ extension View {
    /// ```
    public func onAppResignActive(_ closure: @escaping () -> Void) -> some View {
       #if os(macOS)
-      self.onReceive(
-         NotificationCenter.default.publisher(for: NSApplication.willResignActiveNotification),
-         perform: { _ in closure() }
-      )
+         self.onReceive(
+            NotificationCenter.default.publisher(for: NSApplication.willResignActiveNotification),
+            perform: { _ in closure() }
+         )
       #else
-      self.onReceive(
-         NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification),
-         perform: { _ in closure() }
-      )
+         self.onReceive(
+            NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification),
+            perform: { _ in closure() }
+         )
       #endif
    }
 
@@ -351,15 +345,15 @@ extension View {
    /// ```
    public func onAppBecomeActive(_ closure: @escaping () -> Void) -> some View {
       #if os(macOS)
-      self.onReceive(
-         NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification),
-         perform: { _ in closure() }
-      )
+         self.onReceive(
+            NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification),
+            perform: { _ in closure() }
+         )
       #else
-      self.onReceive(
-         NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification),
-         perform: { _ in closure() }
-      )
+         self.onReceive(
+            NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification),
+            perform: { _ in closure() }
+         )
       #endif
    }
 
@@ -597,7 +591,9 @@ extension View {
    ///     let size: String
    /// }
    /// ```
-   public func confirmDeleteDialog<Item: Identifiable>(message: LocalizedStringKey, item: Binding<Item?>, performDelete: @escaping (Item) -> Void) -> some View {
+   public func confirmDeleteDialog<Item: Identifiable>(message: LocalizedStringKey, item: Binding<Item?>, performDelete: @escaping (Item) -> Void)
+      -> some View
+   {
       self.confirmationDialog(String(localized: "Are you sure?", bundle: .module), isPresented: item.isPresent(wrappedType: Item.self)) {
          Button(String(localized: "Delete", bundle: .module), role: .destructive) {
             if let item = item.wrappedValue {

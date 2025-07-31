@@ -33,17 +33,17 @@ extension Text {
    ) {
       var subtexts: [Text] = []
       var previousRange: Range<String.Index>?
-      
+
       let regex = try! HandyRegex(#"<([^<>]+)>([^<>]+)</([^<>]+)>|<([^<>]+)/>"#)
       for match in regex.matches(in: formatString) {
          let prefix = formatString[(previousRange?.upperBound ?? formatString.startIndex)..<match.range.lowerBound]
          if !prefix.isEmpty {
             subtexts.append(Text(prefix))
          }
-         
+
          let captures = match.captures.compactMap { $0 }
          switch captures.count {
-         case 3: // the first part matched, e.g. `<b>bold</b>` => ["b", "bold", "b"]
+         case 3:  // the first part matched, e.g. `<b>bold</b>` => ["b", "bold", "b"]
             guard
                captures[0] == captures[2],
                let style = partialStyling[captures[0]]
@@ -52,26 +52,26 @@ extension Text {
                previousRange = match.range
                continue
             }
-            
+
             subtexts.append(style(Text(captures[1])))
             previousRange = match.range
-            
-         case 1: // the second part matched, e.g. `<lock.filled/>` => ["lock.filled"]
+
+         case 1:  // the second part matched, e.g. `<lock.filled/>` => ["lock.filled"]
             if let style = partialStyling[captures[0]] {
                subtexts.append(style(Text(Image(systemName: captures[0]))))
             } else {
                subtexts.append(Text(Image(systemName: captures[0])))
             }
             previousRange = match.range
-            
+
          default:
             fatalError("A match should have exactly 1 or 3 captures, found: \(captures).")
          }
       }
-      
+
       let suffix = String(formatString[(previousRange?.upperBound ?? formatString.startIndex)..<formatString.endIndex])
       subtexts.append(Text(suffix))
-      
+
       self = subtexts.reduce(Text(verbatim: "")) { $0 + $1 }
    }
 }
@@ -106,22 +106,22 @@ extension Dictionary where Key == String, Value == (Text) -> Text {
 }
 
 #if DEBUG
-#Preview {
-   VStack(spacing: 30) {
-      Text(format: "Test without any matches.")
-      Text(format: "<b>A</b> <i>B</i> LOST <checkmark.seal/><bi>C</bi> D", partialStyling: .htmlLike)
-      Text(
-         format:
-            "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
-         partialStyling: Dictionary.htmlLike.merging(
-            [
-               "cb": { $0.bold().foregroundColor(.systemOrange) },
-               "checkmark.seal": { $0.foregroundColor(.green) },
-               "chart.bar.fill": { $0 },
-            ]
-         ) { $1 }
-      )
+   #Preview {
+      VStack(spacing: 30) {
+         Text(format: "Test without any matches.")
+         Text(format: "<b>A</b> <i>B</i> LOST <checkmark.seal/><bi>C</bi> D", partialStyling: .htmlLike)
+         Text(
+            format:
+               "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
+            partialStyling: Dictionary.htmlLike.merging(
+               [
+                  "cb": { $0.bold().foregroundColor(.systemOrange) },
+                  "checkmark.seal": { $0.foregroundColor(.green) },
+                  "chart.bar.fill": { $0 },
+               ]
+            ) { $1 }
+         )
+      }
+      .macOSOnlyPadding()
    }
-   .macOSOnlyPadding()
-}
 #endif

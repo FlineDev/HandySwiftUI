@@ -1,5 +1,5 @@
-import SwiftUI
 import HandySwift
+import SwiftUI
 
 /// A custom vertical picker that displays options as a stack of buttons with icons and labels.
 ///
@@ -66,7 +66,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
    public var body: some View {
       VStack(spacing: 10) {
          self.label().padding(.top, 10)
-         
+
          VStack {
             ForEach(self.options) { option in
                Button {
@@ -100,7 +100,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
                      }
                      .clipShape(.rect(cornerRadius: 12.5))
                      #if os(iOS) || os(visionOS)
-                     .contentShape(.hoverEffect, .rect(cornerRadius: 12.5)).hoverEffect()
+                        .contentShape(.hoverEffect, .rect(cornerRadius: 12.5)).hoverEffect()
                      #endif
                }
                .buttonStyle(.plain)
@@ -112,7 +112,7 @@ public struct VPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
       .accessibilityRepresentation {
          Picker(selection: self.selection) {
             Text(verbatim: "–").tag(T?.none)
-            
+
             ForEach(self.options) { option in
                option.label.tag(option as T?)
             }
@@ -206,33 +206,33 @@ extension VPicker where T: CaseIterable, L == Text {
 }
 
 #if DEBUG
-#Preview {
-   struct Preview: View {
-      enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
-         case gryffindor, ravenclaw, hufflepuff, slytherin
+   #Preview {
+      struct Preview: View {
+         enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {
+            case gryffindor, ravenclaw, hufflepuff, slytherin
 
-         var description: String { self.rawValue.firstUppercased }
-         var symbolName: String {
-            switch self {
-            case .gryffindor: "cat"
-            case .ravenclaw: "bird"
-            case .hufflepuff: "dog"
-            case .slytherin: "lizard"
+            var description: String { self.rawValue.firstUppercased }
+            var symbolName: String {
+               switch self {
+               case .gryffindor: "cat"
+               case .ravenclaw: "bird"
+               case .hufflepuff: "dog"
+               case .slytherin: "lizard"
+               }
             }
+            var id: String { self.rawValue }
          }
-         var id: String { self.rawValue }
+
+         @State var selectedHouse: HogwartsHouse? = .gryffindor
+
+         var body: some View {
+            Form {
+               VPicker("Hogwarts House", selection: self.$selectedHouse)
+            }
+            .macOSOnly { $0.padding().frame(minHeight: 450) }
+         }
       }
 
-      @State var selectedHouse: HogwartsHouse? = .gryffindor
-
-      var body: some View {
-         Form {
-            VPicker("Hogwarts House", selection: self.$selectedHouse)
-         }
-         .macOSOnly { $0.padding().frame(minHeight: 450) }
-      }
+      return Preview()
    }
-
-   return Preview()
-}
 #endif

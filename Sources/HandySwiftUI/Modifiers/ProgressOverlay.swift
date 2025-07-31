@@ -9,7 +9,7 @@ public enum ProgressType {
    case determinate(progress: Progress)
 }
 
-fileprivate struct ProgressOverlay: ViewModifier {
+private struct ProgressOverlay: ViewModifier {
    let progressType: ProgressType
 
    func body(content: Content) -> some View {
@@ -21,12 +21,10 @@ fileprivate struct ProgressOverlay: ViewModifier {
                   if running {
                      if let title = title {
                         ProgressView(title)
-                     }
-                     else {
+                     } else {
                         ProgressView()
                      }
-                  }
-                  else {
+                  } else {
                      EmptyView()
                   }
 

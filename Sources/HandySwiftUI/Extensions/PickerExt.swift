@@ -1,6 +1,7 @@
 import SwiftUI
 
-extension Picker where
+extension Picker
+where
    Label == Text,
    SelectionValue: CaseIterable & Hashable & Identifiable & CustomLabelConvertible,
    SelectionValue.AllCases: RandomAccessCollection,

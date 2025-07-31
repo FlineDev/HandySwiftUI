@@ -9,7 +9,6 @@ public struct HorizontalLabelStyle: LabelStyle {
    var iconAngle: Angle?
    var iconAmount: Int
 
-
    /// Initializes a new `HorizontalLabelStyle` with the specified properties.
    ///
    /// - Parameters:
@@ -86,22 +85,22 @@ extension LabelStyle where Self == HorizontalLabelStyle {
 }
 
 #if DEBUG
-#Preview("Default") {
-   Label("Hogwarts", systemImage: "graduationcap")
-      .labelStyle(.horizontal())
-      .macOSOnlyPadding()
-}
+   #Preview("Default") {
+      Label("Hogwarts", systemImage: "graduationcap")
+         .labelStyle(.horizontal())
+         .macOSOnlyPadding()
+   }
 
-#Preview("Trailing") {
-   Label("Hogwarts", systemImage: "graduationcap")
-      .labelStyle(.horizontal(iconIsTrailing: true))
-      .macOSOnlyPadding()
-}
+   #Preview("Trailing") {
+      Label("Hogwarts", systemImage: "graduationcap")
+         .labelStyle(.horizontal(iconIsTrailing: true))
+         .macOSOnlyPadding()
+   }
 
-#Preview("Custom") {
-   Label("Hogwarts", systemImage: "plus.circle")
-      .labelStyle(.horizontal(spacing: 20, iconColor: .orange, iconFont: .title, iconAmount: 2))
-      .font(.footnote)
-      .macOSOnlyPadding()
-}
+   #Preview("Custom") {
+      Label("Hogwarts", systemImage: "plus.circle")
+         .labelStyle(.horizontal(spacing: 20, iconColor: .orange, iconFont: .title, iconAmount: 2))
+         .font(.footnote)
+         .macOSOnlyPadding()
+   }
 #endif

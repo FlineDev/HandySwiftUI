@@ -74,7 +74,7 @@ extension Binding where Value: ExpressibleByNilLiteral {
    @MainActor
    public func isPresent<T>(wrappedType: T.Type) -> Binding<Bool> {
       Binding<Bool> {
-         if let typedWrappedValue = self.wrappedValue as? Optional<T> {
+         if let typedWrappedValue = self.wrappedValue as? T? {
             switch typedWrappedValue {
             case .none: return false
             default: return true

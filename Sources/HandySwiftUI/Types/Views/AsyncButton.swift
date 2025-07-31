@@ -163,38 +163,38 @@ public struct AsyncButton: View {
 }
 
 #if DEBUG && swift(>=6.0)
-@available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
-#Preview {
-   @Previewable @State var errorMessage: String?
+   @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
+   #Preview {
+      @Previewable @State var errorMessage: String?
 
-   VStack(spacing: 20) {
-      AsyncButton("Succeed after 1 sec", systemImage: "play") {
-         try await Task.sleep(for: .seconds(1))
-      }
-
-      AsyncButton("Fail after 1 sec") {
-         try await Task.sleep(for: .seconds(1))
-         throw CancellationError()
-      } catchError: { error in
-         withAnimation {
-            errorMessage = error.localizedDescription
+      VStack(spacing: 20) {
+         AsyncButton("Succeed after 1 sec", systemImage: "play") {
+            try await Task.sleep(for: .seconds(1))
          }
-      }
 
-      Group {
-         if let errorMessage {
-            #if os(tvOS)
-            Text("Failed with error:\n\(errorMessage)")
-            #else
-            GroupBox {
-               Text("Failed with error:\n\(errorMessage)")
+         AsyncButton("Fail after 1 sec") {
+            try await Task.sleep(for: .seconds(1))
+            throw CancellationError()
+         } catchError: { error in
+            withAnimation {
+               errorMessage = error.localizedDescription
             }
-            #endif
-         } else {
-            Color.clear
          }
-      }.frame(height: 100)
+
+         Group {
+            if let errorMessage {
+               #if os(tvOS)
+                  Text("Failed with error:\n\(errorMessage)")
+               #else
+                  GroupBox {
+                     Text("Failed with error:\n\(errorMessage)")
+                  }
+               #endif
+            } else {
+               Color.clear
+            }
+         }.frame(height: 100)
+      }
+      .padding()
    }
-   .padding()
-}
 #endif

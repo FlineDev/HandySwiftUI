@@ -15,11 +15,11 @@ extension CGFloat {
    /// ```
    public static var platformDefaultSpacing: Self {
       #if os(tvOS)
-      return 30
+         return 30
       #elseif os(macOS) || os(watchOS)
-      return 8
+         return 8
       #else
-      return 16
+         return 16
       #endif
    }
 
@@ -37,11 +37,11 @@ extension CGFloat {
    /// ```
    public static var platformDefaultTextHeight: Self {
       #if os(tvOS)
-      return 45.5
+         return 45.5
       #elseif os(macOS)
-      return 18
+         return 18
       #else
-      return 20.5
+         return 20.5
       #endif
    }
 }

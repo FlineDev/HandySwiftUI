@@ -51,12 +51,12 @@ extension View {
 }
 
 #if DEBUG
-#Preview {
-   VStack(spacing: 10) {
-      Text(".green").foregroundColor(.green)
-      Text(".green, minContrast: 0.5").foregroundStyle(.green, minContrast: 0.66)
-      Text(".red").foregroundColor(.red)
-      Text(".red, minContrast: 0.5").foregroundStyle(.red, minContrast: 0.66)
+   #Preview {
+      VStack(spacing: 10) {
+         Text(".green").foregroundColor(.green)
+         Text(".green, minContrast: 0.5").foregroundStyle(.green, minContrast: 0.66)
+         Text(".red").foregroundColor(.red)
+         Text(".red, minContrast: 0.5").foregroundStyle(.red, minContrast: 0.66)
+      }
    }
-}
 #endif

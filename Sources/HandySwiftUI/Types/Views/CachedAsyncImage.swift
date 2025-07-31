@@ -40,9 +40,9 @@ import SwiftUI
 /// ```
 public struct CachedAsyncImage: View {
    #if canImport(UIKit)
-   typealias NativeImage = UIImage
+      typealias NativeImage = UIImage
    #elseif canImport(AppKit)
-   typealias NativeImage = NSImage
+      typealias NativeImage = NSImage
    #endif
 
    /// Internal cache manager that provides thread-safe storage and retrieval of downloaded images.
@@ -105,13 +105,13 @@ public struct CachedAsyncImage: View {
       Group {
          if let image = image {
             #if canImport(UIKit)
-            Image(uiImage: image)
-               .resizable()
-               .aspectRatio(contentMode: .fill)
+               Image(uiImage: image)
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
             #else
-            Image(nsImage: image)
-               .resizable()
-               .aspectRatio(contentMode: .fill)
+               Image(nsImage: image)
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
             #endif
          } else {
             if self.isLoading {
@@ -154,7 +154,7 @@ public struct CachedAsyncImage: View {
 }
 
 #if DEBUG
-#Preview {
-   CachedAsyncImage(url: URL(string: "https://picsum.photos/200")!)
-}
+   #Preview {
+      CachedAsyncImage(url: URL(string: "https://picsum.photos/200")!)
+   }
 #endif

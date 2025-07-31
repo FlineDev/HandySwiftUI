@@ -515,4 +515,3 @@ extension SFSymbol: SearchableOption {
       }
    }
 }
-

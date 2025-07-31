@@ -55,42 +55,42 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
    /// A binding to the set of currently selected items.
    @Binding
    var selected: Set<Selectable>
-   
+
    var body: some View {
       List {
          Section {
             ForEach(self.options) { selectable in
                #if !os(macOS)
-               Button(action: { toggleSelection(selectable: selectable) }) {
-                  HStack {
-                     Text(optionToString(selectable)).foregroundColor(.label)
-                     Spacer()
-                     if selected.contains(where: { $0.id == selectable.id }) {
-                        Image(systemName: "checkmark").foregroundColor(.accentColor)
+                  Button(action: { toggleSelection(selectable: selectable) }) {
+                     HStack {
+                        Text(optionToString(selectable)).foregroundColor(.label)
+                        Spacer()
+                        if selected.contains(where: { $0.id == selectable.id }) {
+                           Image(systemName: "checkmark").foregroundColor(.accentColor)
+                        }
                      }
                   }
-               }
-               .tag(selectable.id)
-               #else
-               Toggle(optionToString(selectable), isOn: self.boolBinding(selectable: selectable))
-                  .toggleStyle(.switch)
-                  .frame(height: 22)
                   .tag(selectable.id)
+               #else
+                  Toggle(optionToString(selectable), isOn: self.boolBinding(selectable: selectable))
+                     .toggleStyle(.switch)
+                     .frame(height: 22)
+                     .tag(selectable.id)
                #endif
             }
          }
 
          #if os(macOS)
-         Section {
-            Button("Done") {
-               self.dismiss()
+            Section {
+               Button("Done") {
+                  self.dismiss()
+               }
+               .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            .frame(maxWidth: .infinity, alignment: .trailing)
-         }
          #endif
       }
       #if os(macOS)
-      .frame(height: min((NSScreen.main?.frame.height ?? 100_000) - 54, Double(self.options.count) * 22 + 104))
+         .frame(height: min((NSScreen.main?.frame.height ?? 100_000) - 54, Double(self.options.count) * 22 + 104))
       #endif
    }
 
@@ -121,35 +121,34 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
    private func toggleSelection(selectable: Selectable) {
       if let existingIndex = selected.firstIndex(where: { $0.id == selectable.id }) {
          selected.remove(at: existingIndex)
-      }
-      else {
+      } else {
          selected.insert(selectable)
       }
    }
 }
 
 #if DEBUG
-#Preview {
-   struct Preview: View {
-      /// A simple `Identifiable` and `Hashable` struct for preview purposes.
-      struct IdentifiableString: Identifiable, Hashable {
-         let string: String
-         var id: String { string }
-      }
+   #Preview {
+      struct Preview: View {
+         /// A simple `Identifiable` and `Hashable` struct for preview purposes.
+         struct IdentifiableString: Identifiable, Hashable {
+            let string: String
+            var id: String { string }
+         }
 
-      @State var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
+         @State var selected: Set<IdentifiableString> = Set(["A", "C"].map { IdentifiableString(string: $0) })
 
-      var body: some View {
-         NavigationStack {
-            MultiSelectionView(
-               options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
-               optionToString: { $0.string },
-               selected: $selected
-            )
+         var body: some View {
+            NavigationStack {
+               MultiSelectionView(
+                  options: ["A", "B", "C", "D"].map { IdentifiableString(string: $0) },
+                  optionToString: { $0.string },
+                  selected: $selected
+               )
+            }
          }
       }
-   }
 
-   return Preview()
-}
+      return Preview()
+   }
 #endif

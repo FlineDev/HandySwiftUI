@@ -1,5 +1,5 @@
-import SwiftUI
 import HandySwift
+import SwiftUI
 
 /// An enum representing a variety of emoji characters. Each case is an emoji with a specific meaning. This type is designed to be used in a ``SearchableGridPicker``.
 public enum Emoji: String, CaseIterable, AutoConforming {
@@ -2089,8 +2089,10 @@ extension Emoji: SearchableOption {
       case .catWithWrySmile: ["cat", "with", "wry", "smile", "animal", "cats", "smirk"]
       case .chains: ["chains", "lock", "arrest"]
       case .chair: ["chair", "sit", "furniture"]
-      case .chartDecreasing: ["chart", "decreasing", "graph", "presentation", "stats", "recession", "business", "economics", "money", "sales", "bad", "failure"]
-      case .chartIncreasing: ["chart", "increasing", "graph", "presentation", "stats", "recovery", "business", "economics", "money", "sales", "good", "success"]
+      case .chartDecreasing:
+         ["chart", "decreasing", "graph", "presentation", "stats", "recession", "business", "economics", "money", "sales", "bad", "failure"]
+      case .chartIncreasing:
+         ["chart", "increasing", "graph", "presentation", "stats", "recovery", "business", "economics", "money", "sales", "good", "success"]
       case .chartIncreasingWithYen: ["chart", "increasing", "with", "yen", "green-square", "graph", "presentation", "stats"]
       case .checkBoxWithCheck: ["check", "box", "with", "check", "ok", "agree", "confirm", "black-square", "vote", "election", "yes", "tick"]
       case .checkMark: ["check", "mark", "ok", "nike", "answer", "yes", "tick"]
@@ -2165,9 +2167,11 @@ extension Emoji: SearchableOption {
       case .couchAndLamp: ["couch", "and", "lamp", "read", "chill"]
       case .counterclockwiseArrowsButton: ["counterclockwise", "arrows", "button", "blue-square", "sync", "cycle"]
       case .coupleWithHeart: ["couple", "with", "heart", "pair", "love", "like", "affection", "human", "dating", "valentines", "marriage"]
-      case .coupleWithHeartManMan: ["couple", "with", "heart", "man", "man", "pair", "love", "like", "affection", "human", "dating", "valentines", "marriage"]
+      case .coupleWithHeartManMan:
+         ["couple", "with", "heart", "man", "man", "pair", "love", "like", "affection", "human", "dating", "valentines", "marriage"]
       case .coupleWithHeartWomanMan: ["couple", "with", "heart", "woman", "man", "love"]
-      case .coupleWithHeartWomanWoman: ["couple", "with", "heart", "woman", "woman", "pair", "love", "like", "affection", "human", "dating", "valentines", "marriage"]
+      case .coupleWithHeartWomanWoman:
+         ["couple", "with", "heart", "woman", "woman", "pair", "love", "like", "affection", "human", "dating", "valentines", "marriage"]
       case .cow: ["cow", "beef", "ox", "animal", "nature", "moo", "milk"]
       case .cowFace: ["cow", "face", "beef", "ox", "animal", "nature", "moo", "milk"]
       case .cowboyHatFace: ["cowboy", "hat", "face", "face", "cowgirl", "hat"]
@@ -2291,7 +2295,8 @@ extension Emoji: SearchableOption {
       case .faceExhaling: ["face", "exhaling", "relieve", "relief", "tired", "sigh"]
       case .faceHoldingBackTears: ["face", "holding", "back", "tears", "touched", "gratitude", "cry"]
       case .faceInClouds: ["face", "in", "clouds", "shower", "steam", "dream"]
-      case .faceSavoringFood: ["face", "savoring", "food", "happy", "joy", "tongue", "smile", "face", "silly", "yummy", "nom", "delicious", "savouring"]
+      case .faceSavoringFood:
+         ["face", "savoring", "food", "happy", "joy", "tongue", "smile", "face", "silly", "yummy", "nom", "delicious", "savouring"]
       case .faceScreamingInFear: ["face", "screaming", "in", "fear", "face", "munch", "scared", "omg"]
       case .faceVomiting: ["face", "vomiting", "face", "sick"]
       case .faceWithDiagonalMouth: ["face", "with", "diagonal", "mouth", "skeptic", "confuse", "frustrated", "indifferent"]
@@ -2299,10 +2304,12 @@ extension Emoji: SearchableOption {
       case .faceWithHeadBandage: ["face", "with", "head", "bandage", "injured", "clumsy", "bandage", "hurt"]
       case .faceWithMedicalMask: ["face", "with", "medical", "mask", "face", "sick", "ill", "disease", "covid"]
       case .faceWithMonocle: ["face", "with", "monocle", "face", "stuffy", "wealthy"]
-      case .faceWithOpenEyesAndHandOverMouth: ["face", "with", "open", "eyes", "and", "hand", "over", "mouth", "silence", "secret", "shock", "surprise"]
+      case .faceWithOpenEyesAndHandOverMouth:
+         ["face", "with", "open", "eyes", "and", "hand", "over", "mouth", "silence", "secret", "shock", "surprise"]
       case .faceWithOpenMouth: ["face", "with", "open", "mouth", "face", "surprise", "impressed", "wow", "whoa", ":O"]
       case .faceWithPeekingEye: ["face", "with", "peeking", "eye", "scared", "frightening", "embarrassing", "shy"]
-      case .faceWithRaisedEyebrow: ["face", "with", "raised", "eyebrow", "face", "distrust", "scepticism", "disapproval", "disbelief", "surprise", "suspicious"]
+      case .faceWithRaisedEyebrow:
+         ["face", "with", "raised", "eyebrow", "face", "distrust", "scepticism", "disapproval", "disbelief", "surprise", "suspicious"]
       case .faceWithRollingEyes: ["face", "with", "rolling", "eyes", "face", "eyeroll", "frustrated"]
       case .faceWithSpiralEyes: ["face", "with", "spiral", "eyes", "sick", "ill", "confused", "nauseous", "nausea"]
       case .faceWithSteamFromNose: ["face", "with", "steam", "from", "nose", "face", "gas", "phew", "proud", "pride", "triumph"]
@@ -2367,7 +2374,8 @@ extension Emoji: SearchableOption {
       case .firstQuarterMoon: ["first", "quarter", "moon", "nature", "twilight", "planet", "space", "night", "evening", "sleep"]
       case .firstQuarterMoonFace: ["first", "quarter", "moon", "face", "nature", "twilight", "planet", "space", "night", "evening", "sleep"]
       case .fish: ["fish", "animal", "food", "nature"]
-      case .fishCakeWithSwirl: ["fish", "cake", "with", "swirl", "food", "japan", "sea", "beach", "narutomaki", "pink", "swirl", "kamaboko", "surimi", "ramen"]
+      case .fishCakeWithSwirl:
+         ["fish", "cake", "with", "swirl", "food", "japan", "sea", "beach", "narutomaki", "pink", "swirl", "kamaboko", "surimi", "ramen"]
       case .fishingPole: ["fishing", "pole", "food", "hobby", "summer"]
       case .fiveOClock: ["five", "o", "clock", "5", "5:00", "500", "17:00", "1700", "time", "late", "early", "schedule"]
       case .fiveThirty: ["five", "thirty", "5:30", "530", "17:30", "1730", "time", "late", "early", "schedule"]
@@ -2399,12 +2407,21 @@ extension Emoji: SearchableOption {
       case .flagBermuda: ["flag", "bermuda", "bm", "flag", "nation", "country", "banner", "bermuda"]
       case .flagBhutan: ["flag", "bhutan", "bt", "flag", "nation", "country", "banner", "bhutan"]
       case .flagBolivia: ["flag", "bolivia", "bo", "flag", "nation", "country", "banner", "bolivia"]
-      case .flagBosniaHerzegovina: ["flag", "bosnia", "herzegovina", "bosnia", "herzegovina", "flag", "nation", "country", "banner", "bosnia", "herzegovina"]
+      case .flagBosniaHerzegovina:
+         ["flag", "bosnia", "herzegovina", "bosnia", "herzegovina", "flag", "nation", "country", "banner", "bosnia", "herzegovina"]
       case .flagBotswana: ["flag", "botswana", "bw", "flag", "nation", "country", "banner", "botswana"]
       case .flagBouvetIsland: ["flag", "bouvet", "island", "norway"]
       case .flagBrazil: ["flag", "brazil", "br", "flag", "nation", "country", "banner", "brazil"]
-      case .flagBritishIndianOceanTerritory: ["flag", "british", "indian", "ocean", "territory", "british", "indian", "ocean", "territory", "flag", "nation", "country", "banner", "british", "indian", "ocean", "territory"]
-      case .flagBritishVirginIslands: ["flag", "british", "virgin", "islands", "british", "virgin", "islands", "bvi", "flag", "nation", "country", "banner", "british", "virgin", "islands"]
+      case .flagBritishIndianOceanTerritory:
+         [
+            "flag", "british", "indian", "ocean", "territory", "british", "indian", "ocean", "territory", "flag", "nation", "country", "banner",
+            "british", "indian", "ocean", "territory",
+         ]
+      case .flagBritishVirginIslands:
+         [
+            "flag", "british", "virgin", "islands", "british", "virgin", "islands", "bvi", "flag", "nation", "country", "banner", "british", "virgin",
+            "islands",
+         ]
       case .flagBrunei: ["flag", "brunei", "bn", "darussalam", "flag", "nation", "country", "banner", "brunei"]
       case .flagBulgaria: ["flag", "bulgaria", "bg", "flag", "nation", "country", "banner", "bulgaria"]
       case .flagBurkinaFaso: ["flag", "burkina", "faso", "burkina", "faso", "flag", "nation", "country", "banner", "burkina", "faso"]
@@ -2414,9 +2431,14 @@ extension Emoji: SearchableOption {
       case .flagCanada: ["flag", "canada", "ca", "flag", "nation", "country", "banner", "canada"]
       case .flagCanaryIslands: ["flag", "canary", "islands", "canary", "islands", "flag", "nation", "country", "banner", "canary", "islands"]
       case .flagCapeVerde: ["flag", "cape", "verde", "cabo", "verde", "flag", "nation", "country", "banner", "cape", "verde"]
-      case .flagCaribbeanNetherlands: ["flag", "caribbean", "netherlands", "bonaire", "flag", "nation", "country", "banner", "caribbean", "netherlands"]
+      case .flagCaribbeanNetherlands:
+         ["flag", "caribbean", "netherlands", "bonaire", "flag", "nation", "country", "banner", "caribbean", "netherlands"]
       case .flagCaymanIslands: ["flag", "cayman", "islands", "cayman", "islands", "flag", "nation", "country", "banner", "cayman", "islands"]
-      case .flagCentralAfricanRepublic: ["flag", "central", "african", "republic", "central", "african", "republic", "flag", "nation", "country", "banner", "central", "african", "republic"]
+      case .flagCentralAfricanRepublic:
+         [
+            "flag", "central", "african", "republic", "central", "african", "republic", "flag", "nation", "country", "banner", "central", "african",
+            "republic",
+         ]
       case .flagCeutaMelilla: ["flag", "ceuta", "melilla"]
       case .flagChad: ["flag", "chad", "td", "flag", "nation", "country", "banner", "chad"]
       case .flagChile: ["flag", "chile", "flag", "nation", "country", "banner", "chile"]
@@ -2427,7 +2449,8 @@ extension Emoji: SearchableOption {
       case .flagColombia: ["flag", "colombia", "co", "flag", "nation", "country", "banner", "colombia"]
       case .flagComoros: ["flag", "comoros", "km", "flag", "nation", "country", "banner", "comoros"]
       case .flagCongoBrazzaville: ["flag", "congo", "brazzaville", "congo", "flag", "nation", "country", "banner", "congo", "brazzaville"]
-      case .flagCongoKinshasa: ["flag", "congo", "kinshasa", "congo", "democratic", "republic", "flag", "nation", "country", "banner", "congo", "kinshasa"]
+      case .flagCongoKinshasa:
+         ["flag", "congo", "kinshasa", "congo", "democratic", "republic", "flag", "nation", "country", "banner", "congo", "kinshasa"]
       case .flagCookIslands: ["flag", "cook", "islands", "cook", "islands", "flag", "nation", "country", "banner", "cook", "islands"]
       case .flagCostaRica: ["flag", "costa", "rica", "costa", "rica", "flag", "nation", "country", "banner", "costa", "rica"]
       case .flagCoteDIvoire: ["flag", "cote", "d", "ivoire", "ivory", "coast", "flag", "nation", "country", "banner", "cote", "d", "ivoire"]
@@ -2440,7 +2463,8 @@ extension Emoji: SearchableOption {
       case .flagDiegoGarcia: ["flag", "diego", "garcia"]
       case .flagDjibouti: ["flag", "djibouti", "dj", "flag", "nation", "country", "banner", "djibouti"]
       case .flagDominica: ["flag", "dominica", "dm", "flag", "nation", "country", "banner", "dominica"]
-      case .flagDominicanRepublic: ["flag", "dominican", "republic", "dominican", "republic", "flag", "nation", "country", "banner", "dominican", "republic"]
+      case .flagDominicanRepublic:
+         ["flag", "dominican", "republic", "dominican", "republic", "flag", "nation", "country", "banner", "dominican", "republic"]
       case .flagEcuador: ["flag", "ecuador", "ec", "flag", "nation", "country", "banner", "ecuador"]
       case .flagEgypt: ["flag", "egypt", "eg", "flag", "nation", "country", "banner", "egypt"]
       case .flagElSalvador: ["flag", "el", "salvador", "el", "salvador", "flag", "nation", "country", "banner", "el", "salvador"]
@@ -2451,14 +2475,19 @@ extension Emoji: SearchableOption {
       case .flagEswatini: ["flag", "eswatini", "sz", "flag", "nation", "country", "banner", "eswatini"]
       case .flagEthiopia: ["flag", "ethiopia", "et", "flag", "nation", "country", "banner", "ethiopia"]
       case .flagEuropeanUnion: ["flag", "european", "union", "european", "union", "flag", "banner"]
-      case .flagFalklandIslands: ["flag", "falkland", "islands", "falkland", "islands", "malvinas", "flag", "nation", "country", "banner", "falkland", "islands"]
+      case .flagFalklandIslands:
+         ["flag", "falkland", "islands", "falkland", "islands", "malvinas", "flag", "nation", "country", "banner", "falkland", "islands"]
       case .flagFaroeIslands: ["flag", "faroe", "islands", "faroe", "islands", "flag", "nation", "country", "banner", "faroe", "islands"]
       case .flagFiji: ["flag", "fiji", "fj", "flag", "nation", "country", "banner", "fiji"]
       case .flagFinland: ["flag", "finland", "fi", "flag", "nation", "country", "banner", "finland"]
       case .flagFrance: ["flag", "france", "banner", "flag", "nation", "france", "french", "country"]
       case .flagFrenchGuiana: ["flag", "french", "guiana", "french", "guiana", "flag", "nation", "country", "banner", "french", "guiana"]
       case .flagFrenchPolynesia: ["flag", "french", "polynesia", "french", "polynesia", "flag", "nation", "country", "banner", "french", "polynesia"]
-      case .flagFrenchSouthernTerritories: ["flag", "french", "southern", "territories", "french", "southern", "territories", "flag", "nation", "country", "banner", "french", "southern", "territories"]
+      case .flagFrenchSouthernTerritories:
+         [
+            "flag", "french", "southern", "territories", "french", "southern", "territories", "flag", "nation", "country", "banner", "french",
+            "southern", "territories",
+         ]
       case .flagGabon: ["flag", "gabon", "ga", "flag", "nation", "country", "banner", "gabon"]
       case .flagGambia: ["flag", "gambia", "gm", "flag", "nation", "country", "banner", "gambia"]
       case .flagGeorgia: ["flag", "georgia", "ge", "flag", "nation", "country", "banner", "georgia"]
@@ -2478,7 +2507,8 @@ extension Emoji: SearchableOption {
       case .flagHaiti: ["flag", "haiti", "ht", "flag", "nation", "country", "banner", "haiti"]
       case .flagHeardMcdonaldIslands: ["flag", "heard", "mcdonald", "islands"]
       case .flagHonduras: ["flag", "honduras", "hn", "flag", "nation", "country", "banner", "honduras"]
-      case .flagHongKongSarChina: ["flag", "hong", "kong", "sar", "china", "hong", "kong", "flag", "nation", "country", "banner", "hong", "kong", "sar", "china"]
+      case .flagHongKongSarChina:
+         ["flag", "hong", "kong", "sar", "china", "hong", "kong", "flag", "nation", "country", "banner", "hong", "kong", "sar", "china"]
       case .flagHungary: ["flag", "hungary", "hu", "flag", "nation", "country", "banner", "hungary"]
       case .flagIceland: ["flag", "iceland", "is", "flag", "nation", "country", "banner", "iceland"]
       case .flagInHole: ["flag", "in", "hole", "sports", "business", "flag", "hole", "summer"]
@@ -2544,14 +2574,23 @@ extension Emoji: SearchableOption {
       case .flagNorfolkIsland: ["flag", "norfolk", "island", "norfolk", "island", "flag", "nation", "country", "banner", "norfolk", "island"]
       case .flagNorthKorea: ["flag", "north", "korea", "north", "korea", "nation", "flag", "country", "banner", "north", "korea"]
       case .flagNorthMacedonia: ["flag", "north", "macedonia", "macedonia", "flag", "nation", "country", "banner", "north", "macedonia"]
-      case .flagNorthernMarianaIslands: ["flag", "northern", "mariana", "islands", "northern", "mariana", "islands", "flag", "nation", "country", "banner", "northern", "mariana", "islands"]
+      case .flagNorthernMarianaIslands:
+         [
+            "flag", "northern", "mariana", "islands", "northern", "mariana", "islands", "flag", "nation", "country", "banner", "northern", "mariana",
+            "islands",
+         ]
       case .flagNorway: ["flag", "norway", "no", "flag", "nation", "country", "banner", "norway"]
       case .flagOman: ["flag", "oman", "om", "symbol", "flag", "nation", "country", "banner", "oman"]
       case .flagPakistan: ["flag", "pakistan", "pk", "flag", "nation", "country", "banner", "pakistan"]
       case .flagPalau: ["flag", "palau", "pw", "flag", "nation", "country", "banner", "palau"]
-      case .flagPalestinianTerritories: ["flag", "palestinian", "territories", "palestine", "palestinian", "territories", "flag", "nation", "country", "banner", "palestinian", "territories"]
+      case .flagPalestinianTerritories:
+         [
+            "flag", "palestinian", "territories", "palestine", "palestinian", "territories", "flag", "nation", "country", "banner", "palestinian",
+            "territories",
+         ]
       case .flagPanama: ["flag", "panama", "pa", "flag", "nation", "country", "banner", "panama"]
-      case .flagPapuaNewGuinea: ["flag", "papua", "new", "guinea", "papua", "new", "guinea", "flag", "nation", "country", "banner", "papua", "new", "guinea"]
+      case .flagPapuaNewGuinea:
+         ["flag", "papua", "new", "guinea", "papua", "new", "guinea", "flag", "nation", "country", "banner", "papua", "new", "guinea"]
       case .flagParaguay: ["flag", "paraguay", "py", "flag", "nation", "country", "banner", "paraguay"]
       case .flagPeru: ["flag", "peru", "pe", "flag", "nation", "country", "banner", "peru"]
       case .flagPhilippines: ["flag", "philippines", "ph", "flag", "nation", "country", "banner", "philippines"]
@@ -2566,7 +2605,8 @@ extension Emoji: SearchableOption {
       case .flagRwanda: ["flag", "rwanda", "rw", "flag", "nation", "country", "banner", "rwanda"]
       case .flagSamoa: ["flag", "samoa", "ws", "flag", "nation", "country", "banner", "samoa"]
       case .flagSanMarino: ["flag", "san", "marino", "san", "marino", "flag", "nation", "country", "banner", "san", "marino"]
-      case .flagSaoTomePrincipe: ["flag", "sao", "tome", "principe", "sao", "tome", "principe", "flag", "nation", "country", "banner", "sao", "tome", "principe"]
+      case .flagSaoTomePrincipe:
+         ["flag", "sao", "tome", "principe", "sao", "tome", "principe", "flag", "nation", "country", "banner", "sao", "tome", "principe"]
       case .flagSaudiArabia: ["flag", "saudi", "arabia", "flag", "nation", "country", "banner", "saudi", "arabia"]
       case .flagScotland: ["flag", "scotland", "flag", "scottish"]
       case .flagSenegal: ["flag", "senegal", "sn", "flag", "nation", "country", "banner", "senegal"]
@@ -2580,18 +2620,29 @@ extension Emoji: SearchableOption {
       case .flagSolomonIslands: ["flag", "solomon", "islands", "solomon", "islands", "flag", "nation", "country", "banner", "solomon", "islands"]
       case .flagSomalia: ["flag", "somalia", "so", "flag", "nation", "country", "banner", "somalia"]
       case .flagSouthAfrica: ["flag", "south", "africa", "south", "africa", "flag", "nation", "country", "banner", "south", "africa"]
-      case .flagSouthGeorgiaSouthSandwichIslands: ["flag", "south", "georgia", "south", "sandwich", "islands", "south", "georgia", "sandwich", "islands", "flag", "nation", "country", "banner", "south", "georgia", "south", "sandwich", "islands"]
+      case .flagSouthGeorgiaSouthSandwichIslands:
+         [
+            "flag", "south", "georgia", "south", "sandwich", "islands", "south", "georgia", "sandwich", "islands", "flag", "nation", "country",
+            "banner", "south", "georgia", "south", "sandwich", "islands",
+         ]
       case .flagSouthKorea: ["flag", "south", "korea", "south", "korea", "nation", "flag", "country", "banner", "south", "korea"]
       case .flagSouthSudan: ["flag", "south", "sudan", "south", "sd", "flag", "nation", "country", "banner", "south", "sudan"]
       case .flagSpain: ["flag", "spain", "spain", "flag", "nation", "country", "banner"]
       case .flagSriLanka: ["flag", "sri", "lanka", "sri", "lanka", "flag", "nation", "country", "banner", "sri", "lanka"]
       case .flagStBarthelemy: ["flag", "st", "barthelemy", "saint", "barthélemy", "flag", "nation", "country", "banner", "st", "barthelemy"]
-      case .flagStHelena: ["flag", "st", "helena", "saint", "helena", "ascension", "tristan", "cunha", "flag", "nation", "country", "banner", "st", "helena"]
-      case .flagStKittsNevis: ["flag", "st", "kitts", "nevis", "saint", "kitts", "nevis", "flag", "nation", "country", "banner", "st", "kitts", "nevis"]
+      case .flagStHelena:
+         ["flag", "st", "helena", "saint", "helena", "ascension", "tristan", "cunha", "flag", "nation", "country", "banner", "st", "helena"]
+      case .flagStKittsNevis:
+         ["flag", "st", "kitts", "nevis", "saint", "kitts", "nevis", "flag", "nation", "country", "banner", "st", "kitts", "nevis"]
       case .flagStLucia: ["flag", "st", "lucia", "saint", "lucia", "flag", "nation", "country", "banner", "st", "lucia"]
       case .flagStMartin: ["flag", "st", "martin"]
-      case .flagStPierreMiquelon: ["flag", "st", "pierre", "miquelon", "saint", "pierre", "miquelon", "flag", "nation", "country", "banner", "st", "pierre", "miquelon"]
-      case .flagStVincentGrenadines: ["flag", "st", "vincent", "grenadines", "saint", "vincent", "grenadines", "flag", "nation", "country", "banner", "st", "vincent", "grenadines"]
+      case .flagStPierreMiquelon:
+         ["flag", "st", "pierre", "miquelon", "saint", "pierre", "miquelon", "flag", "nation", "country", "banner", "st", "pierre", "miquelon"]
+      case .flagStVincentGrenadines:
+         [
+            "flag", "st", "vincent", "grenadines", "saint", "vincent", "grenadines", "flag", "nation", "country", "banner", "st", "vincent",
+            "grenadines",
+         ]
       case .flagSudan: ["flag", "sudan", "sd", "flag", "nation", "country", "banner", "sudan"]
       case .flagSuriname: ["flag", "suriname", "sr", "flag", "nation", "country", "banner", "suriname"]
       case .flagSvalbardJanMayen: ["flag", "svalbard", "jan", "mayen"]
@@ -2611,14 +2662,21 @@ extension Emoji: SearchableOption {
       case .flagTunisia: ["flag", "tunisia", "tn", "flag", "nation", "country", "banner", "tunisia"]
       case .flagTurkey: ["flag", "turkey", "turkey", "flag", "nation", "country", "banner"]
       case .flagTurkmenistan: ["flag", "turkmenistan", "flag", "nation", "country", "banner", "turkmenistan"]
-      case .flagTurksCaicosIslands: ["flag", "turks", "caicos", "islands", "turks", "caicos", "islands", "flag", "nation", "country", "banner", "turks", "caicos", "islands"]
+      case .flagTurksCaicosIslands:
+         ["flag", "turks", "caicos", "islands", "turks", "caicos", "islands", "flag", "nation", "country", "banner", "turks", "caicos", "islands"]
       case .flagTuvalu: ["flag", "tuvalu", "flag", "nation", "country", "banner", "tuvalu"]
       case .flagUSOutlyingIslands: ["flag", "u", "s", "outlying", "islands"]
-      case .flagUSVirginIslands: ["flag", "u", "s", "virgin", "islands", "virgin", "islands", "us", "flag", "nation", "country", "banner", "u", "s", "virgin", "islands"]
+      case .flagUSVirginIslands:
+         ["flag", "u", "s", "virgin", "islands", "virgin", "islands", "us", "flag", "nation", "country", "banner", "u", "s", "virgin", "islands"]
       case .flagUganda: ["flag", "uganda", "ug", "flag", "nation", "country", "banner", "uganda"]
       case .flagUkraine: ["flag", "ukraine", "ua", "flag", "nation", "country", "banner", "ukraine"]
-      case .flagUnitedArabEmirates: ["flag", "united", "arab", "emirates", "united", "arab", "emirates", "flag", "nation", "country", "banner", "united", "arab", "emirates"]
-      case .flagUnitedKingdom: ["flag", "united", "kingdom", "united", "kingdom", "great", "britain", "northern", "ireland", "flag", "nation", "country", "banner", "british", "UK", "english", "england", "union", "jack", "united", "kingdom"]
+      case .flagUnitedArabEmirates:
+         ["flag", "united", "arab", "emirates", "united", "arab", "emirates", "flag", "nation", "country", "banner", "united", "arab", "emirates"]
+      case .flagUnitedKingdom:
+         [
+            "flag", "united", "kingdom", "united", "kingdom", "great", "britain", "northern", "ireland", "flag", "nation", "country", "banner",
+            "british", "UK", "english", "england", "union", "jack", "united", "kingdom",
+         ]
       case .flagUnitedNations: ["flag", "united", "nations", "un", "flag", "banner"]
       case .flagUnitedStates: ["flag", "united", "states", "united", "states", "america", "flag", "nation", "country", "banner", "united", "states"]
       case .flagUruguay: ["flag", "uruguay", "uy", "flag", "nation", "country", "banner", "uruguay"]
@@ -2698,7 +2756,8 @@ extension Emoji: SearchableOption {
       case .goggles: ["goggles", "eyes", "protection", "safety"]
       case .goose: ["goose", "silly", "jemima", "goosebumps"]
       case .gorilla: ["gorilla", "animal", "nature", "circus"]
-      case .graduationCap: ["graduation", "cap", "school", "college", "degree", "university", "graduation", "cap", "hat", "legal", "learn", "education"]
+      case .graduationCap:
+         ["graduation", "cap", "school", "college", "degree", "university", "graduation", "cap", "hat", "legal", "learn", "education"]
       case .grapes: ["grapes", "fruit", "food", "wine"]
       case .greenApple: ["green", "apple", "fruit", "nature"]
       case .greenBook: ["green", "book", "read", "library", "knowledge", "study"]
@@ -2712,7 +2771,8 @@ extension Emoji: SearchableOption {
       case .grinningCatWithSmilingEyes: ["grinning", "cat", "with", "smiling", "eyes", "animal", "cats", "smile"]
       case .grinningFace: ["grinning", "face", "face", "smile", "happy", "joy", ":D", "grin"]
       case .grinningFaceWithBigEyes: ["grinning", "face", "with", "big", "eyes", "face", "happy", "joy", "haha", ":D", ":)", "smile", "funny"]
-      case .grinningFaceWithSmilingEyes: ["grinning", "face", "with", "smiling", "eyes", "face", "happy", "joy", "funny", "haha", "laugh", "like", ":D", ":)", "smile"]
+      case .grinningFaceWithSmilingEyes:
+         ["grinning", "face", "with", "smiling", "eyes", "face", "happy", "joy", "funny", "haha", "laugh", "like", ":D", ":)", "smile"]
       case .grinningFaceWithSweat: ["grinning", "face", "with", "sweat", "face", "hot", "happy", "laugh", "sweat", "smile", "relief"]
       case .grinningSquintingFace: ["grinning", "squinting", "face", "happy", "joy", "lol", "satisfied", "haha", "face", "glad", "XD", "laugh"]
       case .growingHeart: ["growing", "heart", "like", "love", "affection", "valentines", "pink"]
@@ -2807,13 +2867,15 @@ extension Emoji: SearchableOption {
       case .japaneseDolls: ["japanese", "dolls", "japanese", "toy", "kimono"]
       case .japaneseFreeOfChargeButton: ["japanese", "free", "of", "charge", "button", "nothing", "chinese", "kanji", "japanese", "orange-square"]
       case .japaneseHereButton: ["japanese", "here", "button", "blue-square", "here", "katakana", "japanese", "destination"]
-      case .japaneseMonthlyAmountButton: ["japanese", "monthly", "amount", "button", "chinese", "month", "moon", "japanese", "orange-square", "kanji"]
+      case .japaneseMonthlyAmountButton:
+         ["japanese", "monthly", "amount", "button", "chinese", "month", "moon", "japanese", "orange-square", "kanji"]
       case .japaneseNoVacancyButton: ["japanese", "no", "vacancy", "button", "full", "chinese", "japanese", "red-square", "kanji"]
       case .japaneseNotFreeOfChargeButton: ["japanese", "not", "free", "of", "charge", "button", "orange-square", "chinese", "have", "kanji"]
       case .japaneseOpenForBusinessButton: ["japanese", "open", "for", "business", "button", "japanese", "opening", "hours", "orange-square"]
       case .japanesePassingGradeButton: ["japanese", "passing", "grade", "button", "japanese", "chinese", "join", "kanji", "red-square"]
       case .japanesePostOffice: ["japanese", "post", "office", "building", "envelope", "communication"]
-      case .japaneseProhibitedButton: ["japanese", "prohibited", "button", "kanji", "japanese", "chinese", "forbidden", "limit", "restricted", "red-square"]
+      case .japaneseProhibitedButton:
+         ["japanese", "prohibited", "button", "kanji", "japanese", "chinese", "forbidden", "limit", "restricted", "red-square"]
       case .japaneseReservedButton: ["japanese", "reserved", "button", "chinese", "point", "green-square", "kanji"]
       case .japaneseSecretButton: ["japanese", "secret", "button", "privacy", "chinese", "sshh", "kanji", "red-circle"]
       case .japaneseServiceChargeButton: ["japanese", "service", "charge", "button", "japanese", "blue-square", "katakana"]
@@ -2852,7 +2914,8 @@ extension Emoji: SearchableOption {
       case .kissWomanWoman: ["kiss", "woman", "woman", "pair", "valentines", "love", "like", "dating", "marriage"]
       case .kissingCat: ["kissing", "cat", "animal", "cats", "kiss"]
       case .kissingFace: ["kissing", "face", "love", "like", "face", "3", "valentines", "infatuation", "kiss"]
-      case .kissingFaceWithClosedEyes: ["kissing", "face", "with", "closed", "eyes", "face", "love", "like", "affection", "valentines", "infatuation", "kiss"]
+      case .kissingFaceWithClosedEyes:
+         ["kissing", "face", "with", "closed", "eyes", "face", "love", "like", "affection", "valentines", "infatuation", "kiss"]
       case .kissingFaceWithSmilingEyes: ["kissing", "face", "with", "smiling", "eyes", "face", "affection", "valentines", "infatuation", "kiss"]
       case .kitchenKnife: ["kitchen", "knife", "knife", "blade", "cutlery", "kitchen", "weapon"]
       case .kite: ["kite", "wind", "fly"]
@@ -2990,7 +3053,8 @@ extension Emoji: SearchableOption {
       case .manSurfing: ["man", "surfing", "sports", "ocean", "sea", "summer", "beach"]
       case .manSwimming: ["man", "swimming", "sports", "exercise", "human", "athlete", "water", "summer"]
       case .manTeacher: ["man", "teacher", "instructor", "professor", "man", "human"]
-      case .manTechnologist: ["man", "technologist", "coder", "developer", "engineer", "programmer", "software", "man", "human", "laptop", "computer"]
+      case .manTechnologist:
+         ["man", "technologist", "coder", "developer", "engineer", "programmer", "software", "man", "human", "laptop", "computer"]
       case .manTippingHand: ["man", "tipping", "hand", "male", "boy", "man", "human", "information"]
       case .manVampire: ["man", "vampire", "man", "male", "dracula"]
       case .manWalking: ["man", "walking", "human", "feet", "steps"]
@@ -3438,13 +3502,17 @@ extension Emoji: SearchableOption {
       case .smallAirplane: ["small", "airplane", "flight", "transportation", "fly", "vehicle"]
       case .smallBlueDiamond: ["small", "blue", "diamond", "shape", "jewel", "gem"]
       case .smallOrangeDiamond: ["small", "orange", "diamond", "shape", "jewel", "gem"]
-      case .smilingCatWithHeartEyes: ["smiling", "cat", "with", "heart", "eyes", "animal", "love", "like", "affection", "cats", "valentines", "heart"]
+      case .smilingCatWithHeartEyes:
+         ["smiling", "cat", "with", "heart", "eyes", "animal", "love", "like", "affection", "cats", "valentines", "heart"]
       case .smilingFace: ["smiling", "face", "face", "blush", "massage", "happiness"]
       case .smilingFaceWithHalo: ["smiling", "face", "with", "halo", "face", "angel", "heaven", "halo", "innocent"]
-      case .smilingFaceWithHeartEyes: ["smiling", "face", "with", "heart", "eyes", "face", "love", "like", "affection", "valentines", "infatuation", "crush", "heart"]
-      case .smilingFaceWithHearts: ["smiling", "face", "with", "hearts", "face", "love", "like", "affection", "valentines", "infatuation", "crush", "hearts", "adore"]
+      case .smilingFaceWithHeartEyes:
+         ["smiling", "face", "with", "heart", "eyes", "face", "love", "like", "affection", "valentines", "infatuation", "crush", "heart"]
+      case .smilingFaceWithHearts:
+         ["smiling", "face", "with", "hearts", "face", "love", "like", "affection", "valentines", "infatuation", "crush", "hearts", "adore"]
       case .smilingFaceWithHorns: ["smiling", "face", "with", "horns", "devil", "horns"]
-      case .smilingFaceWithSmilingEyes: ["smiling", "face", "with", "smiling", "eyes", "face", "smile", "happy", "flushed", "crush", "embarrassed", "shy", "joy"]
+      case .smilingFaceWithSmilingEyes:
+         ["smiling", "face", "with", "smiling", "eyes", "face", "smile", "happy", "flushed", "crush", "embarrassed", "shy", "joy"]
       case .smilingFaceWithSunglasses: ["smiling", "face", "with", "sunglasses", "face", "cool", "smile", "summer", "beach", "sunglass"]
       case .smilingFaceWithTear: ["smiling", "face", "with", "tear", "sad", "cry", "pretend"]
       case .smirkingFace: ["smirking", "face", "face", "smile", "mean", "prank", "smug", "sarcasm"]
@@ -3455,7 +3523,8 @@ extension Emoji: SearchableOption {
       case .snowboarder: ["snowboarder", "sports", "winter"]
       case .snowflake: ["snowflake", "winter", "season", "cold", "weather", "christmas", "xmas"]
       case .snowman: ["snowman", "winter", "season", "cold", "weather", "christmas", "xmas", "frozen"]
-      case .snowmanWithoutSnow: ["snowman", "without", "snow", "winter", "season", "cold", "weather", "christmas", "xmas", "frozen", "without", "snow"]
+      case .snowmanWithoutSnow:
+         ["snowman", "without", "snow", "winter", "season", "cold", "weather", "christmas", "xmas", "frozen", "without", "snow"]
       case .soap: ["soap", "bar", "bathing", "cleaning", "lather"]
       case .soccerBall: ["soccer", "ball", "sports", "football"]
       case .socks: ["socks", "stockings", "clothes"]
@@ -3590,10 +3659,12 @@ extension Emoji: SearchableOption {
       case .tropicalFish: ["tropical", "fish", "animal", "swim", "ocean", "beach", "nemo"]
       case .trumpet: ["trumpet", "music", "brass"]
       case .tulip: ["tulip", "flowers", "plant", "nature", "summer", "spring"]
-      case .tumblerGlass: ["tumbler", "glass", "drink", "beverage", "drunk", "alcohol", "liquor", "booze", "bourbon", "scotch", "whisky", "glass", "shot"]
+      case .tumblerGlass:
+         ["tumbler", "glass", "drink", "beverage", "drunk", "alcohol", "liquor", "booze", "bourbon", "scotch", "whisky", "glass", "shot"]
       case .turkey: ["turkey", "animal", "bird"]
       case .turtle: ["turtle", "animal", "slow", "nature", "tortoise"]
-      case .twelveOClock: ["twelve", "o", "clock", "12", "00:00", "0000", "12:00", "1200", "time", "noon", "midnight", "midday", "late", "early", "schedule"]
+      case .twelveOClock:
+         ["twelve", "o", "clock", "12", "00:00", "0000", "12:00", "1200", "time", "noon", "midnight", "midday", "late", "early", "schedule"]
       case .twelveThirty: ["twelve", "thirty", "00:30", "0030", "12:30", "1230", "time", "late", "early", "schedule"]
       case .twoHearts: ["two", "hearts", "love", "like", "affection", "valentines", "heart"]
       case .twoHumpCamel: ["two", "hump", "camel", "animal", "nature", "hot", "desert", "hump"]
@@ -3602,7 +3673,11 @@ extension Emoji: SearchableOption {
       case .umbrella: ["umbrella", "weather", "spring"]
       case .umbrellaOnGround: ["umbrella", "on", "ground", "weather", "summer"]
       case .umbrellaWithRainDrops: ["umbrella", "with", "rain", "drops", "rainy", "weather", "spring"]
-      case .unamusedFace: ["unamused", "face", "indifference", "bored", "straight", "face", "serious", "sarcasm", "unimpressed", "skeptical", "dubious", "ugh", "side", "eye"]
+      case .unamusedFace:
+         [
+            "unamused", "face", "indifference", "bored", "straight", "face", "serious", "sarcasm", "unimpressed", "skeptical", "dubious", "ugh",
+            "side", "eye",
+         ]
       case .unicorn: ["unicorn", "animal", "nature", "mystical"]
       case .unlocked: ["unlocked", "privacy", "security"]
       case .upArrow: ["up", "arrow", "blue-square", "continue", "top", "direction"]
@@ -3627,7 +3702,8 @@ extension Emoji: SearchableOption {
       case .vulcanSalute: ["vulcan", "salute", "hand", "fingers", "spock", "star", "trek"]
       case .waffle: ["waffle", "food", "breakfast", "brunch"]
       case .waningCrescentMoon: ["waning", "crescent", "moon", "nature", "twilight", "planet", "space", "night", "evening", "sleep"]
-      case .waningGibbousMoon: ["waning", "gibbous", "moon", "nature", "twilight", "planet", "space", "night", "evening", "sleep", "waxing", "gibbous", "moon"]
+      case .waningGibbousMoon:
+         ["waning", "gibbous", "moon", "nature", "twilight", "planet", "space", "night", "evening", "sleep", "waxing", "gibbous", "moon"]
       case .warning: ["warning", "exclamation", "wip", "alert", "error", "problem", "issue"]
       case .wastebasket: ["wastebasket", "bin", "trash", "rubbish", "garbage", "toss"]
       case .watch: ["watch", "time", "accessories"]
@@ -3664,11 +3740,16 @@ extension Emoji: SearchableOption {
       case .wineGlass: ["wine", "glass", "drink", "beverage", "drunk", "alcohol", "booze"]
       case .wing: ["wing", "angel", "birds", "flying"]
       case .winkingFace: ["winking", "face", "face", "happy", "mischievous", "secret", ";)", "smile", "eye"]
-      case .winkingFaceWithTongue: ["winking", "face", "with", "tongue", "face", "prank", "childish", "playful", "mischievous", "smile", "wink", "tongue"]
+      case .winkingFaceWithTongue:
+         ["winking", "face", "with", "tongue", "face", "prank", "childish", "playful", "mischievous", "smile", "wink", "tongue"]
       case .wireless: ["wireless", "wifi", "internet", "contactless", "signal"]
       case .wolf: ["wolf", "animal", "nature", "wild"]
       case .woman: ["woman", "female", "girls", "lady"]
-      case .womanAndManHoldingHands: ["woman", "and", "man", "holding", "hands", "pair", "people", "human", "love", "date", "dating", "like", "affection", "valentines", "marriage"]
+      case .womanAndManHoldingHands:
+         [
+            "woman", "and", "man", "holding", "hands", "pair", "people", "human", "love", "date", "dating", "like", "affection", "valentines",
+            "marriage",
+         ]
       case .womanArtist: ["woman", "artist", "painter", "woman", "human"]
       case .womanAstronaut: ["woman", "astronaut", "space", "rocket", "woman", "human"]
       case .womanBald: ["woman", "bald", "hairless"]
@@ -3679,7 +3760,8 @@ extension Emoji: SearchableOption {
       case .womanBowing: ["woman", "bowing", "woman", "female", "girl"]
       case .womanCartwheeling: ["woman", "cartwheeling", "gymnastics"]
       case .womanClimbing: ["woman", "climbing", "sports", "hobby", "woman", "female", "rock"]
-      case .womanConstructionWorker: ["woman", "construction", "worker", "female", "human", "wip", "build", "construction", "worker", "labor", "woman"]
+      case .womanConstructionWorker:
+         ["woman", "construction", "worker", "female", "human", "wip", "build", "construction", "worker", "labor", "woman"]
       case .womanCook: ["woman", "cook", "chef", "woman", "human"]
       case .womanCurlyHair: ["woman", "curly", "hair", "hairstyle"]
       case .womanDancing: ["woman", "dancing", "female", "girl", "woman", "fun"]
@@ -3711,7 +3793,8 @@ extension Emoji: SearchableOption {
       case .womanLiftingWeights: ["woman", "lifting", "weights", "sports", "training", "exercise", "woman", "female"]
       case .womanMage: ["woman", "mage", "woman", "female", "mage", "witch"]
       case .womanMechanic: ["woman", "mechanic", "plumber", "woman", "human", "wrench"]
-      case .womanMountainBiking: ["woman", "mountain", "biking", "bicycle", "bike", "cyclist", "transportation", "sports", "human", "race", "woman", "female"]
+      case .womanMountainBiking:
+         ["woman", "mountain", "biking", "bicycle", "bike", "cyclist", "transportation", "sports", "human", "race", "woman", "female"]
       case .womanOfficeWorker: ["woman", "office", "worker", "business", "manager", "woman", "human"]
       case .womanPilot: ["woman", "pilot", "aviator", "plane", "woman", "human"]
       case .womanPlayingHandball: ["woman", "playing", "handball", "sports"]
@@ -3736,7 +3819,8 @@ extension Emoji: SearchableOption {
       case .womanSurfing: ["woman", "surfing", "sports", "ocean", "sea", "summer", "beach", "woman", "female"]
       case .womanSwimming: ["woman", "swimming", "sports", "exercise", "human", "athlete", "water", "summer", "woman", "female"]
       case .womanTeacher: ["woman", "teacher", "instructor", "professor", "woman", "human"]
-      case .womanTechnologist: ["woman", "technologist", "coder", "developer", "engineer", "programmer", "software", "woman", "human", "laptop", "computer"]
+      case .womanTechnologist:
+         ["woman", "technologist", "coder", "developer", "engineer", "programmer", "software", "woman", "human", "laptop", "computer"]
       case .womanTippingHand: ["woman", "tipping", "hand", "female", "girl", "woman", "human", "information"]
       case .womanVampire: ["woman", "vampire", "woman", "female"]
       case .womanWalking: ["woman", "walking", "human", "feet", "steps", "woman", "female"]

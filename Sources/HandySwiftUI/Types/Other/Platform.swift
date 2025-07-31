@@ -1,7 +1,8 @@
 import Foundation
 import HandySwift
+
 #if os(iOS)
-import UIKit
+   import UIKit
 #endif
 
 /// Represents the current platform on which the code is running.
@@ -31,21 +32,21 @@ public enum Platform: AutoConforming {
    @MainActor
    public static var current: Platform {
       #if os(iOS)
-      return UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
+         return UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
       #elseif os(macOS)
-      return .mac
+         return .mac
       #elseif os(tvOS)
-      return .tv
+         return .tv
       #elseif os(visionOS)
-      return .vision
+         return .vision
       #elseif os(watchOS)
-      return .watch
+         return .watch
       #elseif os(Linux)
-      return .pc
+         return .pc
       #elseif os(Windows)
-      return .pc
+         return .pc
       #else
-      fatalError("Unsupported operating system")
+         fatalError("Unsupported operating system")
       #endif
    }
 

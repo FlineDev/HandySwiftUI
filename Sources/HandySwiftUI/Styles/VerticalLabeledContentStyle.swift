@@ -52,9 +52,9 @@ extension LabeledContentStyle where Self == VerticalLabeledContentStyle {
 }
 
 #if DEBUG
-#Preview {
-   LabeledContent("Some Key", value: "Some Value")
-      .labeledContentStyle(.vertical())
-      .macOSOnlyPadding()
-}
+   #Preview {
+      LabeledContent("Some Key", value: "Some Value")
+         .labeledContentStyle(.vertical())
+         .macOSOnlyPadding()
+   }
 #endif

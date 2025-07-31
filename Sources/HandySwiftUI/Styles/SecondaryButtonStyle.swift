@@ -55,21 +55,20 @@ extension ButtonStyle where Self == SecondaryButtonStyle {
 }
 
 #if DEBUG
-#Preview {
-   VStack {
-      Button("Default", systemImage: "person") {}
-         .buttonStyle(.secondary())
+   #Preview {
+      VStack {
+         Button("Default", systemImage: "person") {}
+            .buttonStyle(.secondary())
 
-      Button("Disabled", systemImage: "person") {}
-         .buttonStyle(.secondary(disabled: true))
+         Button("Disabled", systemImage: "person") {}
+            .buttonStyle(.secondary(disabled: true))
 
-      Button("Compact", systemImage: "person") {}
-         .buttonStyle(.secondary(compact: true))
+         Button("Compact", systemImage: "person") {}
+            .buttonStyle(.secondary(compact: true))
 
-      Button("System", systemImage: "person") {}
-         .buttonStyle(.bordered)
+         Button("System", systemImage: "person") {}
+            .buttonStyle(.bordered)
+      }
+      .padding()
    }
-   .padding()
-}
 #endif
-

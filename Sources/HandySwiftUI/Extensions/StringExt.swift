@@ -34,10 +34,10 @@ extension String {
          g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
          b = CGFloat(rgb & 0x0000FF) / 255.0
       } else if length == 8 {
-         r = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
-         g = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
-         b = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
-         a = CGFloat(rgb & 0x000000FF) / 255.0
+         r = CGFloat((rgb & 0xFF00_0000) >> 24) / 255.0
+         g = CGFloat((rgb & 0x00FF_0000) >> 16) / 255.0
+         b = CGFloat((rgb & 0x0000_FF00) >> 8) / 255.0
+         a = CGFloat(rgb & 0x0000_00FF) / 255.0
       }
 
       return (r, g, b, a)
@@ -84,17 +84,22 @@ extension String {
 }
 
 #if DEBUG
-#Preview {
-   VStack(spacing: 10) {
-      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "hewo"))
-      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "ello", applyingAttributes: {
-         $0.font = .body.bold()
-         $0.backgroundColor = .yellow
-         $0.foregroundColor = .black
-      }))
-      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "wo"))
-      Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "hello world"))
+   #Preview {
+      VStack(spacing: 10) {
+         Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "hewo"))
+         Text(
+            "Hello, World!".highlightMatchingTokenizedPrefixes(
+               in: "ello",
+               applyingAttributes: {
+                  $0.font = .body.bold()
+                  $0.backgroundColor = .yellow
+                  $0.foregroundColor = .black
+               }
+            )
+         )
+         Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "wo"))
+         Text("Hello, World!".highlightMatchingTokenizedPrefixes(in: "hello world"))
+      }
+      .macOSOnlyPadding()
    }
-   .macOSOnlyPadding()
-}
 #endif
