@@ -111,7 +111,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
             } else {
                ScrollView {
                   LazyVGrid(columns: [GridItem(.adaptive(minimum: Platform.value(default: 44, mac: 38, vision: 60)))]) {
-                     ForEach(filteredOptions) { option in
+                     ForEach(self.filteredOptions) { option in
                         Button {
                            self.selection = option
                            self.showPicker = false

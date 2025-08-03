@@ -6,7 +6,7 @@ struct FirstAppearModifier: ViewModifier {
 
    func body(content: Content) -> some View {
       content.onAppear {
-         guard !hasAppeared else { return }
+         guard !self.hasAppeared else { return }
          self.hasAppeared = true
          self.perform()
       }

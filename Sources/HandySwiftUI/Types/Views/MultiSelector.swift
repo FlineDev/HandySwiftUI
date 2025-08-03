@@ -62,7 +62,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
 
    /// A formatted string representation of the currently selected options.
    private var formattedSelectedListString: String {
-      ListFormatter.localizedString(byJoining: selected.wrappedValue.map { optionToString($0) })
+      ListFormatter.localizedString(byJoining: self.selected.wrappedValue.map { self.optionToString($0) })
    }
 
    #if os(macOS)
@@ -73,7 +73,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
    public var body: some View {
       #if !os(macOS)
          NavigationLink {
-            MultiSelectionView(options: options, optionToString: optionToString, selected: selected)
+            MultiSelectionView(options: self.options, optionToString: self.optionToString, selected: self.selected)
                .navigationTitle(self.optionsTitle)
                #if os(iOS)
                   .navigationBarTitleDisplayMode(.inline)
@@ -99,7 +99,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
             }
          }
          .sheet(isPresented: self.$showSelectorSheet) {
-            MultiSelectionView(options: options, optionToString: optionToString, selected: selected)
+            MultiSelectionView(options: self.options, optionToString: self.optionToString, selected: self.selected)
                .navigationTitle(self.optionsTitle)
          }
       #endif

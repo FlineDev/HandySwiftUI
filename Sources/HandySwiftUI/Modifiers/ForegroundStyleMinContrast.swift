@@ -24,7 +24,7 @@ struct ForegroundStyleMinContrast: ViewModifier {
       let requestedColorLuminance = self.requestedColor.hlco.luminance
       let backgroundLuminance = self.background.hlco.luminance
 
-      guard abs(requestedColorLuminance - backgroundLuminance) < self.minContrast else { return requestedColor }
+      guard abs(requestedColorLuminance - backgroundLuminance) < self.minContrast else { return self.requestedColor }
 
       if backgroundLuminance > 0.5 {
          return self.requestedColor.change(.luminance, to: max(backgroundLuminance - self.minContrast, 0))

@@ -42,7 +42,7 @@
             }
 
             func updateUIView(_ webView: WKWebView, context: Context) {
-               webView.load(URLRequest(url: url))
+               webView.load(URLRequest(url: self.url))
 
                // Add an observer to know when the web content has finished loading
                webView.navigationDelegate = context.coordinator
@@ -53,7 +53,7 @@
             }
 
             func updateNSView(_ webView: WKWebView, context: Context) {
-               webView.load(URLRequest(url: url))
+               webView.load(URLRequest(url: self.url))
 
                // Add an observer to know when the web content has finished loading
                webView.navigationDelegate = context.coordinator

@@ -70,11 +70,11 @@
       /// - Returns: `true` if write access is available, `false` otherwise
       public static func hasWriteAccess(to url: URL) -> Bool {
          // Check if we have direct access to the URL
-         if urlsWithWriteAccess.contains(where: { url.normalizedPath == $0.normalizedPath }) {
+         if self.urlsWithWriteAccess.contains(where: { url.normalizedPath == $0.normalizedPath }) {
             return true
          } else {
             // Check if we have access to any parent directory
-            return urlsWithWriteAccess.contains { $0.isParent(of: url) }
+            return self.urlsWithWriteAccess.contains { $0.isParent(of: url) }
          }
       }
 

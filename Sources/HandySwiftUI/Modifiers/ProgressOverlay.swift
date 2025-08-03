@@ -16,7 +16,7 @@ private struct ProgressOverlay: ViewModifier {
       content
          .overlay(
             Group {
-               switch progressType {
+               switch self.progressType {
                case let .indeterminate(running, title):
                   if running {
                      if let title = title {

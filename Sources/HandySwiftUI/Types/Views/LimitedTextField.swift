@@ -22,15 +22,15 @@ public struct LimitedTextField: View {
       VStack(alignment: .trailing, spacing: 4) {
          TextField(self.title, text: self.$text)
             .onChange(of: self.text) { _ in
-               if self.text.count > characterLimit {
-                  self.text = String(self.text.prefix(characterLimit))
+               if self.text.count > self.characterLimit {
+                  self.text = String(self.text.prefix(self.characterLimit))
                }
             }
             #if !os(tvOS)
                .textFieldStyle(.roundedBorder)
             #endif
 
-         Text(String(localized: "\(characterLimit - self.text.count) chars left", bundle: .module))
+         Text(String(localized: "\(self.characterLimit - self.text.count) chars left", bundle: .module))
             .font(.caption)
             .foregroundColor(.gray)
       }

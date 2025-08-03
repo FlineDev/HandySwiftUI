@@ -406,34 +406,34 @@ extension Color {
    public func change(_ attribute: ChangeableAttribute, by addition: Double) -> Self {
       switch attribute {
       case .red:
-         return change(attribute, to: rgbo.red + addition)
+         return self.change(attribute, to: self.rgbo.red + addition)
 
       case .green:
-         return change(attribute, to: rgbo.green + addition)
+         return self.change(attribute, to: self.rgbo.green + addition)
 
       case .blue:
-         return change(attribute, to: rgbo.blue + addition)
+         return self.change(attribute, to: self.rgbo.blue + addition)
 
       case .hueHSB:
-         return change(attribute, to: hsbo.hue + addition)
+         return self.change(attribute, to: self.hsbo.hue + addition)
 
       case .saturation:
-         return change(attribute, to: hsbo.saturation + addition)
+         return self.change(attribute, to: self.hsbo.saturation + addition)
 
       case .brightness:
-         return change(attribute, to: hsbo.brightness + addition)
+         return self.change(attribute, to: self.hsbo.brightness + addition)
 
       case .hueHLC:
-         return change(attribute, to: hlco.hue + addition)
+         return self.change(attribute, to: self.hlco.hue + addition)
 
       case .luminance:
-         return change(attribute, to: hlco.luminance + addition)
+         return self.change(attribute, to: self.hlco.luminance + addition)
 
       case .chroma:
-         return change(attribute, to: hlco.chroma + addition)
+         return self.change(attribute, to: self.hlco.chroma + addition)
 
       case .opacity:
-         return change(attribute, to: hlco.opacity + addition)
+         return self.change(attribute, to: self.hlco.opacity + addition)
       }
    }
 
@@ -446,18 +446,18 @@ extension Color {
    public func change(_ attribute: ChangeableAttribute, to newValue: Double) -> Self {
       switch attribute {
       case .red, .green, .blue:
-         return newRgboColor(attribute, newValue)
+         return self.newRgboColor(attribute, newValue)
 
       case .hueHSB, .saturation, .brightness:
-         return newHsboColor(attribute, newValue)
+         return self.newHsboColor(attribute, newValue)
 
       case .hueHLC, .luminance, .chroma, .opacity:
-         return newHlcoColor(attribute, newValue)
+         return self.newHlcoColor(attribute, newValue)
       }
    }
 
    private func newHlcoColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
-      var newHlco = hlco
+      var newHlco = self.hlco
 
       switch attribute {
       case .hueHLC:
@@ -480,7 +480,7 @@ extension Color {
    }
 
    private func newHsboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
-      var newHsbo = hsbo
+      var newHsbo = self.hsbo
 
       switch attribute {
       case .hueHSB:

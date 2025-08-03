@@ -61,18 +61,18 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
          Section {
             ForEach(self.options) { selectable in
                #if !os(macOS)
-                  Button(action: { toggleSelection(selectable: selectable) }) {
+                  Button(action: { self.toggleSelection(selectable: selectable) }) {
                      HStack {
-                        Text(optionToString(selectable)).foregroundColor(.label)
+                        Text(self.optionToString(selectable)).foregroundColor(.label)
                         Spacer()
-                        if selected.contains(where: { $0.id == selectable.id }) {
+                        if self.selected.contains(where: { $0.id == selectable.id }) {
                            Image(systemName: "checkmark").foregroundColor(.accentColor)
                         }
                      }
                   }
                   .tag(selectable.id)
                #else
-                  Toggle(optionToString(selectable), isOn: self.boolBinding(selectable: selectable))
+                  Toggle(self.optionToString(selectable), isOn: self.boolBinding(selectable: selectable))
                      .toggleStyle(.switch)
                      .frame(height: 22)
                      .tag(selectable.id)
@@ -120,9 +120,9 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
    /// - Parameter selectable: The item to toggle.
    private func toggleSelection(selectable: Selectable) {
       if let existingIndex = selected.firstIndex(where: { $0.id == selectable.id }) {
-         selected.remove(at: existingIndex)
+         self.selected.remove(at: existingIndex)
       } else {
-         selected.insert(selectable)
+         self.selected.insert(selectable)
       }
    }
 }

@@ -139,7 +139,7 @@ public struct CachedAsyncImage: View {
          self.isLoading = true
       }
 
-      URLSession.shared.dataTask(with: url) { data, response, error in
+      URLSession.shared.dataTask(with: self.url) { data, response, error in
          guard let data = data, let downloadedImage = NativeImage(data: data) else { return }
 
          DispatchQueue.main.async {
@@ -147,7 +147,7 @@ public struct CachedAsyncImage: View {
                self.isLoading = false
                self.image = downloadedImage
             }
-            ImageCache.shared.insertImage(downloadedImage, for: url as NSURL)
+            ImageCache.shared.insertImage(downloadedImage, for: self.url as NSURL)
          }
       }.resume()
    }
