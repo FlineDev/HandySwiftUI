@@ -231,15 +231,16 @@ extension View {
    ///
    /// **Example**: `.applyIf(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) } else: { $0.foregroundColor(.white) }`
    @inlinable
+   @ViewBuilder
    public func applyIf<M: View, A: View>(
       _ condition: Bool,
       modifier: (Self) -> M,
       else alternativeModifier: (Self) -> A
    ) -> some View {
       if condition {
-         return modifier(self).eraseToAnyView()
+         modifier(self)
       } else {
-         return alternativeModifier(self).eraseToAnyView()
+         alternativeModifier(self)
       }
    }
 
@@ -247,11 +248,12 @@ extension View {
    ///
    /// **Example**: `.applyIf(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) }`
    @inlinable
+   @ViewBuilder
    public func applyIf<ModifiedView: View>(_ condition: Bool, modifier: (Self) -> ModifiedView) -> some View {
       if condition {
-         return modifier(self).eraseToAnyView()
+         modifier(self)
       } else {
-         return self.eraseToAnyView()
+         self
       }
    }
 
@@ -259,11 +261,12 @@ extension View {
    ///
    /// **Example**: `.applyIfNot(colorScheme == .dark) { $0.shadow(color: Color(white: 0.88), radius: 40, x: 0, y: 10) }`
    @inlinable
+   @ViewBuilder
    public func applyIfNot<ModifiedView: View>(_ condition: Bool, modifier: (Self) -> ModifiedView) -> some View {
       if !condition {
-         return modifier(self).eraseToAnyView()
+         modifier(self)
       } else {
-         return self.eraseToAnyView()
+         self
       }
    }
 
@@ -271,11 +274,12 @@ extension View {
    ///
    /// **Example**: `.ifLet(self.shadowColor) { $0.shadow(color: $1, radius: 40, x: 0, y: 10) }`
    @inlinable
+   @ViewBuilder
    public func ifLet<T, ModifiedView: View>(_ optionalValue: T?, modifier: (Self, T) -> ModifiedView) -> some View {
       if let optionalValue {
-         return modifier(self, optionalValue).eraseToAnyView()
+         modifier(self, optionalValue)
       } else {
-         return self.eraseToAnyView()
+         self
       }
    }
 
@@ -283,15 +287,16 @@ extension View {
    ///
    /// **Example**: `.ifLet(self.shadowColor) { $0.shadow(color: $1, radius: 40, x: 0, y: 10) } else: { $0.clipShape(.rect(cornerRadius: 15)) }`
    @inlinable
+   @ViewBuilder
    public func ifLet<T, ModifiedView: View, ElseView: View>(
       _ optionalValue: T?,
       modifier: (Self, T) -> ModifiedView,
       else elseModifier: (Self) -> ElseView
    ) -> some View {
       if let optionalValue {
-         return modifier(self, optionalValue).eraseToAnyView()
+         modifier(self, optionalValue)
       } else {
-         return elseModifier(self).eraseToAnyView()
+         elseModifier(self)
       }
    }
 
