@@ -142,12 +142,12 @@ HandySwiftUI includes `Emoji` and `SFSymbol` enums that contain common emoji and
 
 ### Async State Management
 
-Track async operations with type-safe state handling using `ProgressState`:
+Track async operations with type-safe state handling using `AsyncState` and `AsyncResult`:
 
 ```swift
 struct DocumentView: View {
-    @State private var loadState: ProgressState<String> = .notStarted
-    
+    @State private var loadState: AsyncState<String> = .notStarted
+
     var body: some View {
         Group {
             switch loadState {
@@ -155,22 +155,22 @@ struct DocumentView: View {
                 Color.clear.onAppear {
                     loadDocument()
                 }
-                
+
             case .inProgress:
                 ProgressView("Loading document...")
-                
+
             case .failed(let errorMessage):
                 VStack {
                     Text("Failed to load document:")
                         .foregroundStyle(.secondary)
                     Text(errorMessage)
                         .foregroundStyle(.red)
-                    
-                  Button("Try Again") {
-                      loadDocument()
-                  }
+
+                    Button("Try Again") {
+                        loadDocument()
+                    }
                 }
-                
+
             case .successful:
                 VStack {
                     DocumentContent()
@@ -182,12 +182,12 @@ struct DocumentView: View {
     func loadDocument() {
         loadState = .inProgress
         Task {
-           do {
-               try await loadDocumentFromStorage()
-               loadState = .successful
-           } catch {
-               loadState = .failed(error: error.localizedDescription)
-           }
+            do {
+                try await loadDocumentFromStorage()
+                loadState = .successful
+            } catch {
+                loadState = .failed(error: error.localizedDescription)
+            }
         }
     }
 }
@@ -198,6 +198,72 @@ The example demonstrates handling all states in a type-safe way:
 - `.inProgress` displays a loading indicator
 - `.failed` shows the error with a retry option
 - `.successful` presents the loaded content
+
+For operations that return a value when successful, use `AsyncResult` instead:
+
+```swift
+struct ProfileView: View {
+    @State private var loadState: AsyncResult<User, String> = .notStarted
+
+    var body: some View {
+        Group {
+            switch loadState {
+            case .notStarted:
+                Color.clear.onAppear { loadUser() }
+
+            case .inProgress:
+                ProgressView("Loading profile...")
+
+            case .failed(let error):
+                ErrorView(message: error)
+
+            case .successful(let user):
+                UserProfileView(user: user)
+            }
+        }
+    }
+
+    func loadUser() {
+        loadState = .inProgress
+        Task {
+            do {
+                let user = try await APIClient.fetchUser()
+                loadState = .successful(value: user)
+            } catch {
+                loadState = .failed(error: error.localizedDescription)
+            }
+        }
+    }
+}
+```
+
+### Simplified Async Loading with AsyncView
+
+For simpler use cases, `AsyncView` handles all the state management automatically:
+
+```swift
+struct ProjectView: View {
+    @State private var project: Project?
+
+    var body: some View {
+        AsyncView(
+            performTask: loadProject,
+            storeResultIn: $project
+        ) { loadedProject in
+            VStack {
+                Text(loadedProject.name)
+                Text(loadedProject.description)
+            }
+        }
+    }
+
+    func loadProject() async throws -> Project {
+        try await APIClient.fetchProject(id: "123")
+    }
+}
+```
+
+`AsyncView` automatically shows a loading indicator, handles errors with a retry button, and displays your success content—all with fully localized UI text. You can even nest multiple `AsyncView` instances for multi-stage loading scenarios where each stage depends on the previous one.
 
 
 ### Bring `NSOpenPanel` to SwiftUI 
@@ -291,6 +357,7 @@ struct MainView: View {
 ### Views
 
 - ``AsyncButton``
+- ``AsyncView``
 - ``CachedAsyncImage``
 - ``DisclosureSection``
 - ``HPicker``
@@ -303,6 +370,8 @@ struct MainView: View {
 
 ### Other
 
+- ``AsyncResult``
+- ``AsyncState``
 - ``Emoji``
 - ``OpenPanel``
 - ``Platform``

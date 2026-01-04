@@ -247,6 +247,7 @@ The highlighting is case-insensitive and diacritic-insensitive by default, but y
 
 - ``!(value:)``
 - ``??(binding:fallback:)``
+- ``SwiftUICore/Binding/contains(_:)``
 - ``SwiftUICore/Binding/isPresent(wrappedType:)``
 
 ### Button
