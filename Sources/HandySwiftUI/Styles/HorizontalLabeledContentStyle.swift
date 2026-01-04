@@ -27,7 +27,7 @@ extension LabeledContentStyle where Self == HorizontalLabeledContentStyle {
    }
 }
 
-#if DEBUG
+#if DEBUG && !os(tvOS)
    #Preview {
       VStack {
          Form {
