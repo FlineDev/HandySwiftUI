@@ -1594,7 +1594,7 @@
         "bg" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Изтриване"
+            "value" : "Изтрий"
           }
         },
         "ca" : {
@@ -2273,7 +2273,7 @@
         "bg" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Редактиране"
+            "value" : "Редактирай"
           }
         },
         "ca" : {
@@ -4469,7 +4469,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите эмодзи"
+            "value" : "Выбрать эмодзи"
           }
         },
         "sk" : {
@@ -4873,7 +4873,7 @@
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Қайталап көріңіз"
+            "value" : "Қайталап көру"
           }
         },
         "ko" : {
@@ -4921,7 +4921,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Попробуйте ещё раз"
+            "value" : "Попробовать ещё раз"
           }
         },
         "sk" : {
