@@ -1594,7 +1594,7 @@
         "bg" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Изтрий"
+            "value" : "Изтриване"
           }
         },
         "ca" : {
@@ -1874,7 +1874,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La suppression ne peut pas être annulée. Continue ?"
+            "value" : "La suppression ne peut pas être annulée. Continuer ?"
           }
         },
         "fr-CA" : {
@@ -1928,7 +1928,7 @@
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Жоюды болдырмау мүмкін емес. Жалғастыра берме?"
+            "value" : "Жоюды болдырмау мүмкін емес. Жалғастырасыз ба?"
           }
         },
         "ko" : {
@@ -2273,7 +2273,7 @@
         "bg" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Редактирай"
+            "value" : "Редактиране"
           }
         },
         "ca" : {
@@ -2559,7 +2559,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saisis le texte"
+            "value" : "Saisissez le texte"
           }
         },
         "fr-CA" : {
@@ -3101,7 +3101,7 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não conseguiste carregar com o erro: %@"
+            "value" : "Falha ao carregar com o erro: %@"
           }
         },
         "ro" : {
@@ -3327,7 +3327,7 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Falhaste com o erro:\n%@"
+            "value" : "Falha com o erro:\n%@"
           }
         },
         "ro" : {
@@ -3339,7 +3339,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Провалился с ошибкой:\n%@"
+            "value" : "Сбой с ошибкой:\n%@"
           }
         },
         "sk" : {
@@ -3779,7 +3779,7 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não há emojis correspondentes a \"%@"
+            "value" : "Não há emojis correspondentes a \"%@\""
           }
         },
         "ro" : {
@@ -4367,13 +4367,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choisis un Emoji"
+            "value" : "Choisir un emoji"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choisissez Emoji"
+            "value" : "Choisissez un emoji"
           }
         },
         "he" : {
@@ -4457,19 +4457,19 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escolhe o Emoji"
+            "value" : "Escolher emoji"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alege Emoji"
+            "value" : "Alegeți emoji"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выбери эмодзи"
+            "value" : "Выберите эмодзи"
           }
         },
         "sk" : {
@@ -4683,7 +4683,7 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obtém sucesso após 1 segundo"
+            "value" : "Sucesso após 1 segundo"
           }
         },
         "ro" : {
@@ -4819,13 +4819,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Essaie à nouveau"
+            "value" : "Réessayer"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Essaie encore"
+            "value" : "Réessayez"
           }
         },
         "he" : {
@@ -4837,7 +4837,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "फिर कोशिश करो"
+            "value" : "फिर कोशिश करें"
           }
         },
         "hr" : {
@@ -4873,7 +4873,7 @@
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тағы да көр"
+            "value" : "Қайталап көріңіз"
           }
         },
         "ko" : {
@@ -4909,7 +4909,7 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tenta novamente"
+            "value" : "Tentar novamente"
           }
         },
         "ro" : {
@@ -4921,7 +4921,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Попробуй еще раз"
+            "value" : "Попробуйте ещё раз"
           }
         },
         "sk" : {
