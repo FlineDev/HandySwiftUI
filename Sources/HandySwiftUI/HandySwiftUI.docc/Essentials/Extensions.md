@@ -63,6 +63,7 @@ struct ColorfulView: View {
            
            // Use color components
            Text("HSB: \(baseColor.hsbo.hue), \(baseColor.hsbo.saturation), \(baseColor.hsbo.brightness)")
+           Text("RGB: \(baseColor.rgbo.red), \(baseColor.rgbo.green), \(baseColor.rgbo.blue)")
        }
        .padding()
        // Use semantic system colors for custom system-like components
@@ -75,13 +76,12 @@ struct ColorfulView: View {
 
 When adjusting color brightness, use .luminance instead of .brightness from the HSB color system. Luminance better represents how humans perceive light and dark, which is why HandySwiftUI includes support for the HLC color space.
 
-For RGB components, use SwiftUI's built-in `resolve(in:)` (iOS 17, macOS 14, tvOS 17, watchOS 10, visionOS 1) instead of the deprecated `rgbo` property. It takes the environment into account, so dynamic colors resolve for the current color scheme:
+Inside a view, `rgbo(in:)` reads the components in the view's environment, so dynamic colors like `.primary` resolve exactly as the view displays them, including overrides like `.environment(\.colorScheme, .dark)`:
 
 ```swift
 @Environment(\.self) private var environment
 
-let resolved = baseColor.resolve(in: environment)
-Text("RGB: \(resolved.red), \(resolved.green), \(resolved.blue)")
+let components = Color.primary.rgbo(in: environment)
 ```
 
 
@@ -275,6 +275,8 @@ The highlighting is case-insensitive and diacritic-insensitive by default, but y
 - ``SwiftUICore/Color/change(_:to:)``
 - ``SwiftUICore/Color/hlco``
 - ``SwiftUICore/Color/hsbo``
+- ``SwiftUICore/Color/rgbo``
+- ``SwiftUICore/Color/rgbo(in:)``
 - ``SwiftUICore/Color/init(hex:)``
 - ``SwiftUICore/Color/init(hue:luminance:chroma:opacity:)``
 - ``SwiftUICore/Color/toHex(alpha:)``
@@ -322,12 +324,6 @@ The highlighting is case-insensitive and diacritic-insensitive by default, but y
 
 - ``SwiftUICore/Text/init(convertible:)``
 - ``SwiftUICore/Text/init(format:partialStyling:)``
-
-### Deprecated
-
-Starting with iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1, use SwiftUI's `resolve(in:)` and read the components of the returned `Color.Resolved` instead.
-
-- ``SwiftUICore/Color/rgbo``
 
 [TranslateKit]: https://translatekit.app
 [FreemiumKit]: https://freemiumkit.app
