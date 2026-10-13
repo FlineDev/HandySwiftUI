@@ -58,6 +58,11 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
       }
    }
 
+   /// The text shown in place of the selected option while nothing is selected.
+   static var noSelectionText: Text {
+      Text("None", bundle: .module)
+   }
+
    /// Initializes a `SearchableGridPicker` with a title, a list of options, and a binding to the selection.
    ///
    /// - Parameters:
@@ -85,7 +90,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
                   if let selection {
                      selection.view.scaleEffect(0.75)
                   } else {
-                     Text("None")
+                     Self.noSelectionText
                   }
 
                   Image(systemName: "chevron.right")
@@ -102,11 +107,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
       .navigationDestination(isPresented: self.$showPicker) {
          Group {
             if self.filteredOptions.isEmpty {
-               ContentUnavailableView(
-                  "No matches",
-                  systemImage: "exclamationmark.magnifyingglass",
-                  description: Text("No emojis match '\(self.searchText)'")
-               )
+               ContentUnavailableView.search(text: self.searchText)
                .frame(maxHeight: .infinity, alignment: .center)
             } else {
                ScrollView {
