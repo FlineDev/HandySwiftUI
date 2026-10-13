@@ -17,7 +17,7 @@ import SwiftUI
 public prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
    Binding<Bool>(
       get: { !value.wrappedValue },
-      set: { value.wrappedValue = $0 }
+      set: { value.wrappedValue = !$0 }
    )
 }
 
