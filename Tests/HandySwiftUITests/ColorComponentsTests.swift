@@ -53,7 +53,13 @@ struct ColorComponentsTests {
          self.expectEqual(color.rgbo, self.deviceRGBComponents(of: color), "\(name)")
       }
 
-      @Test(arguments: srgbColors)
+      /// With "Increase contrast" on, `rgbo` returns the high-contrast variants, which an `EnvironmentValues()` cannot request.
+      @Test(
+         .disabled("The system setting \"Increase contrast\" is on") {
+            await MainActor.run { NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast }
+         },
+         arguments: srgbColors
+      )
       func rgboMatchesResolvedComponentsForTheCurrentAppearance(name: String, color: Color) {
          self.expectEqual(color.rgbo, color.rgbo(in: Self.environment(self.currentColorScheme)), "\(name)")
       }
@@ -68,6 +74,8 @@ struct ColorComponentsTests {
       }
    #endif
 
+   /// Older OS versions have no `resolve(in:)`, there `rgbo(in:)` falls back to `rgbo` and ignores the environment.
+   @available(iOS 17, macOS 14, tvOS 17, watchOS 10, visionOS 1, *)
    @Test
    func dynamicColorsResolveAgainstTheGivenEnvironment() {
       let light = Color.primary.rgbo(in: Self.environment(.light))
@@ -75,6 +83,20 @@ struct ColorComponentsTests {
 
       #expect(light.red < 0.1 && light.green < 0.1 && light.blue < 0.1)
       #expect(dark.red > 0.9 && dark.green > 0.9 && dark.blue > 0.9)
+   }
+
+   @Test
+   func wideGamutColorKeepsItsHSBComponents() {
+      let displayP3Red = Color(.displayP3, red: 1, green: 0, blue: 0)
+      let hsbo = displayP3Red.hsbo
+
+      #expect(hsbo.saturation > 1.05)
+      self.expectEqual(
+         Color(hue: hsbo.hue, saturation: hsbo.saturation, brightness: hsbo.brightness, opacity: hsbo.opacity).rgbo,
+         displayP3Red.rgbo,
+         "HSB round trip"
+      )
+      self.expectEqual(displayP3Red.change(.brightness, by: 0).rgbo, displayP3Red.rgbo, "brightness change by 0")
    }
 
    @Test(arguments: srgbColors)

@@ -339,14 +339,18 @@ extension Color {
    }
 
    // MARK: - Computed Properties
-   /// The HSB & alpha attributes of the `Color` instance.
+   /// The HSB & alpha attributes of the `Color` instance, based on its extended sRGB components (like ``rgbo``).
+   ///
+   /// For wide-gamut colors (e.g. Display P3), saturation and brightness can be above 1. `Color(hue:saturation:brightness:opacity:)`
+   /// accepts such values and recreates the exact color.
    public var hsbo: (hue: Double, saturation: Double, brightness: Double, opacity: Double) {
       var hue: CGFloat = 0
       var saturation: CGFloat = 0
       var brightness: CGFloat = 0
       var opacity: CGFloat = 0
       #if os(macOS)
-         let color = NativeColor(self).usingColorSpace(.deviceRGB)!
+         // Extended sRGB (like UIColor and `rgbo`) instead of device RGB, which clips wide-gamut colors
+         let color = NativeColor(self).usingColorSpace(.extendedSRGB)!
       #else
          let color = NativeColor(self)
       #endif
@@ -358,11 +362,13 @@ extension Color {
 
    /// The RGB & alpha attributes of the `Color` instance in the extended sRGB color space.
    ///
-   /// Dynamic colors (like `.primary` or `.systemBlue`) resolve against the current appearance of the app, including the color
-   /// scheme and the increased contrast setting. Inside a view, prefer ``rgbo(in:)`` with the view's environment, which also takes
-   /// environment overrides like `.environment(\.colorScheme, .dark)` into account.
+   /// Dynamic colors (like `.primary` or `.systemBlue`) resolve through `UIColor`/`NSColor` against the traits current at the time of
+   /// the call: `UITraitCollection.current` on iOS-based platforms, which outside of trait-aware callbacks usually holds default
+   /// traits, and `NSAppearance.currentDrawing()` on macOS. For the values a view actually displays, use ``rgbo(in:)`` with the view's
+   /// environment, which also respects overrides like `.environment(\.colorScheme, .dark)`.
    ///
-   /// Wide-gamut colors (e.g. Display P3) can have components below 0 or above 1, as in `Color.Resolved`.
+   /// Wide-gamut colors (e.g. Display P3) can have components below 0 or above 1, as in `Color.Resolved`. Clamp them before
+   /// converting to a fixed range, e.g. `UInt8(min(max(red, 0), 1) * 255)`.
    public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
       var red: CGFloat = 0
       var green: CGFloat = 0
