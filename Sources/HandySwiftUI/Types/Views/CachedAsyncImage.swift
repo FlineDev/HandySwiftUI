@@ -122,7 +122,7 @@ public struct CachedAsyncImage: View {
             }
          }
       }
-      .onChange(of: self.url) { _ in
+      .onValueChange(of: self.url) { _ in
          self.loadImage()
       }
    }
