@@ -82,8 +82,10 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
 
          #if os(macOS)
             Section {
-               Button("Done") {
+               Button {
                   self.dismiss()
+               } label: {
+                  Self.doneButtonText
                }
                .frame(maxWidth: .infinity, alignment: .trailing)
             }
@@ -92,6 +94,11 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
       #if os(macOS)
          .frame(height: min((NSScreen.main?.frame.height ?? 100_000) - 54, Double(self.options.count) * 22 + 104))
       #endif
+   }
+
+   /// The title of the button that closes the selection sheet on macOS.
+   static var doneButtonText: Text {
+      Text("Done", bundle: .module)
    }
 
    /// Creates a boolean binding for a given selectable item.
