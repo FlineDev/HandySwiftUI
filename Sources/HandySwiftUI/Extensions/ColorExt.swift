@@ -7,6 +7,8 @@ import SwiftUI
 #endif
 
 // MARK: - Apple-provided colors
+// UIKit on watchOS has no semantic colors. There, the label and standard colors map to SwiftUI's own colors, which use the watchOS
+// system palette, and the colors without a watchOS counterpart (backgrounds, fills, separators, …) are not available.
 extension Color {
    // MARK: - UI Element Colors (https://developer.apple.com/documentation/uikit/uicolor/ui_element_colors)
    // MARK: Label Colors
@@ -14,6 +16,8 @@ extension Color {
    public static var label: Color {
       #if os(macOS)
          return Color(NSColor.labelColor)
+      #elseif os(watchOS)
+         return .primary
       #else
          return Color(UIColor.label)
       #endif
@@ -23,31 +27,35 @@ extension Color {
    public static var secondaryLabel: Color {
       #if os(macOS)
          return Color(NSColor.secondaryLabelColor)
+      #elseif os(watchOS)
+         return .secondary
       #else
          return Color(UIColor.secondaryLabel)
       #endif
    }
 
-   /// The color for text labels that contain tertiary content.
-   public static var tertiaryLabel: Color {
-      #if os(macOS)
-         return Color(NSColor.tertiaryLabelColor)
-      #else
-         return Color(UIColor.tertiaryLabel)
-      #endif
-   }
+   #if !os(watchOS)
+      /// The color for text labels that contain tertiary content.
+      public static var tertiaryLabel: Color {
+         #if os(macOS)
+            return Color(NSColor.tertiaryLabelColor)
+         #else
+            return Color(UIColor.tertiaryLabel)
+         #endif
+      }
 
-   /// The color for text labels that contain quaternary content.
-   public static var quaternaryLabel: Color {
-      #if os(macOS)
-         return Color(NSColor.quaternaryLabelColor)
-      #else
-         return Color(UIColor.quaternaryLabel)
-      #endif
-   }
+      /// The color for text labels that contain quaternary content.
+      public static var quaternaryLabel: Color {
+         #if os(macOS)
+            return Color(NSColor.quaternaryLabelColor)
+         #else
+            return Color(UIColor.quaternaryLabel)
+         #endif
+      }
+   #endif
 
    // MARK: Fill Colors
-   #if !os(tvOS)
+   #if !os(tvOS) && !os(watchOS)
       /// An overlay fill color for thin and small shapes.
       public static var systemFill: Color {
          #if os(macOS)
@@ -152,39 +160,45 @@ extension Color {
    #endif
 
    // MARK: Separator Colors
-   /// The color for thin borders or divider lines that allows some underlying content to be visible.
-   public static var separator: Color {
-      #if os(macOS)
-         return Color(NSColor.separatorColor)
-      #else
-         return Color(UIColor.separator)
-      #endif
-   }
+   #if !os(watchOS)
+      /// The color for thin borders or divider lines that allows some underlying content to be visible.
+      public static var separator: Color {
+         #if os(macOS)
+            return Color(NSColor.separatorColor)
+         #else
+            return Color(UIColor.separator)
+         #endif
+      }
 
-   /// The color for borders or divider lines that hides any underlying content.
-   public static var opaqueSeparator: Color {
-      #if os(macOS)
-         return Color(NSColor.separatorColor).opacity(1)
-      #else
-         return Color(UIColor.opaqueSeparator)
-      #endif
-   }
+      /// The color for borders or divider lines that hides any underlying content.
+      public static var opaqueSeparator: Color {
+         #if os(macOS)
+            return Color(NSColor.separatorColor).opacity(1)
+         #else
+            return Color(UIColor.opaqueSeparator)
+         #endif
+      }
+   #endif
 
    // MARK: Link Color
-   /// The color for links.
-   public static var link: Color {
-      #if os(macOS)
-         return Color(NSColor.linkColor)
-      #else
-         return Color(UIColor.link)
-      #endif
-   }
+   #if !os(watchOS)
+      /// The color for links.
+      public static var link: Color {
+         #if os(macOS)
+            return Color(NSColor.linkColor)
+         #else
+            return Color(UIColor.link)
+         #endif
+      }
+   #endif
 
    // MARK: - Standard Colors (https://developer.apple.com/documentation/uikit/uicolor/standard_colors)
    // MARK: Adaptable Colors
    public static var systemBlue: Color {
       #if os(macOS)
          return Color(NSColor.systemBlue)
+      #elseif os(watchOS)
+         return .blue
       #else
          return Color(UIColor.systemBlue)
       #endif
@@ -193,6 +207,8 @@ extension Color {
    public static var systemGreen: Color {
       #if os(macOS)
          return Color(NSColor.systemGreen)
+      #elseif os(watchOS)
+         return .green
       #else
          return Color(UIColor.systemGreen)
       #endif
@@ -201,6 +217,8 @@ extension Color {
    public static var systemIndigo: Color {
       #if os(macOS)
          return Color(NSColor.systemIndigo)
+      #elseif os(watchOS)
+         return .indigo
       #else
          return Color(UIColor.systemIndigo)
       #endif
@@ -209,6 +227,8 @@ extension Color {
    public static var systemOrange: Color {
       #if os(macOS)
          return Color(NSColor.systemOrange)
+      #elseif os(watchOS)
+         return .orange
       #else
          return Color(UIColor.systemOrange)
       #endif
@@ -217,6 +237,8 @@ extension Color {
    public static var systemPink: Color {
       #if os(macOS)
          return Color(NSColor.systemPink)
+      #elseif os(watchOS)
+         return .pink
       #else
          return Color(UIColor.systemPink)
       #endif
@@ -225,6 +247,8 @@ extension Color {
    public static var systemPurple: Color {
       #if os(macOS)
          return Color(NSColor.systemPurple)
+      #elseif os(watchOS)
+         return .purple
       #else
          return Color(UIColor.systemPurple)
       #endif
@@ -233,6 +257,8 @@ extension Color {
    public static var systemRed: Color {
       #if os(macOS)
          return Color(NSColor.systemRed)
+      #elseif os(watchOS)
+         return .red
       #else
          return Color(UIColor.systemRed)
       #endif
@@ -241,6 +267,8 @@ extension Color {
    public static var systemTeal: Color {
       #if os(macOS)
          return Color(NSColor.systemTeal)
+      #elseif os(watchOS)
+         return .teal
       #else
          return Color(UIColor.systemTeal)
       #endif
@@ -249,6 +277,8 @@ extension Color {
    public static var systemYellow: Color {
       #if os(macOS)
          return Color(NSColor.systemYellow)
+      #elseif os(watchOS)
+         return .yellow
       #else
          return Color(UIColor.systemYellow)
       #endif
@@ -258,12 +288,14 @@ extension Color {
    public static var systemGray: Color {
       #if os(macOS)
          return Color(NSColor.systemGray)
+      #elseif os(watchOS)
+         return .gray
       #else
          return Color(UIColor.systemGray)
       #endif
    }
 
-   #if !os(tvOS)
+   #if !os(tvOS) && !os(watchOS)
       public static var systemGray2: Color {
          #if os(macOS)
             return Color(NSColor.systemGray)

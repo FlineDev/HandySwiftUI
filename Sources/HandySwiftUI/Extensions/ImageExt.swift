@@ -1,3 +1,4 @@
+import ImageIO
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -106,35 +107,38 @@ extension Image {
    import UIKit
 
    extension UIImage {
-      /// Resizes the image to fit within the specified maximum width and height.
-      ///
-      /// - Parameters:
-      ///   - maxWidth: The maximum width for the resized image.
-      ///   - maxHeight: The maximum height for the resized image.
-      /// - Returns: A new `UIImage` instance with the resized dimensions, or `nil` if resizing fails.
-      @MainActor
-      public func resized(maxWidth: CGFloat, maxHeight: CGFloat) -> UIImage? {
-         let size = self.size
-         if size.width <= maxWidth && size.height <= maxHeight { return self }
+      // watchOS has neither UIGraphicsImageRenderer nor UIScreen
+      #if !os(watchOS)
+         /// Resizes the image to fit within the specified maximum width and height.
+         ///
+         /// - Parameters:
+         ///   - maxWidth: The maximum width for the resized image.
+         ///   - maxHeight: The maximum height for the resized image.
+         /// - Returns: A new `UIImage` instance with the resized dimensions, or `nil` if resizing fails.
+         @MainActor
+         public func resized(maxWidth: CGFloat, maxHeight: CGFloat) -> UIImage? {
+            let size = self.size
+            if size.width <= maxWidth && size.height <= maxHeight { return self }
 
-         #if os(visionOS)
-            let screenScale = 1.0
-         #else
-            let screenScale = UIScreen.main.scale
-         #endif
-         let widthRatio = (maxWidth / screenScale) / size.width
-         let heightRatio = (maxHeight / screenScale) / size.height
-         let scaleFactor = min(widthRatio, heightRatio)
+            #if os(visionOS)
+               let screenScale = 1.0
+            #else
+               let screenScale = UIScreen.main.scale
+            #endif
+            let widthRatio = (maxWidth / screenScale) / size.width
+            let heightRatio = (maxHeight / screenScale) / size.height
+            let scaleFactor = min(widthRatio, heightRatio)
 
-         let newSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
+            let newSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
 
-         let renderer = UIGraphicsImageRenderer(size: newSize)
-         let image = renderer.image { _ in
-            self.draw(in: CGRect(origin: .zero, size: newSize))
+            let renderer = UIGraphicsImageRenderer(size: newSize)
+            let image = renderer.image { _ in
+               self.draw(in: CGRect(origin: .zero, size: newSize))
+            }
+
+            return image.withRenderingMode(self.renderingMode)
          }
-
-         return image.withRenderingMode(self.renderingMode)
-      }
+      #endif
 
       /// Converts the image to HEIC data with specified compression quality.
       ///
