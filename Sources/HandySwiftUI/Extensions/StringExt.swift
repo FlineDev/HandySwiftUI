@@ -50,7 +50,7 @@ extension String {
    /// - Parameters:
    ///   - searchText: The text to search for within the string.
    ///   - locale: The locale to use for string comparisons. Defaults to `nil`.
-   ///   - applytingAttributes: A closure that gets passed an `AttributedSubstring` you can customize to define how to highlight. By default, a yellow background and bold black foreground text is used.
+   ///   - applyingAttributes: A closure that gets passed an `AttributedSubstring` you can customize to define how to highlight. By default, a yellow background and bold black foreground text is used.
    ///
    /// - Returns: An `AttributedString` with matching prefixes highlighted.
    ///
@@ -60,7 +60,6 @@ extension String {
    ///   let highlighted = text.highlightMatchingTokenizedPrefixes(in: "He Wo")
    ///   // Returns an AttributedString with "He" and "Wo" in bold
    ///   ```
-   @available(iOS 15, macOS 12, tvOS 15, visionOS 1, watchOS 8, *)
    public func highlightMatchingTokenizedPrefixes(
       in searchText: String,
       locale: Locale? = nil,
@@ -71,12 +70,16 @@ extension String {
       }
    ) -> AttributedString {
       var attributedSelf = AttributedString(self)
-      let normalizedSelf = self.folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: locale)
 
-      for token in searchText.tokenized() {
-         if let range = AttributedString(normalizedSelf).range(of: token) {
-            applyingAttributes(&attributedSelf[range])
-         }
+      for token in searchText.tokenized(locale: locale) where !token.isEmpty {
+         // Search the original string with the folding as comparison options instead of searching a folded copy: folding can change
+         // the length (e.g. "é" or full-width letters), so ranges found in a folded copy point to the wrong characters in the original
+         guard
+            let stringRange = self.range(of: token, options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: locale),
+            let range = Range(stringRange, in: attributedSelf)
+         else { continue }
+
+         applyingAttributes(&attributedSelf[range])
       }
 
       return attributedSelf
