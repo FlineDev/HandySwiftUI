@@ -262,7 +262,7 @@ extension SFSymbol: SearchableOption {
          .font(.title3)
    }
 
-   #warning("🧑‍💻 localize the search terms to support more languages")
+   // TODO: localize the search terms to support more languages
    /// Search terms related to each SF Symbol. This can be used to filter or find symbols based on keywords.
    ///
    /// - Note: No need to use this directly. It will be used inside a ``SearchableGridPicker``.
