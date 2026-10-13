@@ -614,26 +614,36 @@ extension Color {
 
    /// Converts the `Color` instance to a hexadecimal string representation.
    ///
+   /// Dynamic colors like `.primary` resolve against the current appearance of the app. Wide-gamut colors are clamped to sRGB.
+   ///
    /// - Parameter alpha: A Boolean value indicating whether the output string should include the alpha component.
-   ///                    If `true`, the alpha channel is included (e.g., "#RRGGBBAA"). If `false`, only RGB values are included (e.g., "#RRGGBB").
+   ///                    If `true`, the alpha channel is included (e.g., "RRGGBBAA"). If `false`, only RGB values are included (e.g., "RRGGBB").
    ///                    Defaults to `false`.
-   /// - Returns: A hexadecimal string representing the color, or `nil` if the color components could not be retrieved.
+   /// - Returns: A hexadecimal string without a leading `#` representing the color, or `nil` if the color components could not be retrieved.
    public func toHex(alpha: Bool = false) -> String? {
-      guard let components = cgColor?.components, components.count >= 3 else { return nil }
+      // Read the components through the platform color in sRGB: unlike `cgColor`, which is `nil` for dynamic colors (e.g. `.primary`,
+      // `.systemBlue`) and has only two components for grayscale colors, this works for every color
+      var red: CGFloat = 0
+      var green: CGFloat = 0
+      var blue: CGFloat = 0
+      var opacity: CGFloat = 0
 
-      let r = Float(components[0])
-      let g = Float(components[1])
-      let b = Float(components[2])
-      var a = Float(1.0)
+      #if os(macOS)
+         guard let color = NativeColor(self).usingColorSpace(.sRGB) else { return nil }
+         color.getRed(&red, green: &green, blue: &blue, alpha: &opacity)
+      #else
+         guard NativeColor(self).getRed(&red, green: &green, blue: &blue, alpha: &opacity) else { return nil }
+      #endif
 
-      if components.count >= 4 {
-         a = Float(components[3])
+      // Extended sRGB components of wide-gamut colors can lie outside of 0...1, hex can only represent the sRGB gamut
+      func hexByte(_ component: CGFloat) -> Int {
+         lroundf(Float(min(max(component, 0), 1)) * 255)
       }
 
       if alpha {
-         return String(format: "%02lX%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255), lroundf(a * 255))
+         return String(format: "%02lX%02lX%02lX%02lX", hexByte(red), hexByte(green), hexByte(blue), hexByte(opacity))
       } else {
-         return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
+         return String(format: "%02lX%02lX%02lX", hexByte(red), hexByte(green), hexByte(blue))
       }
    }
 }
