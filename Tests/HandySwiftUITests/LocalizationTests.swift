@@ -17,9 +17,22 @@ struct LocalizationTests {
       return value == "⚠️ missing" ? nil : value
    }
 
+   /// The languages translated in the String Catalog of the sources, read from the catalog file itself.
+   static func languagesInSourceCatalog() throws -> Set<String> {
+      let catalogURL = URL(fileURLWithPath: #filePath)
+         .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+         .appending(path: "Sources/HandySwiftUI/Localizable.xcstrings")
+      let catalog = try JSONSerialization.jsonObject(with: Data(contentsOf: catalogURL)) as? [String: Any]
+      let strings = try #require(catalog?["strings"] as? [String: [String: Any]])
+      return Set(strings.values.flatMap { ($0["localizations"] as? [String: Any])?.keys.map { $0 } ?? [] })
+   }
+
    @Test
-   func catalogCoversAllLanguages() {
-      #expect(Self.catalogLanguages.count == 37)
+   func compiledBundleContainsEveryCatalogLanguage() throws {
+      let sourceLanguages = try Self.languagesInSourceCatalog().subtracting(["en"])
+
+      #expect(!sourceLanguages.isEmpty)
+      #expect(Set(Self.catalogLanguages) == sourceLanguages)
    }
 
    @Test(arguments: ["None", "Done"])
