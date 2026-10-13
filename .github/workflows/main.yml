@@ -12,8 +12,21 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build package
-        run: swift build
+        run: swift build --build-system swiftbuild
 
       - name: Run tests
         if: hashFiles('Tests/**') != ''
-        run: swift test
+        run: swift test --build-system swiftbuild
+
+  build-platforms:
+    runs-on: macos-26
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [iOS, tvOS, visionOS, watchOS]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build for ${{ matrix.platform }}
+        run: xcodebuild -scheme HandySwiftUI -destination 'generic/platform=${{ matrix.platform }}' CODE_SIGNING_ALLOWED=NO build
