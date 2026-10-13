@@ -69,6 +69,8 @@ extension Text {
       for subtext in subtexts {
          interpolation.appendInterpolation(subtext)
       }
+      // The resulting key is "%@%@…" and is looked up in the module bundle on purpose: it must never get a catalog entry, so the
+      // lookup always falls back to the key itself and only the interpolated parts are shown
       self.init(LocalizedStringKey(stringInterpolation: interpolation), bundle: .module)
    }
 }

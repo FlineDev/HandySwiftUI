@@ -538,7 +538,10 @@ extension Color {
 
    /// Converts the `Color` instance to a hexadecimal string representation.
    ///
-   /// Dynamic colors like `.primary` resolve against the current appearance of the app. Wide-gamut colors are clamped to sRGB.
+   /// Dynamic colors like `.primary` resolve through `UIColor`/`NSColor` against the traits current at the time of the call:
+   /// `UITraitCollection.current` on iOS-based platforms, which outside of trait-aware callbacks usually holds default traits, and
+   /// `NSAppearance.currentDrawing()` on macOS. For the color a view actually displays, resolve it in the view's environment first
+   /// (e.g. with `rgbo(in:)`). Wide-gamut colors are clamped to sRGB.
    ///
    /// - Parameter alpha: A Boolean value indicating whether the output string should include the alpha component.
    ///                    If `true`, the alpha channel is included (e.g., "RRGGBBAA"). If `false`, only RGB values are included (e.g., "RRGGBB").
