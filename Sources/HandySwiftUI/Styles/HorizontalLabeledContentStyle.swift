@@ -11,7 +11,7 @@ public struct HorizontalLabeledContentStyle: LabeledContentStyle {
          Spacer()
 
          configuration.content
-            .foregroundStyle(.secondary)
+            .applyIf(self.muteContent) { $0.foregroundStyle(.secondary) }
       }
    }
 }
