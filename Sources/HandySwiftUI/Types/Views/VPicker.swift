@@ -189,7 +189,7 @@ extension VPicker where T: CaseIterable {
    ///   - selection: A binding to the currently selected option.
    ///   - label: A closure that returns the label view for the picker.
    public init(selection: Binding<T?>, label: @escaping () -> L) {
-      self.options = T.allCases as! [T]
+      self.options = Array(T.allCases)
       self.selection = selection
       self.label = label
    }
@@ -205,7 +205,7 @@ extension VPicker where T: CaseIterable, L == Text {
    ///   - selection: A binding to the currently selected option.
    public init(_ titleKey: LocalizedStringKey, selection: Binding<T?>) {
       self.label = { Text(titleKey).font(.headline) }
-      self.options = T.allCases as! [T]
+      self.options = Array(T.allCases)
       self.selection = selection
    }
 }
