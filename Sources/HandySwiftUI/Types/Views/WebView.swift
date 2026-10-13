@@ -54,7 +54,7 @@
             }
          #endif
 
-         private func update(_ webView: WKWebView, coordinator: Coordinator) {
+         func update(_ webView: WKWebView, coordinator: Coordinator) {
             coordinator.parent = self
 
             // Add an observer to know when the web content has finished loading
