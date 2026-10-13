@@ -175,7 +175,7 @@ extension HPicker where T: CaseIterable {
    ///   - selection: A binding to the currently selected option.
    ///   - label: A closure that returns the label view for the picker.
    public init(locked: Set<T>, selection: Binding<T?>, label: @escaping () -> L) {
-      self.options = T.allCases as! [T]
+      self.options = Array(T.allCases)
       self.locked = locked
       self.selection = selection
       self.label = label
@@ -193,7 +193,7 @@ extension HPicker where T: CaseIterable, L == Text {
    public init(_ titleKey: LocalizedStringKey, locked: Set<T>, selection: Binding<T?>) {
       self.label = { Text(titleKey).font(.headline) }
       self.locked = locked
-      self.options = T.allCases as! [T]
+      self.options = Array(T.allCases)
       self.selection = selection
    }
 }
@@ -209,7 +209,7 @@ extension HPicker where T: CaseIterable, L == Text {
    public init(_ title: String, locked: Set<T>, selection: Binding<T?>) {
       self.label = { Text(title).font(.headline) }
       self.locked = locked
-      self.options = T.allCases as! [T]
+      self.options = Array(T.allCases)
       self.selection = selection
    }
 }
