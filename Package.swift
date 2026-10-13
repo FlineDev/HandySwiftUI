@@ -12,6 +12,7 @@ let package = Package(
          name: "HandySwiftUI",
          dependencies: [.product(name: "HandySwift", package: "HandySwift")],
          resources: [.process("Localizable.xcstrings")]
-      )
+      ),
+      .testTarget(name: "HandySwiftUITests", dependencies: ["HandySwiftUI"]),
    ]
 )
