@@ -51,7 +51,7 @@ extension Image {
          else { return nil }
 
          return bitmapImage.representation(
-            using: .jpeg2000,
+            using: .jpeg,
             properties: [NSBitmapImageRep.PropertyKey.compressionFactor: NSNumber(value: compressionQuality)]
          )
       }
