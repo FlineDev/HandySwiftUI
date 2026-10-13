@@ -140,16 +140,25 @@ public struct CachedAsyncImage: View {
       }
 
       URLSession.shared.dataTask(with: self.url) { data, response, error in
-         guard let data = data, let downloadedImage = NativeImage(data: data) else { return }
+         let downloadedImage = data.flatMap { NativeImage(data: $0) }
 
          DispatchQueue.main.async {
+            let state = Self.loadingState(afterDownloading: downloadedImage)
             withAnimation {
-               self.isLoading = false
-               self.image = downloadedImage
+               self.isLoading = state.isLoading
+               if let image = state.image {
+                  self.image = image
+               }
             }
             ImageCache.shared.insertImage(downloadedImage, for: self.url as NSURL)
          }
       }.resume()
+   }
+
+   /// The loading state once a download finished. A failed download (no data or data that is not an image) must end the loading
+   /// state too, otherwise the progress view would spin forever.
+   static func loadingState(afterDownloading downloadedImage: NativeImage?) -> (isLoading: Bool, image: NativeImage?) {
+      (isLoading: false, image: downloadedImage)
    }
 }
 
