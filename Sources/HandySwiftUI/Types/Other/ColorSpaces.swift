@@ -71,7 +71,7 @@ struct RGBColor {
 
 extension Color {
    func rgbColor() -> RGBColor {
-      let localRgbo = self.rgbo
+      let localRgbo = self.nativeRgbo
       return RGBColor(r: localRgbo.red, g: localRgbo.green, b: localRgbo.blue, alpha: localRgbo.opacity)
    }
 }

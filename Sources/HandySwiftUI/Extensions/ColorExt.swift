@@ -357,7 +357,48 @@ extension Color {
    }
 
    /// The RGB & alpha attributes of the `Color` instance.
+   ///
+   /// - Note: Deprecated starting with iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1. Use `resolve(in:)` instead and read the
+   ///   `red`, `green`, `blue` and `opacity` properties of the returned `Color.Resolved`. Unlike this property, `resolve(in:)` takes the
+   ///   environment into account, so dynamic colors resolve for the right color scheme and contrast setting.
+   ///
+   /// ```swift
+   /// @Environment(\.self) private var environment
+   ///
+   /// let resolved = color.resolve(in: environment)
+   /// print(resolved.red, resolved.green, resolved.blue, resolved.opacity)
+   /// ```
+   @available(
+      iOS,
+      deprecated: 17.0,
+      message: "Since iOS 17, `resolve(in:)` returns a `Color.Resolved` with `red`, `green`, `blue` and `opacity`. Pass the view's `EnvironmentValues` so dynamic colors resolve correctly."
+   )
+   @available(
+      macOS,
+      deprecated: 14.0,
+      message: "Since macOS 14, `resolve(in:)` returns a `Color.Resolved` with `red`, `green`, `blue` and `opacity`. Pass the view's `EnvironmentValues` so dynamic colors resolve correctly."
+   )
+   @available(
+      tvOS,
+      deprecated: 17.0,
+      message: "Since tvOS 17, `resolve(in:)` returns a `Color.Resolved` with `red`, `green`, `blue` and `opacity`. Pass the view's `EnvironmentValues` so dynamic colors resolve correctly."
+   )
+   @available(
+      watchOS,
+      deprecated: 10.0,
+      message: "Since watchOS 10, `resolve(in:)` returns a `Color.Resolved` with `red`, `green`, `blue` and `opacity`. Pass the view's `EnvironmentValues` so dynamic colors resolve correctly."
+   )
+   @available(
+      visionOS,
+      deprecated: 1.0,
+      message: "`resolve(in:)` returns a `Color.Resolved` with `red`, `green`, `blue` and `opacity`. Pass the view's `EnvironmentValues` so dynamic colors resolve correctly."
+   )
    public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
+      self.nativeRgbo
+   }
+
+   /// The RGB & alpha attributes read through the platform-native color type, used internally by the color space conversions.
+   var nativeRgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
       var red: CGFloat = 0
       var green: CGFloat = 0
       var blue: CGFloat = 0
@@ -406,13 +447,13 @@ extension Color {
    public func change(_ attribute: ChangeableAttribute, by addition: Double) -> Self {
       switch attribute {
       case .red:
-         return self.change(attribute, to: self.rgbo.red + addition)
+         return self.change(attribute, to: self.nativeRgbo.red + addition)
 
       case .green:
-         return self.change(attribute, to: self.rgbo.green + addition)
+         return self.change(attribute, to: self.nativeRgbo.green + addition)
 
       case .blue:
-         return self.change(attribute, to: self.rgbo.blue + addition)
+         return self.change(attribute, to: self.nativeRgbo.blue + addition)
 
       case .hueHSB:
          return self.change(attribute, to: self.hsbo.hue + addition)
@@ -508,7 +549,7 @@ extension Color {
    }
 
    private func newRgboColor(_ attribute: Self.ChangeableAttribute, _ newValue: Double) -> Self {
-      var newRgbo = self.rgbo
+      var newRgbo = self.nativeRgbo
 
       switch attribute {
       case .red:
