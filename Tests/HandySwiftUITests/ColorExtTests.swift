@@ -40,4 +40,21 @@ struct ColorExtTests {
    func hexOfWideGamutColorIsClampedToSRGB() {
       #expect(Color(.displayP3, red: 1, green: 0, blue: 0).toHex() == "FF0000")
    }
+
+   @Test(arguments: [(1.0, 0.0, 0.5), (0.2, 0.4, 0.6), (0.0, 1.0, 0.0)])
+   func changingOpacityKeepsTheRGBComponents(red: Double, green: Double, blue: Double) {
+      let color = Color(red: red, green: green, blue: blue)
+
+      // Float precision of the platform colors allows for deviations around 1e-7, the HLC round trip caused around 1e-6
+      func expectSameRGB(_ changed: (red: Double, green: Double, blue: Double, opacity: Double), opacity: Double) {
+         let tolerance = 0.000_000_5
+         #expect(abs(changed.red - color.rgbo.red) < tolerance)
+         #expect(abs(changed.green - color.rgbo.green) < tolerance)
+         #expect(abs(changed.blue - color.rgbo.blue) < tolerance)
+         #expect(abs(changed.opacity - opacity) < tolerance)
+      }
+
+      expectSameRGB(color.change(.opacity, to: 0.5).rgbo, opacity: 0.5)
+      expectSameRGB(color.change(.opacity, by: -0.25).rgbo, opacity: 0.75)
+   }
 }

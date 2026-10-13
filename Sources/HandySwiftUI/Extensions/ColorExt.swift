@@ -433,7 +433,7 @@ extension Color {
          return self.change(attribute, to: self.hlco.chroma + addition)
 
       case .opacity:
-         return self.change(attribute, to: self.hlco.opacity + addition)
+         return self.change(attribute, to: self.rgbo.opacity + addition)
       }
    }
 
@@ -445,13 +445,14 @@ extension Color {
    /// - Returns: The resulting new `Color` with the specified change applied.
    public func change(_ attribute: ChangeableAttribute, to newValue: Double) -> Self {
       switch attribute {
-      case .red, .green, .blue:
+      case .red, .green, .blue, .opacity:
+         // Opacity is the same in every color space, so the RGB path changes it without a lossy round trip through HLC
          return self.newRgboColor(attribute, newValue)
 
       case .hueHSB, .saturation, .brightness:
          return self.newHsboColor(attribute, newValue)
 
-      case .hueHLC, .luminance, .chroma, .opacity:
+      case .hueHLC, .luminance, .chroma:
          return self.newHlcoColor(attribute, newValue)
       }
    }
@@ -468,9 +469,6 @@ extension Color {
 
       case .chroma:
          newHlco.chroma = newValue
-
-      case .opacity:
-         newHlco.opacity = newValue
 
       default:
          break
@@ -491,9 +489,6 @@ extension Color {
 
       case .brightness:
          newHsbo.brightness = newValue
-
-      case .opacity:
-         newHsbo.opacity = newValue
 
       default:
          break
