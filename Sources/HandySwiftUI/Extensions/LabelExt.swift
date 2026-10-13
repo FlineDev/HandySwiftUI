@@ -19,6 +19,6 @@ extension Label<Text, Image> {
    ///   // Creates a Label with "Settings" text and a gear icon
    ///   ```
    public init(convertible: CustomLabelConvertible) {
-      self.init(convertible.description, systemImage: convertible.symbolName)
+      self.init(convertible.description, systemImage: convertible.symbolSystemName)
    }
 }

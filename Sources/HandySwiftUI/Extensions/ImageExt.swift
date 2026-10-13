@@ -20,7 +20,7 @@ extension Image {
    ///   let imageView = Image(convertible: symbol)
    ///   ```
    public init(convertible: CustomSymbolConvertible, variableValue: Double? = nil) {
-      self.init(systemName: convertible.symbolName, variableValue: variableValue)
+      self.init(systemName: convertible.symbolSystemName, variableValue: variableValue)
    }
 }
 
