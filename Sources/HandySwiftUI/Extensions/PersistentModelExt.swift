@@ -14,7 +14,7 @@
       /// let task = Task(title: "New Task")
       /// print(task.isPersisted) // false
       ///
-      /// try modelContext.insert(task)
+      /// modelContext.insert(task)
       /// print(task.isPersisted) // true
       /// ```
       public var isPersisted: Bool {
