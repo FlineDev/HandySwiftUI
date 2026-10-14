@@ -366,7 +366,6 @@ struct MainView: View {
 - ``VPicker``
 - ``SearchableGridPicker``
 - ``SideTabView``
-- ``WebView``
 
 ### Other
 
@@ -378,6 +377,12 @@ struct MainView: View {
 - ``ProgressState``
 - ``SFSymbol``
 - ``Xcode``
+
+### Deprecated
+
+Starting with iOS 26, macOS 26 and visionOS 26, use the `WebView` that WebKit provides for SwiftUI instead.
+
+- ``WebView``
 
 
 [TranslateKit]: https://translatekit.app

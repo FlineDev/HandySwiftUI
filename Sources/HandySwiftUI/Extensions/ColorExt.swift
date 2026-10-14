@@ -339,14 +339,18 @@ extension Color {
    }
 
    // MARK: - Computed Properties
-   /// The HSB & alpha attributes of the `Color` instance.
+   /// The HSB & alpha attributes of the `Color` instance, based on its extended sRGB components (like ``rgbo``).
+   ///
+   /// For wide-gamut colors (e.g. Display P3), saturation and brightness can be above 1. `Color(hue:saturation:brightness:opacity:)`
+   /// accepts such values and recreates the exact color.
    public var hsbo: (hue: Double, saturation: Double, brightness: Double, opacity: Double) {
       var hue: CGFloat = 0
       var saturation: CGFloat = 0
       var brightness: CGFloat = 0
       var opacity: CGFloat = 0
       #if os(macOS)
-         let color = NativeColor(self).usingColorSpace(.deviceRGB)!
+         // Extended sRGB (like UIColor and `rgbo`) instead of device RGB, which clips wide-gamut colors
+         let color = NativeColor(self).usingColorSpace(.extendedSRGB)!
       #else
          let color = NativeColor(self)
       #endif
@@ -356,7 +360,15 @@ extension Color {
       return (hue: Double(hue), saturation: Double(saturation), brightness: Double(brightness), opacity: Double(opacity))
    }
 
-   /// The RGB & alpha attributes of the `Color` instance.
+   /// The RGB & alpha attributes of the `Color` instance in the extended sRGB color space.
+   ///
+   /// Dynamic colors (like `.primary` or `.systemBlue`) resolve through `UIColor`/`NSColor` against the traits current at the time of
+   /// the call: `UITraitCollection.current` on iOS-based platforms, which outside of trait-aware callbacks usually holds default
+   /// traits, and `NSAppearance.currentDrawing()` on macOS. For the values a view actually displays, use ``rgbo(in:)`` with the view's
+   /// environment, which also respects overrides like `.environment(\.colorScheme, .dark)`.
+   ///
+   /// Wide-gamut colors (e.g. Display P3) can have components below 0 or above 1, as in `Color.Resolved`. Clamp them before
+   /// converting to a fixed range, e.g. `UInt8(min(max(red, 0), 1) * 255)`.
    public var rgbo: (red: Double, green: Double, blue: Double, opacity: Double) {
       var red: CGFloat = 0
       var green: CGFloat = 0
@@ -364,13 +376,40 @@ extension Color {
       var opacity: CGFloat = 0
 
       #if os(macOS)
-         let color = NativeColor(self).usingColorSpace(.deviceRGB)!
+         // Extended sRGB (like UIColor and `Color.Resolved`) instead of device RGB, which clips wide-gamut colors
+         let color = NativeColor(self).usingColorSpace(.extendedSRGB)!
       #else
          let color = NativeColor(self)
       #endif
       color.getRed(&red, green: &green, blue: &blue, alpha: &opacity)
 
       return (red: Double(red), green: Double(green), blue: Double(blue), opacity: Double(opacity))
+   }
+
+   /// The RGB & alpha attributes of the `Color` instance in the extended sRGB color space, resolved in the given environment.
+   ///
+   /// Use this inside a view to get the components the view actually displays, e.g. the dark variant of a dynamic color in dark mode:
+   ///
+   /// ```swift
+   /// struct ColorInfoView: View {
+   ///    @Environment(\.self) private var environment
+   ///
+   ///    var body: some View {
+   ///       let components = Color.primary.rgbo(in: self.environment)
+   ///       Text("Red: \(components.red)")
+   ///    }
+   /// }
+   /// ```
+   ///
+   /// - Note: Uses `Color.resolve(in:)` starting with iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1. On older versions, the
+   ///   environment is ignored and the result equals ``rgbo``.
+   public func rgbo(in environment: EnvironmentValues) -> (red: Double, green: Double, blue: Double, opacity: Double) {
+      if #available(iOS 17, macOS 14, tvOS 17, watchOS 10, visionOS 1, *) {
+         let resolved = self.resolve(in: environment)
+         return (red: Double(resolved.red), green: Double(resolved.green), blue: Double(resolved.blue), opacity: Double(resolved.opacity))
+      } else {
+         return self.rgbo
+      }
    }
 
    /// The HLC & alpha attributes of the `Color` instance.

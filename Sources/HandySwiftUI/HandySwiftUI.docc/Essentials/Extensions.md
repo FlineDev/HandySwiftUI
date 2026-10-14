@@ -76,6 +76,14 @@ struct ColorfulView: View {
 
 When adjusting color brightness, use .luminance instead of .brightness from the HSB color system. Luminance better represents how humans perceive light and dark, which is why HandySwiftUI includes support for the HLC color space.
 
+Inside a view, `rgbo(in:)` reads the components in the view's environment, so dynamic colors like `.primary` resolve exactly as the view displays them, including overrides like `.environment(\.colorScheme, .dark)`:
+
+```swift
+@Environment(\.self) private var environment
+
+let components = Color.primary.rgbo(in: environment)
+```
+
 
 ### Rich Text Formatting
 
@@ -268,6 +276,7 @@ The highlighting is case-insensitive and diacritic-insensitive by default, but y
 - ``SwiftUICore/Color/hlco``
 - ``SwiftUICore/Color/hsbo``
 - ``SwiftUICore/Color/rgbo``
+- ``SwiftUICore/Color/rgbo(in:)``
 - ``SwiftUICore/Color/init(hex:)``
 - ``SwiftUICore/Color/init(hue:luminance:chroma:opacity:)``
 - ``SwiftUICore/Color/toHex(alpha:)``

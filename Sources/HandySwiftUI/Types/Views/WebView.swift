@@ -24,6 +24,28 @@
    ///     }
    /// }
    /// ```
+   ///
+   /// - Note: Deprecated starting with iOS 26, macOS 26 and visionOS 26, where WebKit ships its own SwiftUI `WebView`. Both types share
+   ///   the same name, so in files that import both WebKit and HandySwiftUI, using `WebView` as a type (e.g. for a stored property) is
+   ///   ambiguous and needs to be qualified as `HandySwiftUI.WebView` until the migration is done. To migrate, use
+   ///   WebKit's `WebView(url:)` directly, or `WebView(_:)` with a `WebPage`: a custom `WebPage.NavigationDeciding` replaces
+   ///   `onOpenExternalURL` (open the link via `openURL` and return `.cancel`), and `callJavaScript(_:)` or the
+   ///   `webViewScrollPosition(_:)` modifier replaces `scrollOffsetOnPageLoad`.
+   @available(
+      iOS,
+      deprecated: 26.0,
+      message: "Since iOS 26, WebKit provides a native SwiftUI `WebView`. Use it with a `WebPage` whose `NavigationDeciding` opens link taps externally."
+   )
+   @available(
+      macOS,
+      deprecated: 26.0,
+      message: "Since macOS 26, WebKit provides a native SwiftUI `WebView`. Use it with a `WebPage` whose `NavigationDeciding` opens link taps externally."
+   )
+   @available(
+      visionOS,
+      deprecated: 26.0,
+      message: "Since visionOS 26, WebKit provides a native SwiftUI `WebView`. Use it with a `WebPage` whose `NavigationDeciding` opens link taps externally."
+   )
    public struct WebView: View {
       #if canImport(UIKit)
          typealias NativeViewRepresentable = UIViewRepresentable
