@@ -1,4 +1,4 @@
-#if !os(tvOS)
+#if !os(tvOS) && !os(watchOS)
    import SwiftUI
 
    /// A navigation container that presents a vertical sidebar of tabs optimized for larger screens.

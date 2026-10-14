@@ -41,6 +41,7 @@ import SwiftUI
 ///     }
 /// }
 /// ```
+@available(watchOS 10.0, *)
 public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: View>: View {
    /// The array of selectable options.
    let options: [T]
@@ -150,6 +151,7 @@ public struct HPicker<T: Hashable & Identifiable & CustomLabelConvertible, L: Vi
 }
 
 /// Convenience initializer for `HPicker` that uses a `Text` view as the label.
+@available(watchOS 10.0, *)
 extension HPicker where L == Text {
    /// Creates a new `HPicker` with a `Text` label using a localized string key.
    ///
@@ -167,6 +169,7 @@ extension HPicker where L == Text {
 }
 
 /// Convenience initializer for `HPicker` when `T` conforms to `CaseIterable`.
+@available(watchOS 10.0, *)
 extension HPicker where T: CaseIterable {
    /// Creates a new `HPicker` using all cases of an enumeration that conforms to `CaseIterable`.
    ///
@@ -183,6 +186,7 @@ extension HPicker where T: CaseIterable {
 }
 
 /// Convenience initializer for `HPicker` when `T` conforms to `CaseIterable` and using a `Text` label.
+@available(watchOS 10.0, *)
 extension HPicker where T: CaseIterable, L == Text {
    /// Creates a new `HPicker` using all cases of an enumeration that conforms to `CaseIterable`, with a `Text` label.
    ///
@@ -199,6 +203,7 @@ extension HPicker where T: CaseIterable, L == Text {
 }
 
 /// Convenience initializer for `HPicker` when `T` conforms to `CaseIterable` and using a `Text` label.
+@available(watchOS 10.0, *)
 extension HPicker where T: CaseIterable, L == Text {
    /// Creates a new `HPicker` using all cases of an enumeration that conforms to `CaseIterable`, with a `Text` label.
    ///
@@ -214,7 +219,7 @@ extension HPicker where T: CaseIterable, L == Text {
    }
 }
 
-#if DEBUG
+#if DEBUG && !os(watchOS)
    #Preview {
       struct Preview: View {
          enum HogwartsHouse: String, Identifiable, CustomLabelConvertible, CaseIterable {

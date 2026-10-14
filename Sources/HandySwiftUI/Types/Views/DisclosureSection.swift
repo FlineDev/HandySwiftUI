@@ -142,7 +142,7 @@ public struct DisclosureSection<Content: View, Label: View, Footer: View>: View 
    }
 }
 
-#if DEBUG && !os(tvOS)
+#if DEBUG && !os(tvOS) && !os(watchOS)
    #Preview {
       Form {
          DisclosureGroup("Original Disclosure Group") {
