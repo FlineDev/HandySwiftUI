@@ -40,4 +40,10 @@ struct ColorExtTests {
    func hexOfWideGamutColorIsClampedToSRGB() {
       #expect(Color(.displayP3, red: 1, green: 0, blue: 0).toHex() == "FF0000")
    }
+
+   @Test
+   func hexOfDisplayP3ColorIsConvertedToSRGB() {
+      // An in-gamut Display P3 color must be converted, not reported with its raw P3 components (which would be "80CC4D")
+      #expect(Color(.displayP3, red: 0.5, green: 0.8, blue: 0.3).toHex() == "64CE2F")
+   }
 }
