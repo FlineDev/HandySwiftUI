@@ -84,14 +84,9 @@
 
             // SwiftUI calls the update method on every state change of the surrounding view, so only (re)load when the URL changed
             // to keep pages the user navigated to and to not reset the scroll position
-            guard Self.needsLoad(self.url, loadedURL: coordinator.loadedURL) else { return }
+            guard self.url != coordinator.loadedURL else { return }
             coordinator.loadedURL = self.url
             webView.load(URLRequest(url: self.url))
-         }
-
-         /// Whether the web view needs to load `url`, given the URL it loaded last (`nil` if it did not load anything yet).
-         static func needsLoad(_ url: URL, loadedURL: URL?) -> Bool {
-            url != loadedURL
          }
 
          // Coordinator to handle WKNavigationDelegate methods
