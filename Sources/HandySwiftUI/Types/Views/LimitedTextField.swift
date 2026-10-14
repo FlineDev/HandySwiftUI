@@ -21,7 +21,7 @@ public struct LimitedTextField: View {
    public var body: some View {
       VStack(alignment: .trailing, spacing: 4) {
          TextField(self.title, text: self.$text)
-            .onChange(of: self.text) { _ in
+            .onValueChange(of: self.text) { _ in
                if self.text.count > self.characterLimit {
                   self.text = String(self.text.prefix(self.characterLimit))
                }
