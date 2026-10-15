@@ -34,43 +34,35 @@ extension Text {
       var subtexts: [Text] = []
       var previousRange: Range<String.Index>?
 
-      let regex = try! HandyRegex(#"<([^<>]+)>([^<>]+)</([^<>]+)>|<([^<>]+)/>"#)
-      for match in regex.matches(in: formatString) {
+      // Either a paired tag like `<b>bold</b>` (captures: opening tag, content, closing tag) or a symbol tag like `<lock.filled/>`
+      let regex = #/<([^<>]+)>([^<>]+)</([^<>]+)>|<([^<>]+)/>/#
+      for match in formatString.matches(of: regex) {
          let prefix = formatString[(previousRange?.upperBound ?? formatString.startIndex)..<match.range.lowerBound]
          if !prefix.isEmpty {
-            subtexts.append(Text(prefix))
+            subtexts.append(Text(verbatim: String(prefix)))
          }
 
-         let captures = match.captures.compactMap { $0 }
-         switch captures.count {
-         case 3:  // the first part matched, e.g. `<b>bold</b>` => ["b", "bold", "b"]
+         if let openingTag = match.output.1, let content = match.output.2, let closingTag = match.output.3 {
             guard
-               captures[0] == captures[2],
-               let style = partialStyling[captures[0]]
+               openingTag == closingTag,
+               let style = partialStyling[String(openingTag)]
             else {
-               subtexts.append(Text(match.string))
+               subtexts.append(Text(verbatim: String(match.output.0)))
                previousRange = match.range
                continue
             }
 
-            subtexts.append(style(Text(captures[1])))
-            previousRange = match.range
-
-         case 1:  // the second part matched, e.g. `<lock.filled/>` => ["lock.filled"]
-            if let style = partialStyling[captures[0]] {
-               subtexts.append(style(Text(Image(systemName: captures[0]))))
-            } else {
-               subtexts.append(Text(Image(systemName: captures[0])))
-            }
-            previousRange = match.range
-
-         default:
-            fatalError("A match should have exactly 1 or 3 captures, found: \(captures).")
+            subtexts.append(style(Text(verbatim: String(content))))
+         } else if let symbolName = match.output.4 {
+            let symbolText = Text(Image(systemName: String(symbolName)))
+            subtexts.append(partialStyling[String(symbolName)]?(symbolText) ?? symbolText)
          }
+
+         previousRange = match.range
       }
 
       let suffix = String(formatString[(previousRange?.upperBound ?? formatString.startIndex)..<formatString.endIndex])
-      subtexts.append(Text(suffix))
+      subtexts.append(Text(verbatim: suffix))
 
       self = subtexts.reduce(Text(verbatim: "")) { $0 + $1 }
    }
