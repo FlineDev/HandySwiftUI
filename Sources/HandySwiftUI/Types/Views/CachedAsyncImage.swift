@@ -1,8 +1,8 @@
 import SwiftUI
 
 /// A SwiftUI view that asynchronously loads and displays an image from a URL with caching support.
-/// The view shows a loading indicator while the image is being fetched and automatically caches
-/// successful downloads for faster subsequent loads.
+/// The view shows a loading indicator while the image is being fetched, a neutral placeholder if loading failed, and automatically
+/// caches successful downloads for faster subsequent loads. A failed load is retried when the view appears again or the URL changes.
 ///
 /// This view is particularly useful for scenarios where the same images might be loaded repeatedly,
 /// such as in lists, grids, or carousel interfaces.
@@ -47,9 +47,9 @@ public struct CachedAsyncImage: View {
 
    /// Internal cache manager that provides thread-safe storage and retrieval of downloaded images.
    /// Uses `NSCache` for automatic memory management of cached images.
-   class ImageCache: @unchecked Sendable {
+   final class ImageCache: @unchecked Sendable {
       static let shared = ImageCache()
-      private var cache = NSCache<NSURL, NativeImage>()
+      private let cache = NSCache<NSURL, NativeImage>()
 
       private init() {}
 
@@ -57,16 +57,61 @@ public struct CachedAsyncImage: View {
          self.cache.object(forKey: url)
       }
 
-      func insertImage(_ image: NativeImage?, for url: NSURL) {
-         guard let image = image else { return }
+      func insertImage(_ image: NativeImage, for url: NSURL) {
          self.cache.setObject(image, forKey: url)
+      }
+   }
+
+   /// Loads the image for the view and publishes the loading phase. A failed download ends in `.failed`, which the view shows as a
+   /// placeholder and never retries on its own, so a URL that keeps failing does not cause a request loop.
+   @MainActor
+   final class Loader: ObservableObject {
+      enum Phase: Equatable {
+         case idle
+         case loading
+         case loaded(NativeImage)
+         case failed
+      }
+
+      @Published private(set) var phase: Phase = .idle
+
+      private let fetchData: @Sendable (URL) async throws -> Data
+
+      init(fetchData: @escaping @Sendable (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
+         self.fetchData = fetchData
+      }
+
+      func load(_ url: URL) async {
+         if let cachedImage = ImageCache.shared.image(for: url as NSURL) {
+            self.setPhase(.loaded(cachedImage))
+            return
+         }
+
+         self.setPhase(.loading)
+
+         guard
+            let data = try? await self.fetchData(url),
+            let downloadedImage = NativeImage(data: data)
+         else {
+            // Without this, a failed download would either keep the progress view spinning or look like a load never started
+            self.setPhase(.failed)
+            return
+         }
+
+         ImageCache.shared.insertImage(downloadedImage, for: url as NSURL)
+         self.setPhase(.loaded(downloadedImage))
+      }
+
+      private func setPhase(_ phase: Phase) {
+         withAnimation {
+            self.phase = phase
+         }
       }
    }
 
    let url: URL
 
-   @State var image: NativeImage?
-   @State var isLoading = false
+   @StateObject private var loader = Loader()
 
    /// Creates a new cached async image view that loads and displays an image from the specified URL.
    ///
@@ -103,7 +148,14 @@ public struct CachedAsyncImage: View {
 
    public var body: some View {
       Group {
-         if let image = image {
+         switch self.loader.phase {
+         case .idle:
+            Color.clear
+
+         case .loading:
+            ProgressView()
+
+         case .loaded(let image):
             #if canImport(UIKit)
                Image(uiImage: image)
                   .resizable()
@@ -113,43 +165,17 @@ public struct CachedAsyncImage: View {
                   .resizable()
                   .aspectRatio(contentMode: .fill)
             #endif
-         } else {
-            if self.isLoading {
-               ProgressView()
-            } else {
-               Color.clear
-                  .onAppear(perform: self.loadImage)
-            }
+
+         case .failed:
+            Image(systemName: "photo")
+               .foregroundStyle(.tertiary)
+               .accessibilityHidden(true)
          }
       }
-      .onChange(of: self.url) { _ in
-         self.loadImage()
+      // Runs when the view appears and again whenever the URL changes, and cancels the download when the view disappears
+      .task(id: self.url) {
+         await self.loader.load(self.url)
       }
-   }
-
-   private func loadImage() {
-      if let cachedImage = ImageCache.shared.image(for: url as NSURL) {
-         withAnimation {
-            self.image = cachedImage
-         }
-         return
-      }
-
-      withAnimation {
-         self.isLoading = true
-      }
-
-      URLSession.shared.dataTask(with: self.url) { data, response, error in
-         guard let data = data, let downloadedImage = NativeImage(data: data) else { return }
-
-         DispatchQueue.main.async {
-            withAnimation {
-               self.isLoading = false
-               self.image = downloadedImage
-            }
-            ImageCache.shared.insertImage(downloadedImage, for: self.url as NSURL)
-         }
-      }.resume()
    }
 }
 
