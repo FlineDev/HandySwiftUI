@@ -64,10 +64,7 @@
             }
 
             func updateUIView(_ webView: WKWebView, context: Context) {
-               webView.load(URLRequest(url: self.url))
-
-               // Add an observer to know when the web content has finished loading
-               webView.navigationDelegate = context.coordinator
+               self.update(webView, coordinator: context.coordinator)
             }
          #else
             func makeNSView(context: Context) -> WKWebView {
@@ -75,12 +72,22 @@
             }
 
             func updateNSView(_ webView: WKWebView, context: Context) {
-               webView.load(URLRequest(url: self.url))
-
-               // Add an observer to know when the web content has finished loading
-               webView.navigationDelegate = context.coordinator
+               self.update(webView, coordinator: context.coordinator)
             }
          #endif
+
+         func update(_ webView: WKWebView, coordinator: Coordinator) {
+            coordinator.parent = self
+
+            // Add an observer to know when the web content has finished loading
+            webView.navigationDelegate = coordinator
+
+            // SwiftUI calls the update method on every state change of the surrounding view, so only (re)load when the URL changed
+            // to keep pages the user navigated to and to not reset the scroll position
+            guard self.url != coordinator.loadedURL else { return }
+            coordinator.loadedURL = self.url
+            webView.load(URLRequest(url: self.url))
+         }
 
          // Coordinator to handle WKNavigationDelegate methods
          func makeCoordinator() -> Coordinator {
@@ -89,6 +96,7 @@
 
          final class Coordinator: NSObject, WKNavigationDelegate {
             var parent: WebViewRepresentable
+            var loadedURL: URL?
 
             init(parent: WebViewRepresentable) {
                self.parent = parent
