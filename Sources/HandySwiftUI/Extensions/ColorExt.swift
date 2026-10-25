@@ -432,16 +432,9 @@ extension Color {
    ///    }
    /// }
    /// ```
-   ///
-   /// - Note: Uses `Color.resolve(in:)` starting with iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1. On older versions, the
-   ///   environment is ignored and the result equals ``rgbo``.
    public func rgbo(in environment: EnvironmentValues) -> (red: Double, green: Double, blue: Double, opacity: Double) {
-      if #available(iOS 17, macOS 14, tvOS 17, watchOS 10, visionOS 1, *) {
-         let resolved = self.resolve(in: environment)
-         return (red: Double(resolved.red), green: Double(resolved.green), blue: Double(resolved.blue), opacity: Double(resolved.opacity))
-      } else {
-         return self.rgbo
-      }
+      let resolved = self.resolve(in: environment)
+      return (red: Double(resolved.red), green: Double(resolved.green), blue: Double(resolved.blue), opacity: Double(resolved.opacity))
    }
 
    /// The HLC & alpha attributes of the `Color` instance.

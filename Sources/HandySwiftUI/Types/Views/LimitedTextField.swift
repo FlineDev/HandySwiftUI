@@ -21,7 +21,7 @@ public struct LimitedTextField: View {
    public var body: some View {
       VStack(alignment: .trailing, spacing: 4) {
          TextField(self.title, text: self.$text)
-            .onValueChange(of: self.text) { _ in
+            .onChange(of: self.text) {
                if self.text.count > self.characterLimit {
                   self.text = String(self.text.prefix(self.characterLimit))
                }
@@ -38,7 +38,6 @@ public struct LimitedTextField: View {
 }
 
 #if DEBUG && swift(>=6.0)
-   @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
    #Preview {
       @Previewable @State var previewText = ""
 

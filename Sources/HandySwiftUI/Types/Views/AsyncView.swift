@@ -278,7 +278,6 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
       return "/fake/path/to/project"
    }
 
-   @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
    #Preview {
       @Previewable @State var projectPath: String = ""
 

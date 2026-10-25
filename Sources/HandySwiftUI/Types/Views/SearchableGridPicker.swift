@@ -31,7 +31,6 @@ public protocol SearchableOption: Identifiable {
 ///   - title: A localized title for the picker.
 ///   - options: An array of selectable options conforming to `SearchableOption`.
 ///   - selection: A binding to the currently selected option.
-@available(iOS 17, macOS 14, tvOS 17, watchOS 10, *)
 public struct SearchableGridPicker<Option: SearchableOption>: View {
    let title: LocalizedStringKey
    var options: [Option]
@@ -159,7 +158,6 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
       ]
    }
 
-   @available(iOS 17, macOS 14, tvOS 17, visionOS 1, watchOS 10, *)
    #Preview(traits: .fixedLayout(width: 500, height: 100)) {
       @Previewable @State var selection: FakeOption?
 

@@ -1,7 +1,6 @@
 #if canImport(SwiftData)
    import SwiftData
 
-   @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
    extension PersistentModel {
       /// Returns whether this model instance is currently managed by a `ModelContext`.
       ///
