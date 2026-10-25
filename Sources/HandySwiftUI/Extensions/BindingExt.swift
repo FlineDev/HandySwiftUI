@@ -111,7 +111,7 @@ extension Binding where Value: SetAlgebra {
    ///                 Toggle(category, isOn: $selectedCategories.contains(category))
    ///             }
    ///         }
-   ///         .onChange(of: selectedCategories) { newSelection in
+   ///         .onChange(of: selectedCategories) { _, newSelection in
    ///             print("Selected categories: \(newSelection)")
    ///         }
    ///     }
