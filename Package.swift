@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
    name: "HandySwiftUI",
    defaultLocalization: "en",
-   platforms: [.iOS(.v16), .macOS(.v13), .tvOS(.v16), .visionOS(.v1), .watchOS(.v9)],
+   platforms: [.iOS(.v18), .macOS(.v15), .tvOS(.v18), .visionOS(.v2), .watchOS(.v10)],
    products: [.library(name: "HandySwiftUI", targets: ["HandySwiftUI"])],
    dependencies: [.package(url: "https://github.com/FlineDev/HandySwift.git", from: "4.4.0")],
    targets: [

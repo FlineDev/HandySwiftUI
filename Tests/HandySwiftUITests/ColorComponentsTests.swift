@@ -74,8 +74,6 @@ struct ColorComponentsTests {
       }
    #endif
 
-   /// Older OS versions have no `resolve(in:)`, there `rgbo(in:)` falls back to `rgbo` and ignores the environment.
-   @available(iOS 17, macOS 14, tvOS 17, watchOS 10, visionOS 1, *)
    @Test
    func dynamicColorsResolveAgainstTheGivenEnvironment() {
       let light = Color.primary.rgbo(in: Self.environment(.light))
