@@ -13,7 +13,7 @@ import SwiftUI
 /// - Error view with localized error message and "Try again" button
 /// - Optional result storage for accessing loaded data outside the view
 /// - Task cancellation on view disappearance
-/// - Fully localized error messages (40+ languages supported)
+/// - Default loading and failure views localized in 40+ languages
 ///
 /// # Usage Examples
 ///
@@ -149,8 +149,9 @@ import SwiftUI
 /// - Nest `AsyncView` instances for multi-stage loading where each stage depends on the previous
 /// - The async task is automatically cancelled when the view disappears
 ///
-/// - Note: All UI text (loading message, error message, retry button) is automatically localized
-///         in 40+ languages via the HandySwiftUI module's built-in localizations.
+/// - Note: The default loading label, failure message template, and retry button are localized
+///         in 40+ languages via the module's built-in localizations. Localize custom content yourself.
+///         The underlying error supplies its own localized description.
 public struct AsyncView<ResultType: Sendable, SuccessContent: View, LoadingContent: View, FailureContent: View>: View {
    enum SuccessContentCallback {
       case withResult((ResultType) -> SuccessContent)

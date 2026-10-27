@@ -23,7 +23,7 @@ struct AsyncViewTests {
    }
 
    @Test
-   func failureContentReceivesTheErrorMessageAndRetryAction() {
+   func failureBuilderForwardsTheProvidedErrorMessageAndCallback() {
       var retryCount = 0
       let view = AsyncView(performTask: self.loadValue) { Text($0) }
          .failureContent { errorMessage, retry in
@@ -39,7 +39,7 @@ struct AsyncViewTests {
             return Text(errorMessage)
          }
 
-      // Calls the stored view builder directly, the way `body` does when the task failed
+      // Checks builder argument forwarding only; mounted-view retry behavior needs runtime QA.
       let failureView = customizedView.failureContent("Offline", { retryCount += 1 })
 
       #expect(failureView == Text(verbatim: "Offline"))
