@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import Testing
 
 @testable import HandySwiftUI
@@ -21,14 +22,14 @@ struct CachedAsyncImageTests {
 
    @Test
    func failedDownloadEndsInFailedPhase() async {
-      let loader = CachedAsyncImage.Loader(fetchData: { _ in throw DownloadError.offline })
+      let loader = CachedAsyncImageLoader(fetchData: { _ in throw DownloadError.offline })
       await loader.load(self.uniqueURL())
       #expect(loader.phase == .failed)
    }
 
    @Test
    func dataThatIsNotAnImageEndsInFailedPhase() async {
-      let loader = CachedAsyncImage.Loader(fetchData: { _ in Data("<html>Not Found</html>".utf8) })
+      let loader = CachedAsyncImageLoader(fetchData: { _ in Data("<html>Not Found</html>".utf8) })
       await loader.load(self.uniqueURL())
       #expect(loader.phase == .failed)
    }
@@ -36,7 +37,7 @@ struct CachedAsyncImageTests {
    @Test
    func successfulDownloadEndsInLoadedPhaseAndIsCached() async {
       let counter = Counter()
-      let loader = CachedAsyncImage.Loader(fetchData: { _ in
+      let loader = CachedAsyncImageLoader(fetchData: { _ in
          await counter.increment()
          return Self.pngData
       })
@@ -48,11 +49,23 @@ struct CachedAsyncImageTests {
          return
       }
 
-      await CachedAsyncImage.Loader(fetchData: { _ in
+      await CachedAsyncImageLoader(fetchData: { _ in
          await counter.increment()
          return Self.pngData
       }).load(url)
       #expect(await counter.value == 1)
+   }
+
+   @Test
+   func defaultInitUsesProgressViewAsPlaceholder() {
+      let image = CachedAsyncImage(url: self.uniqueURL())
+      #expect(type(of: image) == CachedAsyncImage<ProgressView<EmptyView, EmptyView>>.self)
+   }
+
+   @Test
+   func customPlaceholderIsUsed() {
+      let image = CachedAsyncImage(url: self.uniqueURL()) { Text("Loading") }
+      #expect(image.placeholder() == Text("Loading"))
    }
 
    actor Counter {

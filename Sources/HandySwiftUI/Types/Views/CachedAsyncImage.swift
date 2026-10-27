@@ -1,5 +1,75 @@
 import SwiftUI
 
+#if canImport(UIKit)
+   typealias CachedAsyncImageNativeImage = UIImage
+#elseif canImport(AppKit)
+   typealias CachedAsyncImageNativeImage = NSImage
+#endif
+
+/// Internal cache manager that provides thread-safe storage and retrieval of downloaded images.
+/// Uses `NSCache` for automatic memory management of cached images.
+final class CachedAsyncImageCache: @unchecked Sendable {
+   static let shared = CachedAsyncImageCache()
+   private let cache = NSCache<NSURL, CachedAsyncImageNativeImage>()
+
+   private init() {}
+
+   func image(for url: NSURL) -> CachedAsyncImageNativeImage? {
+      self.cache.object(forKey: url)
+   }
+
+   func insertImage(_ image: CachedAsyncImageNativeImage, for url: NSURL) {
+      self.cache.setObject(image, forKey: url)
+   }
+}
+
+/// Loads the image for the view and publishes the loading phase. A failed download ends in `.failed`, which the view shows as a
+/// placeholder and never retries on its own, so a URL that keeps failing does not cause a request loop.
+@MainActor
+final class CachedAsyncImageLoader: ObservableObject {
+   enum Phase: Equatable {
+      case idle
+      case loading
+      case loaded(CachedAsyncImageNativeImage)
+      case failed
+   }
+
+   @Published private(set) var phase: Phase = .idle
+
+   private let fetchData: @Sendable (URL) async throws -> Data
+
+   init(fetchData: @escaping @Sendable (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
+      self.fetchData = fetchData
+   }
+
+   func load(_ url: URL) async {
+      if let cachedImage = CachedAsyncImageCache.shared.image(for: url as NSURL) {
+         self.setPhase(.loaded(cachedImage))
+         return
+      }
+
+      self.setPhase(.loading)
+
+      guard
+         let data = try? await self.fetchData(url),
+         let downloadedImage = CachedAsyncImageNativeImage(data: data)
+      else {
+         // Without this, a failed download would either keep the placeholder showing or look like a load never started
+         self.setPhase(.failed)
+         return
+      }
+
+      CachedAsyncImageCache.shared.insertImage(downloadedImage, for: url as NSURL)
+      self.setPhase(.loaded(downloadedImage))
+   }
+
+   private func setPhase(_ phase: Phase) {
+      withAnimation {
+         self.phase = phase
+      }
+   }
+}
+
 /// A SwiftUI view that asynchronously loads and displays an image from a URL with caching support.
 /// The view shows a loading indicator while the image is being fetched, a neutral placeholder if loading failed, and automatically
 /// caches successful downloads for faster subsequent loads. A failed load is retried when the view appears again or the URL changes.
@@ -38,113 +108,33 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-public struct CachedAsyncImage: View {
-   #if canImport(UIKit)
-      typealias NativeImage = UIImage
-   #elseif canImport(AppKit)
-      typealias NativeImage = NSImage
-   #endif
-
-   /// Internal cache manager that provides thread-safe storage and retrieval of downloaded images.
-   /// Uses `NSCache` for automatic memory management of cached images.
-   final class ImageCache: @unchecked Sendable {
-      static let shared = ImageCache()
-      private let cache = NSCache<NSURL, NativeImage>()
-
-      private init() {}
-
-      func image(for url: NSURL) -> NativeImage? {
-         self.cache.object(forKey: url)
-      }
-
-      func insertImage(_ image: NativeImage, for url: NSURL) {
-         self.cache.setObject(image, forKey: url)
-      }
-   }
-
-   /// Loads the image for the view and publishes the loading phase. A failed download ends in `.failed`, which the view shows as a
-   /// placeholder and never retries on its own, so a URL that keeps failing does not cause a request loop.
-   @MainActor
-   final class Loader: ObservableObject {
-      enum Phase: Equatable {
-         case idle
-         case loading
-         case loaded(NativeImage)
-         case failed
-      }
-
-      @Published private(set) var phase: Phase = .idle
-
-      private let fetchData: @Sendable (URL) async throws -> Data
-
-      init(fetchData: @escaping @Sendable (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
-         self.fetchData = fetchData
-      }
-
-      func load(_ url: URL) async {
-         if let cachedImage = ImageCache.shared.image(for: url as NSURL) {
-            self.setPhase(.loaded(cachedImage))
-            return
-         }
-
-         self.setPhase(.loading)
-
-         guard
-            let data = try? await self.fetchData(url),
-            let downloadedImage = NativeImage(data: data)
-         else {
-            // Without this, a failed download would either keep the progress view spinning or look like a load never started
-            self.setPhase(.failed)
-            return
-         }
-
-         ImageCache.shared.insertImage(downloadedImage, for: url as NSURL)
-         self.setPhase(.loaded(downloadedImage))
-      }
-
-      private func setPhase(_ phase: Phase) {
-         withAnimation {
-            self.phase = phase
-         }
-      }
-   }
-
+public struct CachedAsyncImage<Placeholder: View>: View {
    let url: URL
+   let placeholder: () -> Placeholder
 
-   @StateObject private var loader = Loader()
+   @StateObject private var loader = CachedAsyncImageLoader()
 
    /// Creates a new cached async image view that loads and displays an image from the specified URL.
    ///
    /// The view will first check its cache for a previously downloaded image. If not found,
-   /// it will download the image asynchronously while showing a loading indicator.
+   /// it will download the image asynchronously while showing the given placeholder view.
    ///
-   /// Example usage in a profile view:
+   /// Example with a custom placeholder:
    /// ```swift
-   /// struct ProfileView: View {
-   ///     let user: User
-   ///
-   ///     var body: some View {
-   ///         VStack {
-   ///             CachedAsyncImage(url: user.avatarURL)
-   ///                 .frame(width: 100, height: 100)
-   ///                 .clipShape(Circle())
-   ///                 .overlay(Circle().stroke(Color.blue, lineWidth: 2))
-   ///             Text(user.name)
-   ///                 .font(.headline)
-   ///             Text(user.bio)
-   ///                 .font(.subheadline)
-   ///         }
-   ///         .padding()
-   ///     }
+   /// CachedAsyncImage(url: user.avatarURL) {
+   ///     Image(systemName: "person.crop.circle")
+   ///         .foregroundStyle(.secondary)
    /// }
+   /// .frame(width: 100, height: 100)
    /// ```
    ///
-   /// - Parameter url: The URL of the image to load and display
-   public init(url: URL) {
+   /// - Parameters:
+   ///   - url: The URL of the image to load and display
+   ///   - placeholder: The view to show while the image is loading
+   public init(url: URL, @ViewBuilder placeholder: @escaping () -> Placeholder) {
       self.url = url
+      self.placeholder = placeholder
    }
-
-   #warning("🧑‍💻 add an init overload that accepts a custom placeholder view to be shown while loading instead of the progress view")
 
    public var body: some View {
       Group {
@@ -153,7 +143,7 @@ public struct CachedAsyncImage: View {
             Color.clear
 
          case .loading:
-            ProgressView()
+            self.placeholder()
 
          case .loaded(let image):
             #if canImport(UIKit)
@@ -179,8 +169,45 @@ public struct CachedAsyncImage: View {
    }
 }
 
+extension CachedAsyncImage where Placeholder == ProgressView<EmptyView, EmptyView> {
+   /// Creates a new cached async image view that loads and displays an image from the specified URL.
+   ///
+   /// The view will first check its cache for a previously downloaded image. If not found,
+   /// it will download the image asynchronously while showing a progress view.
+   ///
+   /// Example usage in a profile view:
+   /// ```swift
+   /// struct ProfileView: View {
+   ///     let user: User
+   ///
+   ///     var body: some View {
+   ///         VStack {
+   ///             CachedAsyncImage(url: user.avatarURL)
+   ///                 .frame(width: 100, height: 100)
+   ///                 .clipShape(Circle())
+   ///                 .overlay(Circle().stroke(Color.blue, lineWidth: 2))
+   ///             Text(user.name)
+   ///                 .font(.headline)
+   ///         }
+   ///         .padding()
+   ///     }
+   /// }
+   /// ```
+   ///
+   /// - Parameter url: The URL of the image to load and display
+   public init(url: URL) {
+      self.init(url: url) { ProgressView() }
+   }
+}
+
 #if DEBUG
    #Preview {
       CachedAsyncImage(url: URL(string: "https://picsum.photos/200")!)
+   }
+
+   #Preview("Custom Placeholder") {
+      CachedAsyncImage(url: URL(string: "https://picsum.photos/200")!) {
+         Image(systemName: "photo").foregroundStyle(.secondary)
+      }
    }
 #endif
