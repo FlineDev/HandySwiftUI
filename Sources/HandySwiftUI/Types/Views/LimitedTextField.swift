@@ -37,7 +37,7 @@ public struct LimitedTextField: View {
    }
 }
 
-#if DEBUG && swift(>=6.0)
+#if DEBUG
    #Preview {
       @Previewable @State var previewText = ""
 
