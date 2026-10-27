@@ -263,7 +263,9 @@ struct ProjectView: View {
 }
 ```
 
-`AsyncView` automatically shows a loading indicator, handles errors with a retry button, and displays your success content—all with fully localized UI text. You can even nest multiple `AsyncView` instances for multi-stage loading scenarios where each stage depends on the previous one. To replace the default loading or failure view, use the `.loadingContent { … }` and `.failureContent { errorMessage, retry in … }` modifiers.
+`AsyncView` shows a loading indicator, handles errors with a retry button, and displays your success content. The default loading label, failure message template, and retry button use the module’s localizations. The underlying error supplies its own localized description.
+
+You can nest `AsyncView` instances for multi-stage loading. Use `.loadingContent { … }` and `.failureContent { errorMessage, retry in … }` to replace the default loading or failure view. Localize custom content in your app.
 
 
 ### Bring `NSOpenPanel` to SwiftUI 
