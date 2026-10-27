@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO: make view more customizable with customizable in progress view (keep the default) and a customizable failed view (keep the default)
-
 /// A view that manages async operations with built-in loading, error, and success states.
 ///
 /// `AsyncView` simplifies handling asynchronous operations in SwiftUI by automatically managing
@@ -123,6 +121,27 @@ import SwiftUI
 /// }
 /// ```
 ///
+/// ## Custom loading and failure views
+/// Replace the default loading or failure view with your own. The failure view receives the
+/// localized error message and an action that runs the task again:
+/// ```swift
+/// AsyncView(performTask: loadProject) { project in
+///     ProjectDetails(project: project)
+/// }
+/// .loadingContent {
+///     ProjectSkeletonView()
+/// }
+/// .failureContent { errorMessage, retry in
+///     ContentUnavailableView {
+///         Label("Could not load project", systemImage: "exclamationmark.triangle")
+///     } description: {
+///         Text(errorMessage)
+///     } actions: {
+///         Button("Try again", action: retry)
+///     }
+/// }
+/// ```
+///
 /// ## Best Practices
 /// - Use `storeResultIn` parameter when you need to access the loaded data outside the success closure
 /// - The success closure receives the loaded value as a parameter when using optional storage
@@ -132,10 +151,18 @@ import SwiftUI
 ///
 /// - Note: All UI text (loading message, error message, retry button) is automatically localized
 ///         in 40+ languages via the HandySwiftUI module's built-in localizations.
-public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
+public struct AsyncView<ResultType: Sendable, SuccessContent: View, LoadingContent: View, FailureContent: View>: View {
    enum SuccessContentCallback {
       case withResult((ResultType) -> SuccessContent)
       case withoutResult(() -> SuccessContent)
+
+      /// Takes over the callback of an `AsyncView` that differs only in its loading or failure content.
+      init<OtherLoading, OtherFailure>(_ other: AsyncView<ResultType, SuccessContent, OtherLoading, OtherFailure>.SuccessContentCallback) {
+         switch other {
+         case .withResult(let callback): self = .withResult(callback)
+         case .withoutResult(let callback): self = .withoutResult(callback)
+         }
+      }
 
       func perform(result: ResultType) -> SuccessContent {
          switch self {
@@ -149,74 +176,60 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 
    let successContentCallback: SuccessContentCallback
    let performTask: () async throws -> ResultType
+   let loadingContent: () -> LoadingContent
+   let failureContent: (_ errorMessage: String, _ retry: @escaping () -> Void) -> FailureContent
 
    let resultOptionalStorage: Binding<ResultType?>?
    let resultDefaultValueStorage: Binding<ResultType>?
 
    @State private var task: Task<Void, Error>?
 
-   /// Creates an `AsyncView` with optional result storage.
-   ///
-   /// Use this initializer when you need to access the loaded data from other parts of your view,
-   /// and the storage variable is optional (can be `nil`).
-   ///
-   /// - Parameters:
-   ///   - performTask: An async throwing closure that performs the asynchronous operation and returns the result.
-   ///   - resultOptionalStorage: A binding to an optional storage variable where the result will be saved.
-   ///   - successContent: A view builder that receives the loaded result and returns the success content to display.
-   ///
-   /// - Note: The success content receives the loaded value as a parameter for convenience in read-only access.
-   ///         For write operations, use the bound storage variable directly.
-   public init(
+   init(
+      successContentCallback: SuccessContentCallback,
       performTask: @escaping () async throws -> ResultType,
-      storeResultIn resultOptionalStorage: Binding<ResultType?>,
-      @ViewBuilder successContent: @escaping (ResultType) -> SuccessContent
+      resultOptionalStorage: Binding<ResultType?>?,
+      resultDefaultValueStorage: Binding<ResultType>?,
+      loadingContent: @escaping () -> LoadingContent,
+      failureContent: @escaping (_ errorMessage: String, _ retry: @escaping () -> Void) -> FailureContent
    ) {
-      self.successContentCallback = .withResult(successContent)
+      self.successContentCallback = successContentCallback
       self.performTask = performTask
       self.resultOptionalStorage = resultOptionalStorage
-      self.resultDefaultValueStorage = nil
-   }
-
-   /// Creates an `AsyncView` with non-optional result storage.
-   ///
-   /// Use this initializer when you need to access the loaded data from other parts of your view,
-   /// and the storage variable has a default value (is non-optional).
-   ///
-   /// - Parameters:
-   ///   - performTask: An async throwing closure that performs the asynchronous operation and returns the result.
-   ///   - resultDefaultValueStorage: A binding to a non-optional storage variable where the result will be saved.
-   ///   - successContent: A view builder that returns the success content to display.
-   ///
-   /// - Note: The success content does not receive a parameter since the result is available
-   ///         directly from the non-optional storage binding.
-   public init(
-      performTask: @escaping () async throws -> ResultType,
-      storeResultIn resultDefaultValueStorage: Binding<ResultType>,
-      @ViewBuilder successContent: @escaping () -> SuccessContent
-   ) {
-      self.successContentCallback = .withoutResult(successContent)
-      self.performTask = performTask
-      self.resultOptionalStorage = nil
       self.resultDefaultValueStorage = resultDefaultValueStorage
+      self.loadingContent = loadingContent
+      self.failureContent = failureContent
    }
 
-   /// Creates an `AsyncView` without result storage.
+   /// Replaces the default loading view, which shows a progress indicator with a localized "Loading…" label.
    ///
-   /// Use this initializer when you only need to access the loaded data within the success content
-   /// and don't need to store it in a separate state variable.
+   /// - Parameter loadingContent: A view builder that returns the view to show while the task runs.
+   public func loadingContent<NewLoadingContent: View>(
+      @ViewBuilder _ loadingContent: @escaping () -> NewLoadingContent
+   ) -> AsyncView<ResultType, SuccessContent, NewLoadingContent, FailureContent> {
+      AsyncView<ResultType, SuccessContent, NewLoadingContent, FailureContent>(
+         successContentCallback: .init(self.successContentCallback),
+         performTask: self.performTask,
+         resultOptionalStorage: self.resultOptionalStorage,
+         resultDefaultValueStorage: self.resultDefaultValueStorage,
+         loadingContent: loadingContent,
+         failureContent: self.failureContent
+      )
+   }
+
+   /// Replaces the default failure view, which shows the localized error message and a "Try again" button.
    ///
-   /// - Parameters:
-   ///   - performTask: An async throwing closure that performs the asynchronous operation and returns the result.
-   ///   - successContent: A view builder that receives the loaded result and returns the success content to display.
-   public init(
-      performTask: @escaping () async throws -> ResultType,
-      @ViewBuilder successContent: @escaping (ResultType) -> SuccessContent
-   ) {
-      self.successContentCallback = .withResult(successContent)
-      self.performTask = performTask
-      self.resultOptionalStorage = nil
-      self.resultDefaultValueStorage = nil
+   /// - Parameter failureContent: A view builder that receives the localized error message and an action that runs the task again.
+   public func failureContent<NewFailureContent: View>(
+      @ViewBuilder _ failureContent: @escaping (_ errorMessage: String, _ retry: @escaping () -> Void) -> NewFailureContent
+   ) -> AsyncView<ResultType, SuccessContent, LoadingContent, NewFailureContent> {
+      AsyncView<ResultType, SuccessContent, LoadingContent, NewFailureContent>(
+         successContentCallback: .init(self.successContentCallback),
+         performTask: self.performTask,
+         resultOptionalStorage: self.resultOptionalStorage,
+         resultDefaultValueStorage: self.resultDefaultValueStorage,
+         loadingContent: self.loadingContent,
+         failureContent: failureContent
+      )
    }
 
    public var body: some View {
@@ -229,18 +242,12 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
                }
 
          case .inProgress:
-            ProgressView(String(localized: "Loading…", bundle: .module))
-               .padding()
+            self.loadingContent()
 
          case .failed(let errorMessage):
-            VStack {
-               Text("Failed to load with error: \(errorMessage)", bundle: .module)
-
-               Button(String(localized: "Try again", bundle: .module)) {
-                  self.startPerformingTask()
-               }
+            self.failureContent(errorMessage) {
+               self.startPerformingTask()
             }
-            .padding()
 
          case .successful(let result):
             self.successContentCallback.perform(result: result)
@@ -272,6 +279,107 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
    }
 }
 
+extension AsyncView where LoadingContent == AsyncViewDefaultLoadingView, FailureContent == AsyncViewDefaultFailureView {
+   /// Creates an `AsyncView` with optional result storage.
+   ///
+   /// Use this initializer when you need to access the loaded data from other parts of your view,
+   /// and the storage variable is optional (can be `nil`).
+   ///
+   /// - Parameters:
+   ///   - performTask: An async throwing closure that performs the asynchronous operation and returns the result.
+   ///   - resultOptionalStorage: A binding to an optional storage variable where the result will be saved.
+   ///   - successContent: A view builder that receives the loaded result and returns the success content to display.
+   ///
+   /// - Note: The success content receives the loaded value as a parameter for convenience in read-only access.
+   ///         For write operations, use the bound storage variable directly.
+   public init(
+      performTask: @escaping () async throws -> ResultType,
+      storeResultIn resultOptionalStorage: Binding<ResultType?>,
+      @ViewBuilder successContent: @escaping (ResultType) -> SuccessContent
+   ) {
+      self.init(
+         successContentCallback: .withResult(successContent),
+         performTask: performTask,
+         resultOptionalStorage: resultOptionalStorage,
+         resultDefaultValueStorage: nil,
+         loadingContent: { AsyncViewDefaultLoadingView() },
+         failureContent: { AsyncViewDefaultFailureView(errorMessage: $0, retry: $1) }
+      )
+   }
+
+   /// Creates an `AsyncView` with non-optional result storage.
+   ///
+   /// Use this initializer when you need to access the loaded data from other parts of your view,
+   /// and the storage variable has a default value (is non-optional).
+   ///
+   /// - Parameters:
+   ///   - performTask: An async throwing closure that performs the asynchronous operation and returns the result.
+   ///   - resultDefaultValueStorage: A binding to a non-optional storage variable where the result will be saved.
+   ///   - successContent: A view builder that returns the success content to display.
+   ///
+   /// - Note: The success content does not receive a parameter since the result is available
+   ///         directly from the non-optional storage binding.
+   public init(
+      performTask: @escaping () async throws -> ResultType,
+      storeResultIn resultDefaultValueStorage: Binding<ResultType>,
+      @ViewBuilder successContent: @escaping () -> SuccessContent
+   ) {
+      self.init(
+         successContentCallback: .withoutResult(successContent),
+         performTask: performTask,
+         resultOptionalStorage: nil,
+         resultDefaultValueStorage: resultDefaultValueStorage,
+         loadingContent: { AsyncViewDefaultLoadingView() },
+         failureContent: { AsyncViewDefaultFailureView(errorMessage: $0, retry: $1) }
+      )
+   }
+
+   /// Creates an `AsyncView` without result storage.
+   ///
+   /// Use this initializer when you only need to access the loaded data within the success content
+   /// and don't need to store it in a separate state variable.
+   ///
+   /// - Parameters:
+   ///   - performTask: An async throwing closure that performs the asynchronous operation and returns the result.
+   ///   - successContent: A view builder that receives the loaded result and returns the success content to display.
+   public init(
+      performTask: @escaping () async throws -> ResultType,
+      @ViewBuilder successContent: @escaping (ResultType) -> SuccessContent
+   ) {
+      self.init(
+         successContentCallback: .withResult(successContent),
+         performTask: performTask,
+         resultOptionalStorage: nil,
+         resultDefaultValueStorage: nil,
+         loadingContent: { AsyncViewDefaultLoadingView() },
+         failureContent: { AsyncViewDefaultFailureView(errorMessage: $0, retry: $1) }
+      )
+   }
+}
+
+/// The loading view `AsyncView` shows by default: a progress indicator with a localized "Loading…" label.
+public struct AsyncViewDefaultLoadingView: View {
+   public var body: some View {
+      ProgressView(String(localized: "Loading…", bundle: .module))
+         .padding()
+   }
+}
+
+/// The failure view `AsyncView` shows by default: the localized error message and a "Try again" button.
+public struct AsyncViewDefaultFailureView: View {
+   let errorMessage: String
+   let retry: () -> Void
+
+   public var body: some View {
+      VStack {
+         Text("Failed to load with error: \(self.errorMessage)", bundle: .module)
+
+         Button(String(localized: "Try again", bundle: .module), action: self.retry)
+      }
+      .padding()
+   }
+}
+
 #if DEBUG && swift(>=6.0)
    func previewLoadingTask() async throws -> String {
       try await Task.sleep(for: .seconds(1))
@@ -283,6 +391,20 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
 
       AsyncView(performTask: previewLoadingTask, storeResultIn: $projectPath) {
          Text(verbatim: "Project Path: \(projectPath)")
+      }
+   }
+
+   #Preview("Custom Loading and Failure") {
+      AsyncView(performTask: { () async throws -> String in throw CancellationError() }) { value in
+         Text(verbatim: value)
+      }
+      .loadingContent {
+         Image(systemName: "hourglass")
+      }
+      .failureContent { errorMessage, retry in
+         Button(action: retry) {
+            Label(errorMessage, systemImage: "arrow.clockwise")
+         }
       }
    }
 #endif
