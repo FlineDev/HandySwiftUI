@@ -1,4 +1,5 @@
 #if canImport(WebKit)
+   import OSLog
    import SwiftUI
    import HandySwift
    import WebKit
@@ -105,10 +106,17 @@
             func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
                if let scrollOffsetOnPageLoad = parent.scrollOffsetOnPageLoad {
                   Task {
-                     try await Task.sleep(for: .milliseconds(250))
-                     let scrollScript =
-                        "window.scrollBy({ top: \(scrollOffsetOnPageLoad.y), left: \(scrollOffsetOnPageLoad.x), behavior: 'smooth' });"
-                     try await webView.evaluateJavaScript(scrollScript)
+                     do {
+                        try await Task.sleep(for: .milliseconds(250))
+                        let scrollScript =
+                           "window.scrollBy({ top: \(scrollOffsetOnPageLoad.y), left: \(scrollOffsetOnPageLoad.x), behavior: 'smooth' });"
+                        try await webView.evaluateJavaScript(scrollScript)
+                     } catch is CancellationError {
+                        return
+                     } catch {
+                        Logger(subsystem: "com.fline.HandySwiftUI", category: "WebView")
+                           .error("Failed to scroll after page load: \(String(describing: error), privacy: .private)")
+                     }
                   }
                }
             }
