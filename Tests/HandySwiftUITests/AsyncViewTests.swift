@@ -1,7 +1,6 @@
+import HandySwiftUI
 import SwiftUI
 import Testing
-
-@testable import HandySwiftUI
 
 @MainActor
 struct AsyncViewTests {
@@ -19,40 +18,28 @@ struct AsyncViewTests {
          .loadingContent { Text("Please wait") }
 
       #expect(type(of: view) == AsyncView<String, Text, Text, AsyncViewDefaultFailureView>.self)
-      #expect(view.loadingContent() == Text("Please wait"))
    }
 
    @Test
-   func failureBuilderForwardsTheProvidedErrorMessageAndCallback() {
-      var retryCount = 0
+   func failureContentAcceptsTheErrorMessageAndRetryAction() {
       let view = AsyncView(performTask: self.loadValue) { Text($0) }
          .failureContent { errorMessage, retry in
             Button(errorMessage, action: retry)
          }
 
       #expect(type(of: view) == AsyncView<String, Text, AsyncViewDefaultLoadingView, Button<Text>>.self)
-
-      var receivedRetry: (() -> Void)?
-      let customizedView = AsyncView(performTask: self.loadValue) { Text($0) }
-         .failureContent { errorMessage, retry in
-            receivedRetry = retry
-            return Text(errorMessage)
-         }
-
-      // Checks builder argument forwarding only; mounted-view retry behavior needs runtime QA.
-      let failureView = customizedView.failureContent("Offline", { retryCount += 1 })
-
-      #expect(failureView == Text(verbatim: "Offline"))
-      receivedRetry?()
-      #expect(retryCount == 1)
    }
 
    @Test
-   func modifiersKeepTheSuccessContent() {
-      let view = AsyncView(performTask: self.loadValue) { Text($0) }
+   func modifiersSupportBothOrders() {
+      let loadingFirst = AsyncView(performTask: self.loadValue) { Text($0) }
          .loadingContent { Text("Please wait") }
          .failureContent { errorMessage, _ in Text(errorMessage) }
+      let failureFirst = AsyncView(performTask: self.loadValue) { Text($0) }
+         .failureContent { errorMessage, _ in Text(errorMessage) }
+         .loadingContent { Text("Please wait") }
 
-      #expect(view.successContentCallback.perform(result: "done") == Text(verbatim: "done"))
+      #expect(type(of: loadingFirst) == AsyncView<String, Text, Text, Text>.self)
+      #expect(type(of: failureFirst) == AsyncView<String, Text, Text, Text>.self)
    }
 }

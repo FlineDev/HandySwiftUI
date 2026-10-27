@@ -267,6 +267,14 @@ struct ProjectView: View {
 
 You can nest `AsyncView` instances for multi-stage loading. Use `.loadingContent { … }` and `.failureContent { errorMessage, retry in … }` to replace the default loading or failure view. Localize custom content in your app.
 
+#### Migrating Explicit AsyncView Types
+
+`AsyncView` now has four generic parameters instead of two. Calls that infer the view type keep their existing initializer syntax.
+For an explicitly declared default view, replace `AsyncView<Result, Content>` with
+`AsyncView<Result, Content, AsyncViewDefaultLoadingView, AsyncViewDefaultFailureView>`.
+For a view property or function, returning `some View` also avoids naming the concrete loading and failure types.
+
+
 
 ### Bring `NSOpenPanel` to SwiftUI 
 
