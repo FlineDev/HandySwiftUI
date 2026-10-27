@@ -42,7 +42,7 @@ extension ToggleStyle where Self == CheckboxUniversalToggleStyle {
    }
 }
 
-#if DEBUG && swift(>=6.0)
+#if DEBUG
    #Preview {
       @Previewable @State var isOn: Bool = false
 

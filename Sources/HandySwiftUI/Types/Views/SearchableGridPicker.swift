@@ -144,7 +144,7 @@ public struct SearchableGridPicker<Option: SearchableOption>: View {
    }
 }
 
-#if DEBUG && swift(>=6.0)
+#if DEBUG
    struct FakeOption: SearchableOption {
       let id = UUID()
 

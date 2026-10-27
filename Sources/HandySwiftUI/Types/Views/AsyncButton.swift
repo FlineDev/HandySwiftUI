@@ -162,7 +162,7 @@ public struct AsyncButton: View {
    }
 }
 
-#if DEBUG && swift(>=6.0) && !os(watchOS)
+#if DEBUG && !os(watchOS)
    #Preview {
       @Previewable @State var errorMessage: String?
 
