@@ -1,72 +1,19 @@
 import SwiftUI
 
-#if canImport(UIKit)
-   typealias CachedAsyncImageNativeImage = UIImage
-#elseif canImport(AppKit)
-   typealias CachedAsyncImageNativeImage = NSImage
-#endif
-
 /// Internal cache manager that provides thread-safe storage and retrieval of downloaded images.
 /// Uses `NSCache` for automatic memory management of cached images.
 final class CachedAsyncImageCache: @unchecked Sendable {
    static let shared = CachedAsyncImageCache()
-   private let cache = NSCache<NSURL, CachedAsyncImageNativeImage>()
+   private let cache = NSCache<NSURL, Image>()
 
    private init() {}
 
-   func image(for url: NSURL) -> CachedAsyncImageNativeImage? {
+   func image(for url: NSURL) -> Image? {
       self.cache.object(forKey: url)
    }
 
-   func insertImage(_ image: CachedAsyncImageNativeImage, for url: NSURL) {
+   func insertImage(_ image: Image, for url: NSURL) {
       self.cache.setObject(image, forKey: url)
-   }
-}
-
-/// Loads the image for the view and publishes the loading phase. A failed download ends in `.failed`, which the view shows as a
-/// placeholder and never retries on its own, so a URL that keeps failing does not cause a request loop.
-@MainActor
-final class CachedAsyncImageLoader: ObservableObject {
-   enum Phase: Equatable {
-      case idle
-      case loading
-      case loaded(CachedAsyncImageNativeImage)
-      case failed
-   }
-
-   @Published private(set) var phase: Phase = .idle
-
-   private let fetchData: @Sendable (URL) async throws -> Data
-
-   init(fetchData: @escaping @Sendable (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
-      self.fetchData = fetchData
-   }
-
-   func load(_ url: URL) async {
-      if let cachedImage = CachedAsyncImageCache.shared.image(for: url as NSURL) {
-         self.setPhase(.loaded(cachedImage))
-         return
-      }
-
-      self.setPhase(.loading)
-
-      guard
-         let data = try? await self.fetchData(url),
-         let downloadedImage = CachedAsyncImageNativeImage(data: data)
-      else {
-         // Without this, a failed download would either keep the placeholder showing or look like a load never started
-         self.setPhase(.failed)
-         return
-      }
-
-      CachedAsyncImageCache.shared.insertImage(downloadedImage, for: url as NSURL)
-      self.setPhase(.loaded(downloadedImage))
-   }
-
-   private func setPhase(_ phase: Phase) {
-      withAnimation {
-         self.phase = phase
-      }
    }
 }
 
@@ -112,7 +59,7 @@ public struct CachedAsyncImage<Placeholder: View>: View {
    let url: URL
    let placeholder: () -> Placeholder
 
-   @StateObject private var loader = CachedAsyncImageLoader()
+   @StateObject private var loader = Loader()
 
    /// Creates a new cached async image view that loads and displays an image from the specified URL.
    ///
@@ -165,6 +112,63 @@ public struct CachedAsyncImage<Placeholder: View>: View {
       // Runs when the view appears and again whenever the URL changes, and cancels the download when the view disappears
       .task(id: self.url) {
          await self.loader.load(self.url)
+      }
+   }
+}
+
+extension CachedAsyncImageCache {
+   #if canImport(UIKit)
+      typealias Image = UIImage
+   #elseif canImport(AppKit)
+      typealias Image = NSImage
+   #endif
+}
+
+extension CachedAsyncImage {
+   /// Loads the image for the view and publishes the loading phase. A failed download ends in `.failed`, which the view shows as a
+   /// placeholder and never retries on its own, so a URL that keeps failing does not cause a request loop.
+   @MainActor
+   final class Loader: ObservableObject {
+      enum Phase: Equatable {
+         case idle
+         case loading
+         case loaded(CachedAsyncImageCache.Image)
+         case failed
+      }
+
+      @Published private(set) var phase: Phase = .idle
+
+      private let fetchData: @Sendable (URL) async throws -> Data
+
+      nonisolated init(fetchData: @escaping @Sendable (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
+         self.fetchData = fetchData
+      }
+
+      func load(_ url: URL) async {
+         if let cachedImage = CachedAsyncImageCache.shared.image(for: url as NSURL) {
+            self.setPhase(.loaded(cachedImage))
+            return
+         }
+
+         self.setPhase(.loading)
+
+         guard
+            let data = try? await self.fetchData(url),
+            let downloadedImage = CachedAsyncImageCache.Image(data: data)
+         else {
+            // Without this, a failed download would either keep the placeholder showing or look like a load never started
+            self.setPhase(.failed)
+            return
+         }
+
+         CachedAsyncImageCache.shared.insertImage(downloadedImage, for: url as NSURL)
+         self.setPhase(.loaded(downloadedImage))
+      }
+
+      private func setPhase(_ phase: Phase) {
+         withAnimation {
+            self.phase = phase
+         }
       }
    }
 }
