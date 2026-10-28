@@ -1,3 +1,4 @@
+import OSLog
 import SwiftUI
 
 /// A ``Button`` that creates a ``Task`` in its action closure which gets automatically cancelled ``.onDisappear``.
@@ -107,9 +108,16 @@ public struct AsyncButton: View {
                   }
 
                   Task {
-                     try await Task.sleep(for: .seconds(2))
-                     withAnimation {
-                        self.justCompleted = false
+                     do {
+                        try await Task.sleep(for: .seconds(2))
+                        withAnimation {
+                           self.justCompleted = false
+                        }
+                     } catch is CancellationError {
+                        return
+                     } catch {
+                        Logger(subsystem: "com.fline.HandySwiftUI", category: "AsyncButton")
+                           .error("Failed to reset success indicator: \(String(describing: error), privacy: .private)")
                      }
                   }
                } catch {
@@ -119,9 +127,16 @@ public struct AsyncButton: View {
                   }
 
                   Task {
-                     try await Task.sleep(for: .seconds(2))
-                     withAnimation {
-                        self.justFailed = false
+                     do {
+                        try await Task.sleep(for: .seconds(2))
+                        withAnimation {
+                           self.justFailed = false
+                        }
+                     } catch is CancellationError {
+                        return
+                     } catch {
+                        Logger(subsystem: "com.fline.HandySwiftUI", category: "AsyncButton")
+                           .error("Failed to reset failure indicator: \(String(describing: error), privacy: .private)")
                      }
                   }
 
