@@ -4076,6 +4076,24 @@
         }
       }
     },
+    "SFSymbol.searchTerms.airplane" : {
+      "comment" : "Search aliases for the airplane SF Symbol. Separate multiple aliases with |. Keep each alias a complete search term.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flugzeug"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "airplane"
+          }
+        }
+      }
+    },
     "Succeed after 1 sec" : {
       "localizations" : {
         "ar" : {

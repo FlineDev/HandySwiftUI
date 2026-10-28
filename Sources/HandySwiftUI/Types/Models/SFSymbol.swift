@@ -263,16 +263,48 @@ extension SFSymbol: SearchableOption {
    }
 
    #warning("🧑‍💻 localize the search terms to support more languages")
-   /// Search terms related to each SF Symbol. This can be used to filter or find symbols based on keywords.
+   /// English keywords, the raw symbol name, and any aliases available in the launch language.
    ///
    /// - Note: No need to use this directly. It will be used inside a ``SearchableGridPicker``.
    ///
    /// Example:
    /// ```
    /// let searchTerms = SFSymbol.airplane.searchTerms
-   /// print(searchTerms) // Outputs: ["airplane", "flight", "travel", "transport"]
+   /// // Starts with ["flight", "travel", "plane", "transportation", "journey", "airplane"].
    /// ```
    public var searchTerms: [String] {
+      var seenTerms = Set<String>()
+      return (self.englishSearchTerms + [self.rawValue] + self.localizedSearchTerms)
+         .filter { seenTerms.insert($0).inserted }
+   }
+
+   private static let searchTermsBundle: Bundle? = {
+      guard
+         let language = Bundle.preferredLocalizations(
+            from: Bundle.module.localizations,
+            forPreferences: Locale.preferredLanguages
+         ).first,
+         let path = Bundle.module.path(forResource: language, ofType: "lproj")
+      else { return nil }
+
+      return Bundle(path: path)
+   }()
+
+   private var localizedSearchTerms: [String] {
+      let key = "SFSymbol.searchTerms.\(self.rawValue)"
+      let missingValue = "⚠️ missing"
+      guard
+         let value = Self.searchTermsBundle?.localizedString(forKey: key, value: missingValue, table: nil),
+         value != missingValue,
+         value != key
+      else { return [] }
+
+      return value.split(separator: "|")
+         .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+         .filter { !$0.isEmpty }
+   }
+
+   private var englishSearchTerms: [String] {
       switch self {
       case .airplane: ["flight", "travel", "plane", "transportation", "journey"]
       case .airplaneArrival: ["landing", "arrive", "airport", "destination", "travel"]

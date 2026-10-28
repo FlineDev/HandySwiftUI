@@ -42,6 +42,11 @@ struct LocalizationTests {
       }
    }
 
+   @Test(arguments: [("en", "airplane"), ("de", "Flugzeug")])
+   func symbolSearchAliasIsCompiled(language: String, expected: String) {
+      #expect(Self.translation(of: "SFSymbol.searchTerms.airplane", in: language) == expected)
+   }
+
    /// Renders a text with the given language as environment locale.
    func render(_ text: Text, language: String) -> Data? {
       renderedPixels(of: text.environment(\.locale, Locale(identifier: language)))
