@@ -114,7 +114,7 @@
                      } catch is CancellationError {
                         return
                      } catch {
-                        Logger(subsystem: "com.fline.HandySwiftUI", category: "WebView")
+                        Logger(subsystem: "dev.fline.HandySwiftUI", category: "WebView")
                            .error("Failed to scroll after page load: \(String(describing: error), privacy: .private)")
                      }
                   }

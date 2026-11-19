@@ -116,7 +116,7 @@ public struct AsyncButton: View {
                      } catch is CancellationError {
                         return
                      } catch {
-                        Logger(subsystem: "com.fline.HandySwiftUI", category: "AsyncButton")
+                        Logger(subsystem: "dev.fline.HandySwiftUI", category: "AsyncButton")
                            .error("Failed to reset success indicator: \(String(describing: error), privacy: .private)")
                      }
                   }
@@ -135,7 +135,7 @@ public struct AsyncButton: View {
                      } catch is CancellationError {
                         return
                      } catch {
-                        Logger(subsystem: "com.fline.HandySwiftUI", category: "AsyncButton")
+                        Logger(subsystem: "dev.fline.HandySwiftUI", category: "AsyncButton")
                            .error("Failed to reset failure indicator: \(String(describing: error), privacy: .private)")
                      }
                   }
