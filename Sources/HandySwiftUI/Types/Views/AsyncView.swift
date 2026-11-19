@@ -272,7 +272,7 @@ public struct AsyncView<ResultType: Sendable, SuccessContent: View>: View {
    }
 }
 
-#if DEBUG && swift(>=6.0)
+#if DEBUG
    func previewLoadingTask() async throws -> String {
       try await Task.sleep(for: .seconds(1))
       return "/fake/path/to/project"
