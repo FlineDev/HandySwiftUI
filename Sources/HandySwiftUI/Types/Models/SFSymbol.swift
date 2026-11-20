@@ -270,7 +270,7 @@ extension SFSymbol: SearchableOption {
    /// Example:
    /// ```
    /// let searchTerms = SFSymbol.airplane.searchTerms
-   /// print(searchTerms) // Outputs: ["airplane", "flight", "travel", "transport"]
+   /// print(searchTerms) // Outputs: ["flight", "travel", "plane", "transportation", "journey"]
    /// ```
    public var searchTerms: [String] {
       switch self {
