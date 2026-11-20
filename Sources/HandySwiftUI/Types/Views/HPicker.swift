@@ -202,10 +202,14 @@ extension HPicker where T: CaseIterable, L == Text {
 extension HPicker where T: CaseIterable, L == Text {
    /// Creates a new `HPicker` using all cases of an enumeration that conforms to `CaseIterable`, with a `Text` label.
    ///
+   /// The title is shown as is, without localization, like `Text(_:)` does with a `String` value. A string literal uses the
+   /// `LocalizedStringKey` initializer instead, so it is looked up in the app's localizations.
+   ///
    /// - Parameters:
    ///   - title: The string for the picker's title.
    ///   - locked: A set of options that should be displayed as locked (non-selectable).
    ///   - selection: A binding to the currently selected option.
+   @_disfavoredOverload
    public init(_ title: String, locked: Set<T>, selection: Binding<T?>) {
       self.label = { Text(title).font(.headline) }
       self.locked = locked

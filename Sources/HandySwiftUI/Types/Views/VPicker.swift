@@ -164,12 +164,16 @@ extension VPicker where L == Text {
 
 /// Convenience initializer for `VPicker` that uses a `Text` view as the label.
 extension VPicker where L == Text {
-   /// Creates a new `VPicker` with a `Text` label using a localized string key.
+   /// Creates a new `VPicker` with a `Text` label using a string.
+   ///
+   /// The title is shown as is, without localization, like `Text(_:)` does with a `String` value. A string literal uses the
+   /// `LocalizedStringKey` initializer instead, so it is looked up in the app's localizations.
    ///
    /// - Parameters:
-   ///   - title: The localized string key for the picker's title.
+   ///   - title: The string for the picker's title.
    ///   - options: An array of selectable options.
    ///   - selection: A binding to the currently selected option.
+   @_disfavoredOverload
    public init(_ title: String, options: [T], selection: Binding<T?>) {
       self.label = { Text(title).font(.headline) }
       self.options = options
