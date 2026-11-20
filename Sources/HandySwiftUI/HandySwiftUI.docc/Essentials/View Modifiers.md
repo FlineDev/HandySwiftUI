@@ -251,7 +251,6 @@ The example shows how `.confirmDeleteDialog` handles the entire deletion flow â€
 - ``SwiftUICore/View/confirmDeleteDialog(message:isPresented:performDelete:)``
 - ``SwiftUICore/View/confirmDeleteDialog(item:performDelete:)``
 - ``SwiftUICore/View/confirmDeleteDialog(message:item:performDelete:)``
-- ``SwiftUICore/View/eraseToAnyView()``
 - ``SwiftUICore/View/foregroundStyle(_:minContrast:)``
 - ``SwiftUICore/View/iOSExcluded(modifier:)``
 - ``SwiftUICore/View/iOSOnly(modifier:)``
@@ -272,6 +271,12 @@ The example shows how `.confirmDeleteDialog` handles the entire deletion flow â€
 - ``SwiftUICore/View/visionOSOnly(modifier:)``
 - ``SwiftUICore/View/watchOSExcluded(modifier:)``
 - ``SwiftUICore/View/watchOSOnly(modifier:)``
+
+### Deprecated
+
+Use `@ViewBuilder` to return different view types, or `AnyView(_:)` where type erasure is really needed.
+
+- ``SwiftUICore/View/eraseToAnyView()``
 
 
 [TranslateKit]: https://translatekit.app

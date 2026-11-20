@@ -120,7 +120,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
       selected: Binding<Set<Selectable>>,
       optionToString: @escaping (Selectable) -> String
    ) {
-      self.label = label().eraseToAnyView()
+      self.label = AnyView(label())
       self.options = options
       self.optionsTitle = optionsTitle
       self.selected = selected
