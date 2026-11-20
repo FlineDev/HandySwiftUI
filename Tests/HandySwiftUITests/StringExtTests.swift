@@ -25,4 +25,11 @@ struct StringExtTests {
    func highlightsTheMatchingCharactersWhenFoldingChangesTheLength(text: String, searchText: String, expected: [String]) {
       #expect(self.highlightedParts(of: text, searchText: searchText) == expected)
    }
+
+   @Test
+   func highlightsEveryMatchOfAToken() {
+      #expect(self.highlightedParts(of: "Hello Hello", searchText: "he") == ["He", "He"])
+      #expect(self.highlightedParts(of: "Lock or unlock", searchText: "lock") == ["Lock", "lock"])
+      #expect(self.highlightedParts(of: "Olé, ole, OLE", searchText: "ole") == ["Olé", "ole", "OLE"])
+   }
 }
