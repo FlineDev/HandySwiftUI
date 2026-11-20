@@ -14,7 +14,7 @@ extension String {
    ///   let (r, g, b, a) = hexColor.toRGBA()
    ///   // r ≈ 1.0, g ≈ 0.5, b ≈ 0.0, a = 1.0
    ///   ```
-   public func toRGBA() -> (r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) {
+   func toRGBA() -> (r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) {
       var normalizedHex = self.trimmingCharacters(in: .whitespacesAndNewlines)
       normalizedHex = normalizedHex.replacingOccurrences(of: "#", with: "")
 

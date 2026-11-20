@@ -25,4 +25,16 @@ struct StringExtTests {
    func highlightsTheMatchingCharactersWhenFoldingChangesTheLength(text: String, searchText: String, expected: [String]) {
       #expect(self.highlightedParts(of: text, searchText: searchText) == expected)
    }
+
+   @Test
+   func convertsHexStringsToRGBA() {
+      let orange = "#FF8000".toRGBA()
+      #expect(orange.r == 1.0)
+      #expect(abs(orange.g - 128.0 / 255.0) < 0.0001)
+      #expect(orange.b == 0.0)
+      #expect(orange.alpha == 1.0)
+
+      let translucent = "00000080".toRGBA()
+      #expect(abs(translucent.alpha - 128.0 / 255.0) < 0.0001)
+   }
 }
