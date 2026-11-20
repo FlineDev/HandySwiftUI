@@ -92,7 +92,7 @@ public struct MultiSelector<Selectable: Identifiable & Hashable>: View {
             Spacer()
 
             Text(self.selected.wrappedValue.isEmpty ? "--" : self.formattedSelectedListString)
-               .foregroundStyle(Color.secondaryLabel)
+               .foregroundStyle(Color.secondary)
 
             Button(String(localized: "Edit", bundle: .module)) {
                self.showSelectorSheet = true

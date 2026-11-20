@@ -168,7 +168,7 @@ struct ColorfulView: View {
             
             // System colors with fallbacks
             Text("System Blue")
-                .foregroundStyle(Color.systemBlue)
+                .foregroundStyle(Color.blue)
         }
     }
 }
