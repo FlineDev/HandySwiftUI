@@ -374,7 +374,6 @@ struct MainView: View {
 - ``Emoji``
 - ``OpenPanel``
 - ``Platform``
-- ``ProgressState``
 - ``SFSymbol``
 - ``Xcode``
 

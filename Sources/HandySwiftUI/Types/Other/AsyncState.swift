@@ -1,8 +1,5 @@
 import Foundation
 
-@available(*, deprecated, renamed: "AsyncState")
-public typealias ProgressState = AsyncState
-
 /// Represents the state of an asynchronous operation.
 ///
 /// Use this type to track the progression of asynchronous operations through their lifecycle:
