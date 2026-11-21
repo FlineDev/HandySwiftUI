@@ -6,6 +6,7 @@ extension View {
    ///
    /// This is useful when working with views of unknown types or when
    /// building dynamic UIs.
+   @available(*, deprecated, message: "Use @ViewBuilder to return different view types, or AnyView(_:) where type erasure is really needed.")
    public func eraseToAnyView() -> AnyView {
       AnyView(self)
    }
