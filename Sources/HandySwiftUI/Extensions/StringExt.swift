@@ -86,8 +86,9 @@ extension String {
                applyingAttributes(&attributedSelf[range])
             }
 
-            guard !stringRange.isEmpty, stringRange.upperBound < self.endIndex else { break }
-            searchRange = stringRange.upperBound..<self.endIndex
+            guard !stringRange.isEmpty else { break }
+            // Advance from the start so overlapping occurrences are included.
+            searchRange = self.index(after: stringRange.lowerBound)..<self.endIndex
          }
       }
 
