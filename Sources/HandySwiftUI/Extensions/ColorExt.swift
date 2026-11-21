@@ -413,7 +413,7 @@ extension Color {
 
    /// The RGB & alpha attributes of the `Color` instance in the extended sRGB color space.
    ///
-   /// Dynamic colors (like `.primary` or `.systemBlue`) resolve through `UIColor`/`NSColor` against the traits current at the time of
+   /// Dynamic colors (like `.primary` or `.blue`) resolve through `UIColor`/`NSColor` against the traits current at the time of
    /// the call: `UITraitCollection.current` on iOS-based platforms, which outside of trait-aware callbacks usually holds default
    /// traits, and `NSAppearance.currentDrawing()` on macOS. For the values a view actually displays, use ``rgbo(in:)`` with the view's
    /// environment, which also respects overrides like `.environment(\.colorScheme, .dark)`.
@@ -632,7 +632,7 @@ extension Color {
    /// - Returns: A hexadecimal string without a leading `#` representing the color, or `nil` if the color components could not be retrieved.
    public func toHex(alpha: Bool = false) -> String? {
       // Read the components through the platform color in sRGB: unlike `cgColor`, which is `nil` for dynamic colors (e.g. `.primary`,
-      // `.systemBlue`) and has only two components for grayscale colors, this works for every color
+      // `.blue`) and has only two components for grayscale colors, this works for every color
       var red: CGFloat = 0
       var green: CGFloat = 0
       var blue: CGFloat = 0
@@ -662,13 +662,13 @@ extension Color {
    #Preview {
       VStack {
          Rectangle()
-            .foregroundColor(.systemBlue)
+            .foregroundColor(.blue)
          Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, by: -0.1))
+            .foregroundColor(Color.blue.change(.luminance, by: -0.1))
          Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.1))
+            .foregroundColor(Color.blue.change(.luminance, to: 0.1))
          Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.9))
+            .foregroundColor(Color.blue.change(.luminance, to: 0.9))
       }
    }
 #endif
