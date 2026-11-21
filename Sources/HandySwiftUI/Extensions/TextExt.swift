@@ -107,7 +107,7 @@ extension Dictionary where Key == String, Value == (Text) -> Text {
                "Normal <b>bold</b> <sb>semibold</sb> <checkmark.seal/> <i>italic</i>, <b>bold</b><sub>sub</sub> <ins>insert</ins> <del>delete</del> <i>another italic</i> <sbi>semibold & italic</sbi><sup>sup</sup> <chart.bar.fill/> custom <cb>colored & bold</cb>.",
             partialStyling: Dictionary.htmlLike.merging(
                [
-                  "cb": { $0.bold().foregroundColor(.systemOrange) },
+                  "cb": { $0.bold().foregroundColor(.orange) },
                   "checkmark.seal": { $0.foregroundColor(.green) },
                   "chart.bar.fill": { $0 },
                ]

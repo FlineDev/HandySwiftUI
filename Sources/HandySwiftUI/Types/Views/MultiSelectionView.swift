@@ -63,7 +63,7 @@ struct MultiSelectionView<Selectable: Identifiable & Hashable>: View {
                #if !os(macOS)
                   Button(action: { self.toggleSelection(selectable: selectable) }) {
                      HStack {
-                        Text(self.optionToString(selectable)).foregroundColor(.label)
+                        Text(self.optionToString(selectable)).foregroundColor(.primary)
                         Spacer()
                         if self.selected.contains(where: { $0.id == selectable.id }) {
                            Image(systemName: "checkmark").foregroundColor(.accentColor)

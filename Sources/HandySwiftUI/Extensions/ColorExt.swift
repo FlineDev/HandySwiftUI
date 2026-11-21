@@ -13,6 +13,7 @@ extension Color {
    // MARK: - UI Element Colors (https://developer.apple.com/documentation/uikit/uicolor/ui_element_colors)
    // MARK: Label Colors
    /// The color for text labels that contain primary content.
+   @available(*, deprecated, message: "Use Color.primary instead.")
    public static var label: Color {
       #if os(macOS)
          return Color(NSColor.labelColor)
@@ -24,6 +25,7 @@ extension Color {
    }
 
    /// The color for text labels that contain secondary content.
+   @available(*, deprecated, message: "Use Color.secondary instead.")
    public static var secondaryLabel: Color {
       #if os(macOS)
          return Color(NSColor.secondaryLabelColor)
@@ -36,6 +38,7 @@ extension Color {
 
    #if !os(watchOS)
       /// The color for text labels that contain tertiary content.
+      @available(*, deprecated, message: "Use the .tertiary shape style, Color(uiColor: .tertiaryLabel) or Color(nsColor: .tertiaryLabelColor) instead.")
       public static var tertiaryLabel: Color {
          #if os(macOS)
             return Color(NSColor.tertiaryLabelColor)
@@ -45,6 +48,7 @@ extension Color {
       }
 
       /// The color for text labels that contain quaternary content.
+      @available(*, deprecated, message: "Use the .quaternary shape style, Color(uiColor: .quaternaryLabel) or Color(nsColor: .quaternaryLabelColor) instead.")
       public static var quaternaryLabel: Color {
          #if os(macOS)
             return Color(NSColor.quaternaryLabelColor)
@@ -194,6 +198,7 @@ extension Color {
 
    // MARK: - Standard Colors (https://developer.apple.com/documentation/uikit/uicolor/standard_colors)
    // MARK: Adaptable Colors
+   @available(*, deprecated, message: "Use Color.blue instead.")
    public static var systemBlue: Color {
       #if os(macOS)
          return Color(NSColor.systemBlue)
@@ -204,6 +209,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.green instead.")
    public static var systemGreen: Color {
       #if os(macOS)
          return Color(NSColor.systemGreen)
@@ -214,6 +220,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.indigo instead.")
    public static var systemIndigo: Color {
       #if os(macOS)
          return Color(NSColor.systemIndigo)
@@ -224,6 +231,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.orange instead.")
    public static var systemOrange: Color {
       #if os(macOS)
          return Color(NSColor.systemOrange)
@@ -234,6 +242,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.pink instead.")
    public static var systemPink: Color {
       #if os(macOS)
          return Color(NSColor.systemPink)
@@ -244,6 +253,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.purple instead.")
    public static var systemPurple: Color {
       #if os(macOS)
          return Color(NSColor.systemPurple)
@@ -254,6 +264,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.red instead.")
    public static var systemRed: Color {
       #if os(macOS)
          return Color(NSColor.systemRed)
@@ -264,6 +275,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.teal instead.")
    public static var systemTeal: Color {
       #if os(macOS)
          return Color(NSColor.systemTeal)
@@ -274,6 +286,7 @@ extension Color {
       #endif
    }
 
+   @available(*, deprecated, message: "Use Color.yellow instead.")
    public static var systemYellow: Color {
       #if os(macOS)
          return Color(NSColor.systemYellow)
@@ -285,6 +298,7 @@ extension Color {
    }
 
    // MARK: Adaptable Gray Colors
+   @available(*, deprecated, message: "Use Color.gray instead.")
    public static var systemGray: Color {
       #if os(macOS)
          return Color(NSColor.systemGray)
@@ -296,6 +310,7 @@ extension Color {
    }
 
    #if !os(tvOS) && !os(watchOS)
+      @available(*, deprecated, message: "Use Color(uiColor: .systemGray2) or Color(nsColor: .systemGray) instead.")
       public static var systemGray2: Color {
          #if os(macOS)
             return Color(NSColor.systemGray)
@@ -304,6 +319,7 @@ extension Color {
          #endif
       }
 
+      @available(*, deprecated, message: "Use Color(uiColor: .systemGray3) or Color(nsColor: .systemGray) instead.")
       public static var systemGray3: Color {
          #if os(macOS)
             return Color(NSColor.systemGray)
@@ -312,6 +328,7 @@ extension Color {
          #endif
       }
 
+      @available(*, deprecated, message: "Use Color(uiColor: .systemGray4) or Color(nsColor: .systemGray) instead.")
       public static var systemGray4: Color {
          #if os(macOS)
             return Color(NSColor.systemGray)
@@ -320,6 +337,7 @@ extension Color {
          #endif
       }
 
+      @available(*, deprecated, message: "Use Color(uiColor: .systemGray5) or Color(nsColor: .systemGray) instead.")
       public static var systemGray5: Color {
          #if os(macOS)
             return Color(NSColor.systemGray)
@@ -328,6 +346,7 @@ extension Color {
          #endif
       }
 
+      @available(*, deprecated, message: "Use Color(uiColor: .systemGray6) or Color(nsColor: .systemGray) instead.")
       public static var systemGray6: Color {
          #if os(macOS)
             return Color(NSColor.systemGray)
@@ -394,7 +413,7 @@ extension Color {
 
    /// The RGB & alpha attributes of the `Color` instance in the extended sRGB color space.
    ///
-   /// Dynamic colors (like `.primary` or `.systemBlue`) resolve through `UIColor`/`NSColor` against the traits current at the time of
+   /// Dynamic colors (like `.primary` or `.blue`) resolve through `UIColor`/`NSColor` against the traits current at the time of
    /// the call: `UITraitCollection.current` on iOS-based platforms, which outside of trait-aware callbacks usually holds default
    /// traits, and `NSAppearance.currentDrawing()` on macOS. For the values a view actually displays, use ``rgbo(in:)`` with the view's
    /// environment, which also respects overrides like `.environment(\.colorScheme, .dark)`.
@@ -613,7 +632,7 @@ extension Color {
    /// - Returns: A hexadecimal string without a leading `#` representing the color, or `nil` if the color components could not be retrieved.
    public func toHex(alpha: Bool = false) -> String? {
       // Read the components through the platform color in sRGB: unlike `cgColor`, which is `nil` for dynamic colors (e.g. `.primary`,
-      // `.systemBlue`) and has only two components for grayscale colors, this works for every color
+      // `.blue`) and has only two components for grayscale colors, this works for every color
       var red: CGFloat = 0
       var green: CGFloat = 0
       var blue: CGFloat = 0
@@ -643,13 +662,13 @@ extension Color {
    #Preview {
       VStack {
          Rectangle()
-            .foregroundColor(.systemBlue)
+            .foregroundColor(.blue)
          Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, by: -0.1))
+            .foregroundColor(Color.blue.change(.luminance, by: -0.1))
          Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.1))
+            .foregroundColor(Color.blue.change(.luminance, to: 0.1))
          Rectangle()
-            .foregroundColor(Color.systemBlue.change(.luminance, to: 0.9))
+            .foregroundColor(Color.blue.change(.luminance, to: 0.9))
       }
    }
 #endif
