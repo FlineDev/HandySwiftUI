@@ -316,7 +316,6 @@ The highlighting is case-insensitive and diacritic-insensitive by default, but y
 
 ### String
 
-- ``Swift/String/toRGBA()``
 - ``Swift/String/highlightMatchingTokenizedPrefixes(in:locale:with:)``
 - ``Swift/String/nilPlaceholderValue``
 
