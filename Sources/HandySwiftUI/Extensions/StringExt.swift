@@ -46,6 +46,7 @@ extension String {
    /// Highlights matching tokenized prefixes in the string based on a search text.
    ///
    /// This method creates an `AttributedString` with matching prefixes highlighted using the specified font.
+   /// Every occurrence of each search token is highlighted, also inside words, ignoring case, diacritics and width.
    ///
    /// - Parameters:
    ///   - searchText: The text to search for within the string.
@@ -74,12 +75,21 @@ extension String {
       for token in searchText.tokenized(locale: locale) where !token.isEmpty {
          // Search the original string with the folding as comparison options instead of searching a folded copy: folding can change
          // the length (e.g. "é" or full-width letters), so ranges found in a folded copy point to the wrong characters in the original
-         guard
-            let stringRange = self.range(of: token, options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: locale),
-            let range = Range(stringRange, in: attributedSelf)
-         else { continue }
+         var searchRange = self.startIndex..<self.endIndex
+         while let stringRange = self.range(
+            of: token,
+            options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive],
+            range: searchRange,
+            locale: locale
+         ) {
+            if let range = Range(stringRange, in: attributedSelf) {
+               applyingAttributes(&attributedSelf[range])
+            }
 
-         applyingAttributes(&attributedSelf[range])
+            guard !stringRange.isEmpty else { break }
+            // Advance from the start so overlapping occurrences are included.
+            searchRange = self.index(after: stringRange.lowerBound)..<self.endIndex
+         }
       }
 
       return attributedSelf
